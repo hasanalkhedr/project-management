@@ -184,44 +184,47 @@ class ProjectReports extends Page implements HasTable
     }
 
     public function exportToPdf()
-    {
-        $summary = $this->getSummary();
+{
+    $summary = $this->getSummary();
 
-        $data = [
-            'project' => $this->record,
-            'start_date' => $this->data['start_date'] ?? null,
-            'end_date' => $this->data['end_date'] ?? null,
-            'by_currency' => $summary['by_currency'],
-            'total_expenses' => $summary['total_expenses'],
-            'total_payments' => $summary['total_payments'],
-            'total_profit' => $summary['total_profit'],
-            'expenses' => $this->record->expenses()
-                ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
-                ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-                ->with('currency')
-                ->orderBy('date', 'desc')
-                ->get()
-                ->groupBy('currency.code'),
-            'payments' => $this->record->payments()
-                ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
-                ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-                ->with('currency')
-                ->orderBy('date', 'desc')
-                ->get()
-                ->groupBy('currency.code'),
-            'logo' => public_path('images/logo.png'), // Update this path to your logo
-            'report_date' => now()->format('F j, Y'),
-        ];
+    $data = [
+        'project' => $this->record,
+        'start_date' => $this->data['start_date'] ?? null,
+        'end_date' => $this->data['end_date'] ?? null,
+        'by_currency' => $summary['by_currency'],
+        'total_expenses' => $summary['total_expenses'],
+        'total_payments' => $summary['total_payments'],
+        'total_profit' => $summary['total_profit'],
+        'expenses' => $this->record->expenses()
+            ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
+            ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+            ->with('currency')
+            ->orderBy('date', 'desc')
+            ->get()
+            ->groupBy('currency.code'),
+        'payments' => $this->record->payments()
+            ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
+            ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+            ->with('currency')
+            ->orderBy('date', 'desc')
+            ->get()
+            ->groupBy('currency.code'),
+        'logo' => public_path('images/logo.png'),
+        'report_date' => now()->format('F j, Y'),
+    ];
 
-        $pdf = Pdf::loadView('filament.resources.project-resource.pages.project-report-pdf', $data)
-            ->setPaper('a4', 'landscape')
-            ->setOption('margin-top', '35mm'); // Add space for header
+    $pdf = Pdf::loadView('filament.resources.project-resource.pages.project-report-pdf', $data)
+        ->setPaper('a4', 'portrait') // Changed to portrait for better single-page layout
+        ->setOption('margin-top', '20mm')
+        ->setOption('margin-bottom', '20mm')
+        ->setOption('margin-left', '10mm')
+        ->setOption('margin-right', '10mm');
 
-        return response()->streamDownload(
-            fn() => print ($pdf->output()),
-            "project-report-{$this->record->id}.pdf"
-        );
-    }
+    return response()->streamDownload(
+        fn() => print ($pdf->output()),
+        "project-report-{$this->record->name}-" . now()->format('Y-m-d') . ".pdf"
+    );
+}
 
     protected function getReportData(): array
     {

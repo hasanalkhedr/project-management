@@ -3,12 +3,6 @@
 <head>
     <title>Project Report - {{ $project->name }}</title>
     <style>
-        @page {
-            margin: 35mm 10mm 20mm 10mm;
-            header: html_header;
-            footer: html_footer;
-        }
-
         body {
             font-family: DejaVu Sans, sans-serif;
             margin: 0;
@@ -16,95 +10,120 @@
         }
 
         .header {
-            text-align: center;
+            display: table;
+            width: 100%;
             margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+        }
+
+        .header-left {
+            display: table-cell;
+            width: 20%;
+            vertical-align: top;
+            padding-right: 20px;
+        }
+
+        .header-right {
+            display: table-cell;
+            width: 80%;
+            vertical-align: middle;
         }
 
         .logo {
-            max-height: 20rem;
-            margin-bottom: 10px;
+            max-height: 80px; /* Increased logo size */
+            width: auto;
         }
 
-        .title-page {
-            page-break-after: always;
-            text-align: center;
-            padding-top: 5mm;
+        .report-title {
+            font-size: 20px;
+            margin: 0 0 5px 0;
+            text-align: left;
         }
 
-        .title-page h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .title-page .subtitle {
+        .project-name {
             font-size: 18px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .title-page .report-info {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .period {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .currency-section {
-            page-break-inside: avoid;
-            margin-bottom: 10px;
-        }
-
-        .currency-title {
-            background-color: #f2f2f2;
-            padding: 10px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            text-align: left;
         }
 
-        table {
+        .report-meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        .transactions-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            font-size: 12px;
         }
 
-        th, td {
+        .transactions-table th,
+        .transactions-table td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
 
-        th {
+        .transactions-table th {
             background-color: #f2f2f2;
+            font-weight: bold;
         }
 
-        .summary-container {
+        .summary-section {
+            margin-bottom: 30px;
+        }
+
+        .currency-summaries-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 5px;
+            margin-bottom: 20px;
+        }
+
+        .currency-summary-cell {
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            padding: 3px;
+            vertical-align: top;
+        }
+
+        .currency-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: center;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .currency-summary-row {
             display: table;
             width: 100%;
-            margin-top: 10px;
-            border-spacing: 0 10px;
         }
 
         .summary-card {
             display: table-cell;
-            padding: 15px;
-            border: 1px solid #ddd;
+            width: 33%;
+            padding: 5px;
             border-radius: 4px;
+            background-color: white;
+            border: 1px solid #e0e0e0;
             text-align: center;
         }
 
         .summary-title {
-            font-size: 14px;
+            font-size: 10px;
+            margin-bottom: 3px;
             color: #666;
-            margin-bottom: 5px;
         }
 
         .summary-value {
-            font-size: 18px;
+            font-size: 12px;
             font-weight: bold;
         }
 
@@ -116,179 +135,123 @@
             color: #ef4444;
         }
 
-        .page-break {
-            page-break-after: always;
+        .footer {
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
         }
     </style>
 </head>
 <body>
-    {{-- <!-- Header for all pages -->
-    <htmlpageheader name="header">
-        <table width="100%">
-            <tr>
-                <td style="width: 20%; text-align: left;">
-                    @if(file_exists($logo))
-                        <img src="{{ $logo }}" class="logo" alt="Company Logo">
-                    @endif
-                </td>
-                <td style="width: 60%; text-align: center; vertical-align: middle;">
-                    <h2 style="margin: 0;">{{ $project->name }}</h2>
-                </td>
-                <td style="width: 20%; text-align: right; vertical-align: bottom;">
-                    <small>{{ $report_date }}</small>
-                </td>
-            </tr>
-        </table>
-        <hr style="border: 0.5px solid #ddd; margin: 5px 0 15px 0;">
-    </htmlpageheader> --}}
+    <!-- Header Section -->
+    <div class="header">
+        <div class="header-left">
+            @if(file_exists($logo))
+                <img src="{{ $logo }}" class="logo" alt="Company Logo">
+            @endif
+        </div>
+        <div class="header-right">
+            <div class="report-title">Project Financial Report</div>
+            <div class="project-name">{{ $project->name }}</div>
 
-    {{-- <!-- Footer for all pages -->
-    <htmlpagefooter name="footer">
-        <table width="100%">
-            <tr>
-                <td style="text-align: left; width: 33%;">
-                    <small>Generated on: {{ $report_date }}</small>
-                </td>
-                <td style="text-align: center; width: 34%;">
-                    <small>Page {PAGENO} of {nbpg}</small>
-                </td>
-                <td style="text-align: right; width: 33%;">
-                    <small>&copy; {{ date('Y') }} Your Company Name</small>
-                </td>
-            </tr>
-        </table>
-    </htmlpagefooter> --}}
-
-    <!-- Title Page (First Page) -->
-    <div class="title-page">
-        @if(file_exists($logo))
-            <img src="{{ $logo }}" class="logo" alt="Company Logo">
-        @endif
-
-        <h1>Project Financial Report</h1>
-        <div class="subtitle">{{ $project->name }}</div>
-
-        @if ($start_date && $end_date)
-            <div class="period">
-                Period: {{ \Carbon\Carbon::parse($start_date)->format('M d, Y') }} to {{ \Carbon\Carbon::parse($end_date)->format('M d, Y') }}
-            </div>
-        @else
-            <div class="period">Complete Project Report</div>
-        @endif
-
-        <div class="report-info">
-            Report generated on: {{ $report_date }}
+            @if ($start_date && $end_date)
+                <div class="report-meta">
+                    Period: {{ \Carbon\Carbon::parse($start_date)->format('M d, Y') }} to {{ \Carbon\Carbon::parse($end_date)->format('M d, Y') }}<br>
+                    Report generated on: {{ $report_date }}
+                </div>
+            @else
+                <div class="report-meta">
+                    Complete Project Report<br>
+                    Report generated on: {{ $report_date }}
+                </div>
+            @endif
         </div>
     </div>
 
-    <!-- Content Pages -->
-    @foreach($by_currency as $currencyCode => $currencyData)
-        <div class="currency-section">
-            <div class="currency-title">{{ $currencyCode }} Transactions</div>
+    <!-- Transactions Table -->
+    <table class="transactions-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Supplier/Method</th>
+                <th>Reference #</th>
+                <th>Amount</th>
+                <th>Currency</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($expenses as $currencyCode => $currencyExpenses)
+                @foreach($currencyExpenses as $expense)
+                    <tr>
+                        <td>{{ \Carbon\Carbon::parse($expense->date)->format('M d, Y') }}</td>
+                        <td style="color: #ef4444;">Expense</td>
+                        <td>{{ $expense->description }}</td>
+                        <td>{{ $expense->supplier }}</td>
+                        <td>{{ $expense->invoice_number }}</td>
+                        <td style="color: #ef4444;">{{ number_format($expense->amount, 2) }}</td>
+                        <td>{{ $currencyCode }}</td>
+                    </tr>
+                @endforeach
+            @endforeach
 
-            @if(isset($expenses[$currencyCode]) && $expenses[$currencyCode]->count())
-                <h3>Expenses ({{ $currencyCode }})</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Supplier</th>
-                            <th>Invoice #</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($expenses[$currencyCode] as $expense)
-                            <tr>
-                                <td>{{ \Carbon\Carbon::parse($expense->date)->format('M d, Y') }}</td>
-                                <td>{{ $expense->description }}</td>
-                                <td>{{ $expense->supplier }}</td>
-                                <td>{{ $expense->invoice_number }}</td>
-                                <td>{{ number_format($expense->amount, 2) }} {{ $currencyCode }}</td>
-                            </tr>
-                        @endforeach
-                        <tr style="font-weight: bold;">
-                            <td colspan="4">Total Expenses</td>
-                            <td>{{ number_format($currencyData['expenses'], 2) }} {{ $currencyCode }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            @endif
+            @foreach($payments as $currencyCode => $currencyPayments)
+                @foreach($currencyPayments as $payment)
+                    <tr>
+                        <td>{{ \Carbon\Carbon::parse($payment->date)->format('M d, Y') }}</td>
+                        <td style="color: #10b981;">Payment</td>
+                        <td>{{ $payment->description }}</td>
+                        <td>{{ $payment->payment_method }}</td>
+                        <td>{{ $payment->reference }}</td>
+                        <td style="color: #10b981;">{{ number_format($payment->amount, 2) }}</td>
+                        <td>{{ $currencyCode }}</td>
+                    </tr>
+                @endforeach
+            @endforeach
+        </tbody>
+    </table>
 
-            @if(isset($payments[$currencyCode]) && $payments[$currencyCode]->count())
-                <h3>Payments ({{ $currencyCode }})</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Payment Method</th>
-                            <th>Reference #</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($payments[$currencyCode] as $payment)
-                            <tr>
-                                <td>{{ \Carbon\Carbon::parse($payment->date)->format('M d, Y') }}</td>
-                                <td>{{ $payment->description }}</td>
-                                <td>{{ $payment->payment_method }}</td>
-                                <td>{{ $payment->reference }}</td>
-                                <td>{{ number_format($payment->amount, 2) }} {{ $currencyCode }}</td>
-                            </tr>
-                        @endforeach
-                        <tr style="font-weight: bold;">
-                            <td colspan="4">Total Payments</td>
-                            <td>{{ number_format($currencyData['payments'], 2) }} {{ $currencyCode }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            @endif
+    <!-- Summary Section -->
+    <div class="summary-section">
+        <table class="currency-summaries-table">
+            <tr>
+                @foreach($by_currency as $currencyCode => $currencyData)
+                    <td class="currency-summary-cell">
+                        <div class="currency-title">{{ $currencyCode }}</div>
+                        <div class="currency-summary-row">
+                            <div class="summary-card">
+                                <div class="summary-title">Expenses</div>
+                                <div class="summary-value">{{ number_format($currencyData['expenses'], 2) }}</div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-title">Payments</div>
+                                <div class="summary-value">{{ number_format($currencyData['payments'], 2) }}</div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-title">Profit</div>
+                                <div class="summary-value {{ $currencyData['profit'] >= 0 ? 'positive' : 'negative' }}">
+                                    {{ number_format($currencyData['profit'], 2) }}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- Add a new row after every 3 currencies for better readability -->
+                    @if($loop->iteration % 3 == 0 && !$loop->last)
+                        </tr><tr>
+                    @endif
+                @endforeach
+            </tr>
+        </table>
+    </div>
 
-            <div class="summary-container">
-                <div class="summary-card">
-                    <div class="summary-title">Total Expenses ({{ $currencyCode }})</div>
-                    <div class="summary-value">{{ number_format($currencyData['expenses'], 2) }} {{ $currencyCode }}</div>
-                </div>
-                <div class="summary-card">
-                    <div class="summary-title">Total Payments ({{ $currencyCode }})</div>
-                    <div class="summary-value">{{ number_format($currencyData['payments'], 2) }} {{ $currencyCode }}</div>
-                </div>
-                <div class="summary-card">
-                    <div class="summary-title">Profit ({{ $currencyCode }})</div>
-                    <div class="summary-value {{ $currencyData['profit'] >= 0 ? 'positive' : 'negative' }}">
-                        {{ number_format($currencyData['profit'], 2) }} {{ $currencyCode }}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @if(!$loop->last)
-            <div class="page-break"></div>
-        @endif
-    @endforeach
-
-    {{-- <div class="page-break"></div>
-
-    <div class="currency-section">
-        <div class="currency-title">Overall Project Summary</div>
-        <div class="summary-container">
-            <div class="summary-card">
-                <div class="summary-title">Total Expenses (All Currencies)</div>
-                <div class="summary-value">{{ number_format($total_expenses, 2) }}</div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-title">Total Payments (All Currencies)</div>
-                <div class="summary-value">{{ number_format($total_payments, 2) }}</div>
-            </div>
-            <div class="summary-card">
-                <div class="summary-title">Net Profit (All Currencies)</div>
-                <div class="summary-value {{ $total_profit >= 0 ? 'positive' : 'negative' }}">
-                    {{ number_format($total_profit, 2) }}
-                </div>
-            </div>
-        </div>
-    </div> --}}
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>For any inquiries, please contact: support@yourcompany.com | Phone: +123 456 7890</p>
+        <p>&copy; {{ date('Y') }} Your Company Name. All rights reserved.</p>
+    </div>
 </body>
 </html>

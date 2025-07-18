@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class FinancialTrendsChart extends ChartWidget
 {
-    protected static ?string $heading = 'Financial Trends (Last 30 Days)';
-
+    //protected static ?string $heading = __('Financial Trends (Last 30 Days)');
+public function getHeading(): string
+    {
+        return __('Financial Trends (Last 30 Days)');
+    }
     protected static ?string $maxHeight = '400px';
 
     protected function getData(): array
@@ -56,7 +59,7 @@ class FinancialTrendsChart extends ChartWidget
             'labels' => array_keys($data['expenses']),
             'datasets' => [
                 [
-                    'label' => 'Expenses (' . $data['currency']->code . ')',
+                    'label' => __('Expenses').' (' . $data['currency']->code . ')',
                     'data' => array_values($data['expenses']),
                     'borderColor' => '#ef4444',
                     'backgroundColor' => '#ef444480',
@@ -64,7 +67,7 @@ class FinancialTrendsChart extends ChartWidget
                     'borderWidth' => 2,
                 ],
                 [
-                    'label' => 'Payments (' . $data['currency']->code . ')',
+                    'label' => __('Payments').' (' . $data['currency']->code . ')',
                     'data' => array_values($data['payments']),
                     'borderColor' => '#10b981',
                     'backgroundColor' => '#10b98180',
@@ -97,7 +100,7 @@ class FinancialTrendsChart extends ChartWidget
             $color = $colorPalette[$colorIndex];
 
             $chartData['datasets'][] = [
-                'label' => 'Expenses (' . $data['currency']->code . ')',
+                'label' => __('Expenses').' (' . $data['currency']->code . ')',
                 'data' => array_values($data['expenses']),
                 'borderColor' => $this->adjustBrightness($color, -20),
                 'backgroundColor' => $this->hexToRgba($color, 0.1),
@@ -108,7 +111,7 @@ class FinancialTrendsChart extends ChartWidget
             ] + $lineStyles['expenses'];
 
             $chartData['datasets'][] = [
-                'label' => 'Payments (' . $data['currency']->code . ')',
+                'label' => __('Payments').' (' . $data['currency']->code . ')',
                 'data' => array_values($data['payments']),
                 'borderColor' => $this->adjustBrightness($color, 20),
                 'backgroundColor' => $this->hexToRgba($color, 0.1),

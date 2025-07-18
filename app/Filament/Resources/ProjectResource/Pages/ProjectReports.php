@@ -6,8 +6,11 @@ use App\Filament\Resources\ProjectResource;
 use App\Models\Expense;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Services\PdfService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use DB;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\Page;
@@ -15,6 +18,10 @@ use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Mpdf\Config\ConfigVariables;
+use Mpdf\Config\FontVariables;
+use Mpdf\Mpdf;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProjectReports extends Page implements HasTable
 {
@@ -25,7 +32,14 @@ class ProjectReports extends Page implements HasTable
 
     public Project $record;
     public array $data = [];
-
+    public function getBreadcrumb(): ?string
+    {
+        return __('Project Report');
+    }
+    public function getHeading(): string
+    {
+        return __('Project Report');
+    }
     public function mount(Project $record): void
     {
         $this->record = $record;
@@ -40,10 +54,10 @@ class ProjectReports extends Page implements HasTable
         return $form
             ->schema([
                 DatePicker::make('start_date')
-                    ->label('From Date')
+                    ->label(__('From Date'))
                     ->required(),
                 DatePicker::make('end_date')
-                    ->label('To Date')
+                    ->label(__('To Date'))
                     ->required(),
             ])
             ->columns(2)
@@ -56,13 +70,13 @@ class ProjectReports extends Page implements HasTable
             ->where('project_id', $this->record->id)
             ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
             ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-            ->selectRaw("id, date, description, amount, currency_id, supplier, invoice_number, 'expense' as type");
+            ->selectRaw("id, date, description, amount, currency_id, supplier, invoice_number, '" . __('Expense') . "' as type");
 
         $payments = Payment::query()
             ->where('project_id', $this->record->id)
             ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
             ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-            ->selectRaw("id, date, description, amount, currency_id, payment_method as supplier, reference as invoice_number, 'payment' as type");
+            ->selectRaw("id, date, description, amount, currency_id, payment_method as supplier, reference as invoice_number, '" . __('Payment') . "' as type");
 
         $combined = $expenses->unionAll($payments);
 
@@ -77,56 +91,27 @@ class ProjectReports extends Page implements HasTable
     {
         return [
             Tables\Columns\TextColumn::make('date')
+                ->translateLabel()
                 ->date(),
             //->sortable(),
             Tables\Columns\TextColumn::make('description')
+                ->translateLabel()
                 ->searchable(),
             Tables\Columns\TextColumn::make('type')
+                ->translateLabel()
                 ->label('Type')
                 ->formatStateUsing(fn(string $state) => ucfirst($state))
-                ->color(fn(string $state) => $state === 'expense' ? 'danger' : 'success'),
+                ->color(fn(string $state) => $state === __('Expense') ? 'danger' : 'success'),
             Tables\Columns\TextColumn::make('amount')
                 ->numeric(decimalPlaces: 2)
+                ->translateLabel()
                 //->sortable()
-                ->color(fn(string $state, $record) => $record->type === 'expense' ? 'danger' : 'success'),
+                ->color(fn(string $state, $record) => $record->type === __('Expense') ? 'danger' : 'success'),
             Tables\Columns\TextColumn::make('currency.code')
+                ->translateLabel()
                 ->label('Currency'),
-            Tables\Columns\TextColumn::make('supplier')
-                ->searchable()
-                ->label('Supplier/Method'),
-            Tables\Columns\TextColumn::make('invoice_number')
-                ->label('Reference #'),
         ];
     }
-    // protected function getTableQuery()
-    // {
-    //     return Expense::query()
-    //         ->where('project_id', $this->record->id)
-    //         ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
-    //         ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-    //         ->with('currency');
-    // }
-
-    // protected function getTableColumns(): array
-    // {
-    //     return [
-    //         Tables\Columns\TextColumn::make('date')
-    //             ->date()
-    //             ->sortable(),
-    //         Tables\Columns\TextColumn::make('description')
-    //             ->searchable(),
-    //         Tables\Columns\TextColumn::make('amount')
-    //             ->numeric(decimalPlaces: 2)
-    //             ->sortable(),
-    //         Tables\Columns\TextColumn::make('currency.code')
-    //             ->label('Currency'),
-    //         Tables\Columns\TextColumn::make('supplier')
-    //             ->searchable(),
-    //         Tables\Columns\TextColumn::make('invoice_number')
-    //             ->label('Invoice #'),
-    //     ];
-    // }
-
     protected function getTableDefaultSortColumn(): ?string
     {
         return 'date';
@@ -183,49 +168,87 @@ class ProjectReports extends Page implements HasTable
         ];
     }
 
-    public function exportToPdf()
-{
-    $summary = $this->getSummary();
+    public function exportToPdf(): StreamedResponse
+    {
+        return new StreamedResponse(function () {
+            $summary = $this->getSummary();
+            $data = [
+                'project' => $this->record,
+                'start_date' => $this->data['start_date'] ?? null,
+                'end_date' => $this->data['end_date'] ?? null,
+                'by_currency' => $summary['by_currency'],
+                'total_expenses' => $summary['total_expenses'],
+                'total_payments' => $summary['total_payments'],
+                'total_profit' => $summary['total_profit'],
+                'transactions' => $this->getTableQuery()->get(),
+                'logo' => 'file://' . public_path('images/logo.png'), // mPDF needs file:// prefix
+                'report_date' => now()->translatedFormat('j F Y'),
+            ];
+            // Default font configuration
+            $defaultConfig = (new ConfigVariables())->getDefaults();
+            $fontDirs = $defaultConfig['fontDir'];
 
-    $data = [
-        'project' => $this->record,
-        'start_date' => $this->data['start_date'] ?? null,
-        'end_date' => $this->data['end_date'] ?? null,
-        'by_currency' => $summary['by_currency'],
-        'total_expenses' => $summary['total_expenses'],
-        'total_payments' => $summary['total_payments'],
-        'total_profit' => $summary['total_profit'],
-        'expenses' => $this->record->expenses()
-            ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
-            ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-            ->with('currency')
-            ->orderBy('date', 'desc')
-            ->get()
-            ->groupBy('currency.code'),
-        'payments' => $this->record->payments()
-            ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
-            ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-            ->with('currency')
-            ->orderBy('date', 'desc')
-            ->get()
-            ->groupBy('currency.code'),
-        'logo' => public_path('images/logo.png'),
-        'report_date' => now()->format('F j, Y'),
-    ];
+            $defaultFontConfig = (new FontVariables())->getDefaults();
+            $fontData = $defaultFontConfig['fontdata'];
 
-    $pdf = Pdf::loadView('filament.resources.project-resource.pages.project-report-pdf', $data)
-        ->setPaper('a4', 'portrait') // Changed to portrait for better single-page layout
-        ->setOption('margin-top', '20mm')
-        ->setOption('margin-bottom', '20mm')
-        ->setOption('margin-left', '10mm')
-        ->setOption('margin-right', '10mm');
+            $mpdf = new Mpdf([
+                'mode' => 'utf-8',
+                'format' => 'A4',
+                'direction' => 'rtl', // Essential for RTL
+                'autoScriptToLang' => true,
+                'autoLangToFont' => true,
+                'fontDir' => [
+                    base_path('vendor/mpdf/mpdf/ttfonts'),
+                    storage_path('fonts'),
+                ],
+                'fontdata' => [
+                    'xbriyaz' => [
+                        'R' => 'XB Riyaz.ttf',
+                        'B' => 'XB RiyazBd.ttf',
+                        'useOTL' => 0xFF,  // Enable complex text layout
+                        'useKashida' => 75, // Arabic justification
+                    ]
+                ],
+                'default_font' => 'xbriyaz',
+                'margin_top' => 15,
+                'margin_bottom' => 15,
+                'margin_left' => 10,
+                'margin_right' => 10,
+                'tempDir' => storage_path('app/mpdf/tmp'),
+                'allow_output_buffering' => true,
+            ]);
 
-    return response()->streamDownload(
-        fn() => print ($pdf->output()),
-        "project-report-{$this->record->name}-" . now()->format('Y-m-d') . ".pdf"
-    );
-}
+            $html = view('filament.resources.project-resource.pages.project-report-pdf', $data)->render();
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('', 'I'); // 'I' sends directly to output
+        }, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="تقرير مشروع - ' . $this->record->name . ' - ' . now()->format('Y-m-d') . '.pdf"',
+        ]);
+        // $pdfService = new PdfService();
+        // return $pdfService->generateArabicPdf(
+        //     'filament.resources.project-resource.pages.project-report-pdf',
+        //     $data,
+        //     "تقرير المشروع - {$this->record->name}-" . now()->format('Y-m-d') . ".pdf"
+        // );
+    }
+    // public function exportToPdf(): StreamedResponse
+// {
+//     return new StreamedResponse(function () {
+//         $mpdf = new \Mpdf\Mpdf([
+//             'mode' => 'utf-8',
+//             'format' => 'A4',
+//             'direction' => 'rtl',
+//         ]);
 
+    //         $html = view('filament.resources.project-resource.pages.project-report-pdf', $this->getPdfData())->render();
+//         $mpdf->WriteHTML($html);
+//         $mpdf->Output('', 'I'); // 'I' sends directly to output
+//     }, 200, [
+//         'Content-Type' => 'application/pdf',
+//         'Content-Disposition' => 'attachment; filename="report.pdf"',
+//     ]);
+// }
     protected function getReportData(): array
     {
         $expenses = $this->record->expenses()

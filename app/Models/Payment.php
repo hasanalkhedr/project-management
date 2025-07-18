@@ -17,6 +17,10 @@ class Payment extends Model
         'payment_method',
         'reference',
     ];
+
+    protected $casts = [
+        'date' => 'date'
+    ];
     public function project()
     {
         return $this->belongsTo(Project::class);

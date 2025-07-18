@@ -9,7 +9,11 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class RecentProjectsTable extends BaseWidget
 {
-    protected static ?string $heading = 'Recent Projects';
+    //protected static ?string $heading = 'Recent Projects';
+    protected function getTableHeading(): string
+    {
+        return __('Recent Projects');
+    }
     protected static ?int $sort = 4;
     protected int|string|array $columnSpan = 'full';
 
@@ -19,15 +23,17 @@ class RecentProjectsTable extends BaseWidget
             ->query(Project::query()->latest()->limit(5))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('client.name')
-                    ->label('Client')
+                    ->label(__('Client'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
+                    ->label(__('Status'))
                     ->color(fn(string $state): string => match ($state) {
                         'in_progress' => 'blue',
                         'planned' => 'gray',
@@ -38,10 +44,12 @@ class RecentProjectsTable extends BaseWidget
 
                 Tables\Columns\TextColumn::make('start_date')
                     ->date()
+                    ->label(__('Start Date'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('end_date')
                     ->date()
+                    ->label(__('End Date'))
                     ->sortable(),
 
                 // Tables\Columns\Column::make('progress')

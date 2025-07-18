@@ -18,6 +18,9 @@ class Expense extends Model
         'supplier',
         'category',
     ];
+    protected $casts = [
+        'date' => 'date'
+    ];
 
     public function project()
     {

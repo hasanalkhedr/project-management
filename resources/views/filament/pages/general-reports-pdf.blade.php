@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>تقرير المشروع - {{ $project->name }}</title>
+    <title>تقرير عام - {{ $report_date }}</title>
     <style>
         @font-face {
             font-family: 'amiri';
@@ -39,7 +39,6 @@
             page-break-inside: avoid;
         }
 
-
         .logo {
             max-height: 80px;
             width: auto;
@@ -56,20 +55,13 @@
 
         .logo-container {
             float: left;
-            /* Changed from right to left */
             width: 20%;
         }
 
         .header-content {
             float: right;
-            /* Changed from left to right */
             width: 75%;
             text-align: right;
-        }
-
-        .logo {
-            max-height: 80px;
-            width: auto;
         }
 
         .footer {
@@ -81,30 +73,9 @@
             color: #666;
         }
 
-
-        .header-left {
-            display: table-cell;
-            width: 20%;
-            vertical-align: top;
-            padding-left: 20px;
-        }
-
-        .header-right {
-            display: table-cell;
-            width: 60%;
-            vertical-align: middle;
-        }
-
         .report-title {
             font-size: 20px;
             margin: 0 0 5px 0;
-            text-align: right;
-        }
-
-        .project-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
             text-align: right;
         }
 
@@ -115,45 +86,12 @@
             text-align: right;
         }
 
-        .transactions-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 12px;
-            direction: rtl;
-        }
-
-
-        .transactions-table th,
-        .transactions-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: right;
-        }
-
-        .transactions-table th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-
-        .summary-section {
-            margin-bottom: 30px;
-        }
-
-        .currency-summaries-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 5px;
-            margin-bottom: 20px;
-            direction: rtl;
-        }
-
-        .currency-summary-cell {
+        .summary-card {
             border: 1px solid #eee;
             border-radius: 5px;
             background-color: #f9f9f9;
-            padding: 3px;
-            vertical-align: top;
+            padding: 10px;
+            margin-bottom: 15px;
         }
 
         .currency-title {
@@ -162,21 +100,6 @@
             text-align: center;
             padding-bottom: 3px;
             border-bottom: 1px solid #ddd;
-        }
-
-        .currency-summary-row {
-            display: table;
-            width: 100%;
-        }
-
-        .summary-card {
-            display: table-cell;
-            width: 33%;
-            padding: 5px;
-            border-radius: 4px;
-            background-color: white;
-            border: 1px solid #e0e0e0;
-            text-align: center;
         }
 
         .summary-title {
@@ -197,6 +120,10 @@
         .negative {
             color: #ef4444;
         }
+
+        .page-break {
+            page-break-after: always;
+        }
     </style>
 </head>
 
@@ -209,8 +136,7 @@
             @endif
         </div>
         <div class="header-content">
-            <div class="report-title">تقرير مالي للمشروع</div>
-            <div class="project-name">{{ $project->name }}</div>
+            <div class="report-title">تقرير مالي عام</div>
             @if ($start_date && $end_date)
                 <div class="report-meta">
                     الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
@@ -220,37 +146,7 @@
             @endif
         </div>
     </div>
-    <!-- Transactions Table -->
-    <table class="transactions-table">
-        <thead>
-            <tr>
-                <th>التاريخ</th>
-                <th>النوع</th>
-                <th>الوصف</th>
-                <th>المورد/الطريقة</th>
-                <th>الرقم المرجعي</th>
-                <th>المبلغ</th>
-                <th>العملة</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($transactions as $transaction)
-                <tr>
-                    <td>{{ \Carbon\Carbon::parse($transaction->date)->translatedFormat('j F Y') }}</td>
-                    <td style="color: {{ $transaction->type === __('Expense') ? '#ef4444' : '#10b981' }};">
-                        {{ $transaction->type === __('Expense') ? 'مصروف' : 'دفع' }}
-                    </td>
-                    <td>{{ $transaction->description }}</td>
-                    <td>{{ $transaction->supplier }}</td>
-                    <td>{{ $transaction->invoice_number }}</td>
-                    <td style="color: {{ $transaction->type === __('Expense') ? '#ef4444' : '#10b981' }};">
-                        {{ number_format($transaction->amount, 2) }}
-                    </td>
-                    <td>{{ $transaction->currency->code }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+
 
     <!-- Summary Section -->
     <div class="summary-section">
@@ -265,7 +161,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($by_currency as $currencyCode => $currencyData)
+                @foreach ($currencySummaries as $currencyCode => $currencyData)
                     <tr>
                         <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}</td>
                         <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
@@ -284,6 +180,52 @@
             </tbody>
         </table>
     </div>
+    <!-- Projects Summary Section -->
+    <h3 style="text-align: center; margin-bottom: 15px;">أداء المشاريع</h3>
+    <table>
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th>المشروع</th>
+                @foreach (array_keys($currencySummaries) as $currency)
+                    <th colspan="3" style="text-align: center;">{{ $currency }}</th>
+                @endforeach
+            </tr>
+            <tr>
+                <th></th>
+                @foreach (array_keys($currencySummaries) as $currency)
+                    <th style="text-align: center;">المصروفات</th>
+                    <th style="text-align: center;">المدفوعات</th>
+                    <th style="text-align: center;">الربح</th>
+                @endforeach
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($projectSummaries as $project)
+                <tr>
+                    <td>{{ $project['name'] }}</td>
+                    @foreach (array_keys($currencySummaries) as $currency)
+                        @php
+                            $currencyData = $project['currencies'][$currency] ?? [
+                                'expenses' => 0,
+                                'payments' => 0,
+                                'profit' => 0,
+                            ];
+                        @endphp
+                        <td style="text-align: center; color: #ef4444;">
+                            {{ number_format($currencyData['expenses'], 2) }}
+                        </td>
+                        <td style="text-align: center; color: #10b981;">
+                            {{ number_format($currencyData['payments'], 2) }}
+                        </td>
+                        <td
+                            style="text-align: center; color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
+                            {{ number_format($currencyData['profit'], 2) }}
+                        </td>
+                    @endforeach
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
     <!-- Footer Section -->
     <div class="footer">

@@ -17,26 +17,44 @@ class CurrencyResource extends Resource
 {
     protected static ?string $model = Currency::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-currency-dollar';
     protected static ?int $navigationSort = 5;
+    public static function getModelLabel(): string
+    {
+        return __('Currency');
+    }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('Currencies');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Currencies');
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
                     ->required()
+                    ->translateLabel()
                     ->maxLength(3),
                 Forms\Components\TextInput::make('name')
                     ->required()
+                    ->translateLabel()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('symbol')
+                    ->translateLabel()
                     ->maxLength(5),
                 Forms\Components\TextInput::make('exchange_rate')
                     ->required()
                     ->numeric()
+                    ->translateLabel()
                     ->default(1),
-                Forms\Components\Toggle::make('is_default'),
+                Forms\Components\Toggle::make('is_default')
+                    ->translateLabel(),
             ]);
     }
 
@@ -45,13 +63,18 @@ class CurrencyResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
+                    ->translateLabel()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('symbol'),
+                Tables\Columns\TextColumn::make('symbol')
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('exchange_rate')
+                    ->translateLabel()
                     ->numeric(),
                 Tables\Columns\IconColumn::make('is_default')
+                    ->translateLabel()
                     ->boolean(),
             ])
             ->filters([

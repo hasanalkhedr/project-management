@@ -21,9 +21,6 @@ class DashboardStats extends BaseWidget
             ->orWhereHas('payments')
             ->get();
 
-        // Add project stat (not currency-specific)
-        //$stats[] = $this->getProjectsStat();
-
         foreach ($currencies as $currency) {
             $stats = array_merge($stats, [
                 $this->getExpensesStat($currency),
@@ -35,18 +32,6 @@ class DashboardStats extends BaseWidget
         return $stats;
     }
 
-    protected function getProjectsStat(): Stat
-    {
-        $activeProjects = Project::whereIn('status', ['planned', 'in_progress'])->count();
-        $completedProjects = Project::where('status', 'completed')->count();
-
-        return Stat::make('Active Projects', $activeProjects)
-            ->description($completedProjects . ' completed')
-            ->descriptionIcon('heroicon-o-folder')
-            ->chart([7, 2, 10, 3, 15, 4, 17])
-            ->color('warning');
-    }
-
     protected function getExpensesStat(Currency $currency): Stat
     {
         $totalExpenses = Expense::where('currency_id', $currency->id)
@@ -54,7 +39,7 @@ class DashboardStats extends BaseWidget
 
         $trendData = $this->getExpenseTrendData($currency);
 
-        return Stat::make("Total Expenses ({$currency->code})", number_format($totalExpenses, 2))
+        return Stat::make(__("Total Expenses")." ({$currency->code})", number_format($totalExpenses, 2))
             ->description('Last 30 days')
             ->descriptionIcon('heroicon-o-arrow-trending-down')
             ->chart($trendData)
@@ -68,7 +53,7 @@ class DashboardStats extends BaseWidget
 
         $trendData = $this->getPaymentTrendData($currency);
 
-        return Stat::make("Total Payments ({$currency->code})", number_format($totalPayments, 2))
+        return Stat::make(__("Total Payments")." ({$currency->code})", number_format($totalPayments, 2))
             ->description('Last 30 days')
             ->descriptionIcon('heroicon-o-arrow-trending-up')
             ->chart($trendData)
@@ -85,7 +70,7 @@ class DashboardStats extends BaseWidget
 
         $netProfit = $totalPayments - $totalExpenses;
 
-        return Stat::make("Net Profit ({$currency->code})", number_format($netProfit, 2))
+        return Stat::make(__("Net Profit")." ({$currency->code})", number_format($netProfit, 2))
             ->description($netProfit >= 0 ? 'Profit' : 'Loss')
             ->descriptionIcon($netProfit >= 0 ? 'heroicon-o-banknotes' : 'heroicon-o-currency-dollar')
             ->color($netProfit >= 0 ? 'success' : 'danger');

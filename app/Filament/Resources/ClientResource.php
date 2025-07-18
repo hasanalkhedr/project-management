@@ -14,23 +14,40 @@ class ClientResource extends Resource
 {
     protected static ?string $model = Client::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-user-group';
     protected static ?int $navigationSort = 2;
+    public static function getModelLabel(): string
+    {
+        return __('Client');
+    }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('Clients');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Clients');
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
+                    ->translateLabel()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->translateLabel()
                     ->email()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
+                    ->translateLabel()
                     ->tel()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('address')
+                    ->translateLabel()
                     ->columnSpanFull(),
             ]);
     }
@@ -40,12 +57,16 @@ class ClientResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->translateLabel()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->translateLabel()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->translateLabel()
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

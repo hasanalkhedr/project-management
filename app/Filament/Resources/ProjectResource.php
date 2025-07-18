@@ -22,24 +22,41 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-document-duplicate';
     protected static ?int $navigationSort = 1;
+    public static function getModelLabel(): string
+    {
+        return __('Project');
+    }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('Projects');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Projects');
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('client_id')
-                    ->relationship('client', 'name')
-                    ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->translateLabel()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('client_id')
+                    ->relationship('client', 'name')
+                    ->translateLabel()
+                    ->required(),
                 Forms\Components\Textarea::make('description')
+                    ->translateLabel()
                     ->columnSpanFull(),
                 Forms\Components\DatePicker::make('start_date')
+                    ->translateLabel()
                     ->required(),
-                Forms\Components\DatePicker::make('end_date'),
+                Forms\Components\DatePicker::make('end_date')->translateLabel(),
                 Forms\Components\Select::make('status')
                     ->options([
                         'planned' => 'مخطط',
@@ -47,6 +64,7 @@ class ProjectResource extends Resource
                         'completed' => 'مكتمل',
                         'on_hold' => 'متوقف',
                     ])
+                    ->translateLabel()
                     ->required(),
             ]);
     }
@@ -55,12 +73,13 @@ class ProjectResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('client.name')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('client.name')
+                    ->sortable()->translateLabel(),
                 Tables\Columns\TextColumn::make('status')
-                    ->badge()
+                    ->badge()->translateLabel()
                     ->color(fn(string $state): string => match ($state) {
                         'planned' => 'gray',
                         'in_progress' => 'info',
@@ -68,13 +87,13 @@ class ProjectResource extends Resource
                         'on_hold' => 'warning',
                     }),
                 Tables\Columns\TextColumn::make('start_date')
-                    ->date()
+                    ->date()->translateLabel()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
-                    ->date(),
+                    ->date()->translateLabel(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                Tables\Filters\SelectFilter::make('status')->translateLabel()
                     ->options([
                         'planned' => 'مخطط',
                         'in_progress' => 'قيد التنفيذ',
@@ -83,16 +102,16 @@ class ProjectResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->label(''),
-                Tables\Actions\EditAction::make()->label(''),
-                Tables\Actions\DeleteAction::make()->label(''),
+                Tables\Actions\ViewAction::make()->label('')->tooltip(__('View')),
+                Tables\Actions\EditAction::make()->label('')->tooltip(__('Edit')),
+                Tables\Actions\DeleteAction::make()->label('')->tooltip(__('Delete')),
                 Tables\Actions\Action::make('reports')  // Note: Tables\Actions\Action
-                    ->label('reports')
+                    ->translateLabel()
                     ->color('success')
                     ->icon('heroicon-o-chart-bar')
                     ->url(fn(Project $record): string => ProjectReports::getUrl(['record' => $record])),
                 Tables\Actions\Action::make('addExpense')
-                    ->label('Add Expense')
+                    ->translateLabel()
                     ->color('danger')
                     ->icon('heroicon-o-banknotes')
                     ->url(fn(Project $record): string => route('filament.admin.resources.expenses.create', [
@@ -101,7 +120,7 @@ class ProjectResource extends Resource
 
                 // Add Payment Action
                 Tables\Actions\Action::make('addPayment')
-                    ->label('Add Payment')
+                    ->translateLabel()
                     ->color('primary')
                     ->icon('heroicon-o-credit-card')
                     ->url(fn(Project $record): string => route('filament.admin.resources.payments.create', [
@@ -114,135 +133,6 @@ class ProjectResource extends Resource
                 ]),
             ]);
     }
-
-    // public static function infolist(Infolist $infolist): Infolist
-    // {
-    //     return $infolist
-    //         ->schema([
-    //             // Project Header
-    //             Components\Section::make()
-    //                 ->schema([
-    //                     Components\Grid::make(3)
-    //                         ->schema([
-    //                             Components\TextEntry::make('name')
-    //                                 ->label('')
-    //                                 ->size('xl')
-    //                                 ->weight('bold')
-    //                                 ->columnSpan(2),
-    //                             Components\TextEntry::make('status')
-    //                                 ->badge()
-    //                                 ->color(fn(string $state): string => match ($state) {
-    //                                     'planned' => 'gray',
-    //                                     'in_progress' => 'blue',
-    //                                     'completed' => 'green',
-    //                                     'on_hold' => 'orange',
-    //                                 })
-    //                                 ->alignEnd(),
-    //                         ]),
-    //                 ])
-    //                 ->extraAttributes(['class' => 'bg-gradient-to-r from-primary-50 to-primary-100 p-6 rounded-lg']),
-
-    //             // Main Content
-    //             Components\Grid::make(3)
-    //                 ->schema([
-    //                     // Left Column - Project Info
-    //                     Components\Grid::make(1)
-    //                         ->schema([
-    //                             Components\Fieldset::make('Project Information')
-    //                                 ->schema([
-    //                                     Components\TextEntry::make('client.name')
-    //                                         ->label('Client')
-    //                                         ->icon('heroicon-o-user-circle'),
-    //                                     Components\TextEntry::make('description')
-    //                                         ->columnSpanFull()
-    //                                         ->html()
-    //                                         ->prose(),
-    //                                     Components\TextEntry::make('start_date')
-    //                                         ->label('Timeline')
-    //                                         ->formatStateUsing(fn($state, $record) =>
-    //                                             $state . ' → ' .
-    //                                             ($record->end_date ?? 'Ongoing'))
-    //                                         ->icon('heroicon-o-calendar'),
-    //                                 ])
-    //                                 ->columns(2),
-
-    //                             Components\Fieldset::make('Financial Summary')
-    //                                 ->schema([
-    //                                     Components\TextEntry::make('total_expenses')
-    //                                         ->money(fn($record) => $record->expenses->first()?->currency->code ?? 'USD')
-    //                                         ->color('danger')
-    //                                         ->icon('heroicon-o-arrow-trending-down'),
-    //                                     Components\TextEntry::make('total_payments')
-    //                                         ->money(fn($record) => $record->payments->first()?->currency->code ?? 'USD')
-    //                                         ->color('success')
-    //                                         ->icon('heroicon-o-arrow-trending-up'),
-    //                                     Components\TextEntry::make('net_profit')
-    //                                         ->money(fn($record) => $record->payments->first()?->currency->code ?? 'USD')
-    //                                         ->color(fn($state) => $state >= 0 ? 'success' : 'danger')
-    //                                         ->icon(fn($state) => $state >= 0 ? 'heroicon-o-banknotes' : 'heroicon-o-exclamation-circle'),
-    //                                 ])
-    //                                 ->columns(1),
-    //                         ]),
-
-    //                     // Right Column - Tables
-    //                     Components\Grid::make(1)
-    //                         ->columnSpan(2)
-    //                         ->schema([
-    //                             // Expenses Section
-    //                             Components\Section::make('Expenses')
-    //                                 ->schema([
-    //                                     Components\TextEntry::make('expenses_count')
-    //                                         ->label('Total Expenses')
-    //                                         ->state(fn($record) => $record->expenses->count())
-    //                                         ->badge()
-    //                                         ->color('gray'),
-
-    //                                     Components\RepeatableEntry::make('expenses')
-    //                                         ->schema([
-    //                                             Components\Grid::make(4)
-    //                                                 ->schema([
-    //                                                     Components\TextEntry::make('date')
-    //                                                         ->date(),
-    //                                                     Components\TextEntry::make('description')
-    //                                                         ->columnSpan(2),
-    //                                                     Components\TextEntry::make('amount')
-    //                                                         ->money(fn($record) => $record->currency->code),
-    //                                                 ]),
-    //                                         ])
-    //                                         ->grid(1)
-    //                                         ->columnSpanFull(),
-    //                                 ])
-    //                                 ->collapsible(),
-
-    //                             // Payments Section
-    //                             Components\Section::make('Payments')
-    //                                 ->schema([
-    //                                     Components\TextEntry::make('payments_count')
-    //                                         ->label('Total Payments')
-    //                                         ->state(fn($record) => $record->payments->count())
-    //                                         ->badge()
-    //                                         ->color('gray'),
-
-    //                                     Components\RepeatableEntry::make('payments')
-    //                                         ->schema([
-    //                                             Components\Grid::make(4)
-    //                                                 ->schema([
-    //                                                     Components\TextEntry::make('date')
-    //                                                         ->date(),
-    //                                                     Components\TextEntry::make('description')
-    //                                                         ->columnSpan(2),
-    //                                                     Components\TextEntry::make('amount')
-    //                                                         ->money(fn($record) => $record->currency->code),
-    //                                                 ]),
-    //                                         ])
-    //                                         ->grid(1)
-    //                                         ->columnSpanFull(),
-    //                                 ])
-    //                                 ->collapsible(),
-    //                         ]),
-    //                 ]),
-    //         ]);
-    // }
 
     public static function infolist(Infolist $infolist): Infolist
     {

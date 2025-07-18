@@ -7,7 +7,11 @@ use Filament\Widgets\ChartWidget;
 
 class ProjectsByStatusChart extends ChartWidget
 {
-    protected static ?string $heading = 'Projects by Status';
+    //protected static ?string $heading = 'Projects by Status';
+    public function getHeading(): string
+    {
+        return __('Projects by Status');
+    }
     protected static ?string $pollingInterval = '60s';
     protected static ?int $sort = 2;
 
@@ -21,7 +25,7 @@ class ProjectsByStatusChart extends ChartWidget
         return [
             'labels' => array_map(fn($status) => ucfirst(str_replace('_', ' ', $status)), array_keys($statusCounts)),
             'datasets' => [[
-                'label' => 'Projects',
+                'label' => __('Projects'),
                 'data' => array_values($statusCounts),
                 'backgroundColor' => [
                     '#f59e0b', // planned - amber

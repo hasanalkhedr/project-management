@@ -1,7 +1,7 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 
 @config 'tailwind.config.js';
-
+@source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
 .fi-topbar > nav {
     @apply bg-[#06332e] !important;
 }

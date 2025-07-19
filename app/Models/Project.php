@@ -23,12 +23,12 @@ class Project extends Model
 
     public function expenses()
     {
-        return $this->hasMany(Expense::class);
+        return $this->hasMany(Expense::class)->with('currency');
     }
 
     public function payments()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasMany(Payment::class)->with('currency');
     }
 
     public function getProgressPercentage(): float

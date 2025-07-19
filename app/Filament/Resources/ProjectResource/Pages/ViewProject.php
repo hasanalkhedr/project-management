@@ -18,7 +18,7 @@ class ViewProject extends ViewRecord
 
             // Add Expense Action
             Actions\Action::make('addExpense')
-                ->label('Add Expense')
+                ->translateLabel()
                 ->color('danger')
                 ->icon('heroicon-o-banknotes')
                 ->url(fn(): string => route('filament.admin.resources.expenses.create', [
@@ -27,7 +27,7 @@ class ViewProject extends ViewRecord
 
             // Add Payment Action
             Actions\Action::make('addPayment')
-                ->label('Add Payment')
+                ->translateLabel()
                 ->color('primary')
                 ->icon('heroicon-o-credit-card')
                 ->url(fn(): string => route('filament.admin.resources.payments.create', [
@@ -36,7 +36,7 @@ class ViewProject extends ViewRecord
 
             // Reports Action
             Actions\Action::make('reports')
-                ->label('Reports')
+                ->translateLabel()
                 ->color('success')
                 ->icon('heroicon-o-chart-bar')
                 ->url(fn(): string => ProjectReports::getUrl(['record' => $this->record])),

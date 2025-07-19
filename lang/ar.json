@@ -100,5 +100,8 @@
     "Export to PDF": "تصدير التقرير إلى ملف",
     "Summary": "ملخّص",
     "Type": "النوع",
-    "Transaction Details": "تفاصيل النفقات والدفعات"
+    "Transaction Details": "تفاصيل النفقات والدفعات",
+    "Project Information": "معلومات المشروع",
+    "Project Name": "اسم المشروع",
+    "Financial Summary by Currency": "ملخص العمليات حسب العملة"
 }

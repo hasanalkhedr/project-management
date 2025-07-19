@@ -223,7 +223,7 @@ class ProjectReports extends Page implements HasTable
             $mpdf->Output('', 'I'); // 'I' sends directly to output
         }, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="تقرير مشروع - ' . $this->record->name . ' - ' . now()->format('Y-m-d') . '.pdf"',
+            'Content-Disposition' => 'attachment; filename="كشف حساب (كل العملات) للمشروع - ' . $this->record->name . ' - ' . now()->format('Y-m-d') . '.pdf"',
         ]);
         // $pdfService = new PdfService();
         // return $pdfService->generateArabicPdf(
@@ -232,23 +232,6 @@ class ProjectReports extends Page implements HasTable
         //     "تقرير المشروع - {$this->record->name}-" . now()->format('Y-m-d') . ".pdf"
         // );
     }
-    // public function exportToPdf(): StreamedResponse
-// {
-//     return new StreamedResponse(function () {
-//         $mpdf = new \Mpdf\Mpdf([
-//             'mode' => 'utf-8',
-//             'format' => 'A4',
-//             'direction' => 'rtl',
-//         ]);
-
-    //         $html = view('filament.resources.project-resource.pages.project-report-pdf', $this->getPdfData())->render();
-//         $mpdf->WriteHTML($html);
-//         $mpdf->Output('', 'I'); // 'I' sends directly to output
-//     }, 200, [
-//         'Content-Type' => 'application/pdf',
-//         'Content-Disposition' => 'attachment; filename="report.pdf"',
-//     ]);
-// }
     protected function getReportData(): array
     {
         $expenses = $this->record->expenses()

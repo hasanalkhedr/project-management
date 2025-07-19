@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>تقرير المشروع - {{ $project->name }}</title>
+    <title>كشف حساب المشروع - {{ $project->name }}</title>
     <style>
         @font-face {
             font-family: 'amiri';
@@ -41,36 +41,37 @@
 
 
         .logo {
-            max-height: 80px;
+            max-height: 120px;
             width: auto;
-            float: right;
+            max-width: 300px;
         }
 
         .header {
             width: 100%;
             margin-bottom: 20px;
             border-bottom: 1px solid #ddd;
-            padding-bottom: 20px;
+            padding-bottom: 5px;
             overflow: hidden;
         }
 
         .logo-container {
             float: left;
             /* Changed from right to left */
-            width: 20%;
+            width: 30%;
         }
 
         .header-content {
             float: right;
             /* Changed from left to right */
-            width: 75%;
+            width: 65%;
             text-align: right;
         }
 
         .logo {
-            max-height: 80px;
-            width: auto;
-        }
+        height: 150px !important;
+        width: auto !important;
+        max-width: 400px !important;
+    }
 
         .footer {
             font-size: 10px;
@@ -96,7 +97,7 @@
         }
 
         .report-title {
-            font-size: 20px;
+            font-size: 30px;
             margin: 0 0 5px 0;
             text-align: right;
         }
@@ -205,12 +206,13 @@
     <div class="header">
         <div class="logo-container">
             @if (file_exists($logo))
-                <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
+                <img src="{{ $logo }}" class="logo" style="height: 150px; width: auto; object-fit: contain;" alt="شعار الشركة">
             @endif
         </div>
         <div class="header-content">
-            <div class="report-title">تقرير مالي للمشروع</div>
-            <div class="project-name">{{ $project->name }}</div>
+            <div class="report-title">كشف حساب للمشروع (كل العملات)</div>
+            <div class="project-name">اسم المشروع: {{ $project->name }}</div>
+            <div class="project-name">العميل: {{ $project->client->name }}: {{ $project->client->phone }}</div>
             @if ($start_date && $end_date)
                 <div class="report-meta">
                     الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى

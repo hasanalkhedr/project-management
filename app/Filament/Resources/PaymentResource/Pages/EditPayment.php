@@ -16,4 +16,8 @@ class EditPayment extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    protected function getRedirectUrl(): string
+    {
+        return \App\Filament\Resources\ProjectResource::getUrl('index');
+    }
 }

@@ -111,7 +111,7 @@ class ProjectReports extends Page implements HasTable
         return Expense::query()
             ->from(DB::raw("({$combined->toSql()}) as combined"))
             ->mergeBindings($combined->getQuery())
-            ->orderBy('type', 'desc')
+            ->orderBy('date', 'asc')
             ->with('currency');
     }
 

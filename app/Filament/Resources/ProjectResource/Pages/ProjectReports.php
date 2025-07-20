@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use DB;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\Page;
 use Filament\Tables;
@@ -51,8 +52,27 @@ class ProjectReports extends Page implements HasTable
 
     public function form(Form $form): Form
     {
+        $currencyOptions = \App\Models\Currency::query()
+        ->whereIn('id', function($query) {
+            $query->select('currency_id')
+                ->from('expenses')
+                ->where('project_id', $this->record->id);
+        })
+        ->orWhereIn('id', function($query) {
+            $query->select('currency_id')
+                ->from('payments')
+                ->where('project_id', $this->record->id);
+        })
+        ->pluck('name', 'id')
+        ->prepend(__('All Currencies'), 'all');
         return $form
             ->schema([
+                Select::make('currency_id')
+                    ->label(__('Select Currency'))
+                    ->options($currencyOptions)
+                    ->columnSpanFull()
+                    ->required()
+                    ->default('all'),
                 DatePicker::make('start_date')
                     ->label(__('From Date'))
                     ->required(),
@@ -70,12 +90,20 @@ class ProjectReports extends Page implements HasTable
             ->where('project_id', $this->record->id)
             ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
             ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+            ->when(
+                ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+                fn($q) => $q->where('currency_id', $this->data['currency_id'])
+            )
             ->selectRaw("id, date, description, amount, currency_id, supplier, invoice_number, '" . __('Expense') . "' as type");
 
         $payments = Payment::query()
             ->where('project_id', $this->record->id)
             ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
             ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+            ->when(
+                ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+                fn($q) => $q->where('currency_id', $this->data['currency_id'])
+            )
             ->selectRaw("id, date, description, amount, currency_id, payment_method as supplier, reference as invoice_number, '" . __('Payment') . "' as type");
 
         $combined = $expenses->unionAll($payments);
@@ -133,6 +161,10 @@ class ProjectReports extends Page implements HasTable
         $expensesByCurrency = $this->record->expenses()
             ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
             ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+            ->when(
+                ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+                fn($q) => $q->where('currency_id', $this->data['currency_id'])
+            )
             ->with('currency')
             ->get()
             ->groupBy('currency.code');
@@ -141,13 +173,22 @@ class ProjectReports extends Page implements HasTable
         $paymentsByCurrency = $this->record->payments()
             ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
             ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+            ->when(
+                ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+                fn($q) => $q->where('currency_id', $this->data['currency_id'])
+            )
             ->with('currency')
             ->get()
             ->groupBy('currency.code');
 
         // Calculate totals for each currency
         $currencySummaries = [];
-        $allCurrencies = $expensesByCurrency->keys()->merge($paymentsByCurrency->keys())->unique();
+
+        // Get all unique currency codes from both collections
+        $allCurrencies = collect()
+            ->merge($expensesByCurrency->keys())
+            ->merge($paymentsByCurrency->keys())
+            ->unique();
 
         foreach ($allCurrencies as $currencyCode) {
             $expenses = $expensesByCurrency->get($currencyCode, collect());
@@ -170,20 +211,34 @@ class ProjectReports extends Page implements HasTable
 
     public function exportToPdf(): StreamedResponse
     {
-        return new StreamedResponse(function () {
+        // Get selected currency details if filtering
+        $selectedCurrency = null;
+        if (($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all') {
+            $selectedCurrency = \App\Models\Currency::find($this->data['currency_id']);
+        }
+
+        $filename = ($selectedCurrency ?
+            "كشف حساب (عملة {$selectedCurrency->code}) للمشروع - " :
+            "كشف حساب (كل العملات) للمشروع - ") .
+            $this->record->name . ' - ' . now()->format('Y-m-d') . '.pdf';
+
+        return new StreamedResponse(function () use ($selectedCurrency) {
             $summary = $this->getSummary();
+
             $data = [
                 'project' => $this->record,
                 'start_date' => $this->data['start_date'] ?? null,
                 'end_date' => $this->data['end_date'] ?? null,
+                'currency_filter' => $selectedCurrency ? $selectedCurrency->code : __('All Currencies'),
                 'by_currency' => $summary['by_currency'],
                 'total_expenses' => $summary['total_expenses'],
                 'total_payments' => $summary['total_payments'],
                 'total_profit' => $summary['total_profit'],
                 'transactions' => $this->getTableQuery()->get(),
-                'logo' => 'file://' . public_path('images/logo.png'), // mPDF needs file:// prefix
+                'logo' => 'file://' . public_path('images/logo.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
             ];
+
             // Default font configuration
             $defaultConfig = (new ConfigVariables())->getDefaults();
             $fontDirs = $defaultConfig['fontDir'];
@@ -223,14 +278,8 @@ class ProjectReports extends Page implements HasTable
             $mpdf->Output('', 'I'); // 'I' sends directly to output
         }, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="كشف حساب (كل العملات) للمشروع - ' . $this->record->name . ' - ' . now()->format('Y-m-d') . '.pdf"',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
         ]);
-        // $pdfService = new PdfService();
-        // return $pdfService->generateArabicPdf(
-        //     'filament.resources.project-resource.pages.project-report-pdf',
-        //     $data,
-        //     "تقرير المشروع - {$this->record->name}-" . now()->format('Y-m-d') . ".pdf"
-        // );
     }
     protected function getReportData(): array
     {

@@ -68,10 +68,10 @@
         }
 
         .logo {
-        height: 150px !important;
-        width: auto !important;
-        max-width: 400px !important;
-    }
+            height: 150px !important;
+            width: auto !important;
+            max-width: 400px !important;
+        }
 
         .footer {
             font-size: 10px;
@@ -206,11 +206,18 @@
     <div class="header">
         <div class="logo-container">
             @if (file_exists($logo))
-                <img src="{{ $logo }}" class="logo" style="height: 150px; width: auto; object-fit: contain;" alt="شعار الشركة">
+                <img src="{{ $logo }}" class="logo" style="height: 150px; width: auto; object-fit: contain;"
+                    alt="شعار الشركة">
             @endif
         </div>
         <div class="header-content">
-            <div class="report-title">كشف حساب للمشروع (كل العملات)</div>
+            <div class="report-title">كشف حساب للمشروع
+                @if ($currency_filter === __("All Currencies"))
+                    (كل العملات)
+                @else
+                    (عملة {{ $currency_filter }})
+                @endif
+            </div>
             <div class="project-name">اسم المشروع: {{ $project->name }}</div>
             <div class="project-name">العميل: {{ $project->client->name }}: {{ $project->client->phone }}</div>
             @if ($start_date && $end_date)
@@ -256,35 +263,70 @@
 
     <!-- Summary Section -->
     <div class="summary-section">
-        <h3 style="text-align: center; margin-bottom: 15px;">ملخص حسب العملة</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-            <thead>
-                <tr style="background-color: #f2f2f2;">
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المصروفات</th>
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المدفوعات</th>
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الربح</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($by_currency as $currencyCode => $currencyData)
-                    <tr>
-                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}</td>
-                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
-                            {{ number_format($currencyData['expenses'], 2) }}
-                        </td>
-                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #10b981;">
-                            {{ number_format($currencyData['payments'], 2) }}
-                        </td>
-                        <td
-                            style="padding: 8px; border: 1px solid #ddd; text-align: center;
-                    color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
-                            {{ number_format($currencyData['profit'], 2) }}
-                        </td>
+        <h3 style="text-align: center; margin-bottom: 15px;">
+            @if ($currency_filter === __("All Currencies"))
+                ملخص حسب العملة
+            @else
+                ملخص لعملة {{ $currency_filter }}
+            @endif
+        </h3>
+
+        @if ($currency_filter === __("All Currencies"))
+            <!-- Show multi-currency table -->
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المصروفات</th>
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المدفوعات</th>
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الرصيد (+ربح/-خسارة)</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($by_currency as $currencyCode => $currencyData)
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}
+                            </td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
+                                {{ number_format($currencyData['expenses'], 2) }}
+                            </td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #10b981;">
+                                {{ number_format($currencyData['payments'], 2) }}
+                            </td>
+                            <td
+                                style="padding: 8px; border: 1px solid #ddd; text-align: center;
+                    color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
+                                {{ number_format($currencyData['profit'], 2) }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <!-- Show single currency summary -->
+            <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+                <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <div style="font-size: 12px; color: #666;">المصروفات</div>
+                    <div style="font-size: 18px; font-weight: bold; color: #ef4444;">
+                        {{ number_format($by_currency[$currency_filter]['expenses'], 2) }} {{ $currency_filter }}
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <div style="font-size: 12px; color: #666;">المدفوعات</div>
+                    <div style="font-size: 18px; font-weight: bold; color: #10b981;">
+                        {{ number_format($by_currency[$currency_filter]['payments'], 2) }} {{ $currency_filter }}
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <div style="font-size: 12px; color: #666;">الرصيد (+ربح/-خسارة)</div>
+                    <div
+                        style="font-size: 18px; font-weight: bold;
+                    color: {{ $by_currency[$currency_filter]['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
+                        {{ number_format($by_currency[$currency_filter]['profit'], 2) }} {{ $currency_filter }}
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 
     <!-- Footer Section -->

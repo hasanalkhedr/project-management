@@ -103,5 +103,7 @@
     "Transaction Details": "تفاصيل النفقات والدفعات",
     "Project Information": "معلومات المشروع",
     "Project Name": "اسم المشروع",
-    "Financial Summary by Currency": "ملخص العمليات حسب العملة"
+    "Financial Summary by Currency": "ملخص العمليات حسب العملة",
+    "All Currencies": "كل العملات",
+    "Select Currency": "اختر العملة"
 }

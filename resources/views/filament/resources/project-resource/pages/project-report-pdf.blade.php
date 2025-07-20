@@ -271,7 +271,7 @@
             @endif
         </h3>
 
-        @if ($currency_filter === __("All Currencies"))
+        {{-- @if ($currency_filter === __("All Currencies")) --}}
             <!-- Show multi-currency table -->
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                 <thead>
@@ -302,7 +302,7 @@
                     @endforeach
                 </tbody>
             </table>
-        @else
+        {{-- @else
             <!-- Show single currency summary -->
             <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
                 <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
@@ -326,7 +326,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        @endif --}}
     </div>
 
     <!-- Footer Section -->

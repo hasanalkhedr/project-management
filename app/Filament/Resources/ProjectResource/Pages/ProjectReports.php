@@ -229,7 +229,7 @@ class ProjectReports extends Page implements HasTable
                 'project' => $this->record,
                 'start_date' => $this->data['start_date'] ?? null,
                 'end_date' => $this->data['end_date'] ?? null,
-                'currency_filter' => $selectedCurrency ? $selectedCurrency->code : __('All Currencies'),
+                'currency_filter' => $selectedCurrency ? $selectedCurrency->name : __('All Currencies'),
                 'by_currency' => $summary['by_currency'],
                 'total_expenses' => $summary['total_expenses'],
                 'total_payments' => $summary['total_payments'],

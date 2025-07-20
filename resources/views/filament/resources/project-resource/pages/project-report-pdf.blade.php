@@ -54,23 +54,30 @@
             overflow: hidden;
         }
 
+        .header-left {
+            display: table-cell;
+            width: 20%;
+            vertical-align: top;
+            padding-left: 20px;
+        }
+
+        .logo {
+            height: 100px !important;
+            width: auto !important;
+            max-width: 200px !important;
+        }
+
         .logo-container {
             float: left;
             /* Changed from right to left */
-            width: 30%;
+            width: 25%;
         }
 
         .header-content {
             float: right;
             /* Changed from left to right */
-            width: 65%;
+            width: 75%;
             text-align: right;
-        }
-
-        .logo {
-            height: 150px !important;
-            width: auto !important;
-            max-width: 400px !important;
         }
 
         .footer {
@@ -82,24 +89,17 @@
             color: #666;
         }
 
-
-        .header-left {
-            display: table-cell;
-            width: 20%;
-            vertical-align: top;
-            padding-left: 20px;
-        }
-
-        .header-right {
-            display: table-cell;
-            width: 60%;
-            vertical-align: middle;
+        .company-title {
+            font-size: 20px;
+            margin: 0 0 5px 0;
+            text-align: right;
+            color: #ebb436;
         }
 
         .report-title {
             font-size: 30px;
             margin: 0 0 5px 0;
-            text-align: right;
+            text-align: center;
         }
 
         .project-name {
@@ -107,6 +107,11 @@
             font-weight: bold;
             margin-bottom: 5px;
             text-align: right;
+        }
+        .client-name {
+            font-size: 18px;
+            text-align: right;
+            margin-right: 30px;
         }
 
         .report-meta {
@@ -211,24 +216,25 @@
             @endif
         </div>
         <div class="header-content">
-            <div class="report-title">كشف حساب للمشروع
-                @if ($currency_filter === __("All Currencies"))
-                    (كل العملات)
+            <div class="company-title">شركة الريان للمقاولات</div>
+            <div class="report-title">كشف حساب
+                @if ($currency_filter === __('All Currencies'))
+                    بكل العملات
                 @else
-                    (عملة {{ $currency_filter }})
+                    بال{{ $currency_filter }}
                 @endif
             </div>
-            <div class="project-name">اسم المشروع: {{ $project->name }}</div>
-            <div class="project-name">العميل: {{ $project->client->name }}: {{ $project->client->phone }}</div>
+            <div class="project-name">{{ $project->name }}</div>
             @if ($start_date && $end_date)
-                <div class="report-meta">
-                    الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
-                    {{ \Carbon\Carbon::parse($end_date)->translatedFormat('j F Y') }}<br>
-                    تم إنشاء التقرير في: {{ $report_date }}
-                </div>
+            <div class="report-meta">
+                الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
+                {{ \Carbon\Carbon::parse($end_date)->translatedFormat('j F Y') }}<br>
+                تم إنشاء التقرير في: {{ $report_date }}
+            </div>
             @endif
         </div>
     </div>
+    <div class="client-name">العميل: السيد/ة {{ $project->client->name }}: {{$project->client->address}} {{ $project->client->phone }}</div>
     <!-- Transactions Table -->
     <table class="transactions-table">
         <thead>
@@ -264,44 +270,44 @@
     <!-- Summary Section -->
     <div class="summary-section">
         <h3 style="text-align: center; margin-bottom: 15px;">
-            @if ($currency_filter === __("All Currencies"))
+            @if ($currency_filter === __('All Currencies'))
                 ملخص حسب العملة
             @else
                 ملخص لعملة {{ $currency_filter }}
             @endif
         </h3>
 
-        {{-- @if ($currency_filter === __("All Currencies")) --}}
-            <!-- Show multi-currency table -->
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-                <thead>
-                    <tr style="background-color: #f2f2f2;">
-                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
-                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المصروفات</th>
-                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المدفوعات</th>
-                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الرصيد (+ربح/-خسارة)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($by_currency as $currencyCode => $currencyData)
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}
-                            </td>
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
-                                {{ number_format($currencyData['expenses'], 2) }}
-                            </td>
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #10b981;">
-                                {{ number_format($currencyData['payments'], 2) }}
-                            </td>
-                            <td
-                                style="padding: 8px; border: 1px solid #ddd; text-align: center;
+        {{-- @if ($currency_filter === __('All Currencies')) --}}
+        <!-- Show multi-currency table -->
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المصروفات</th>
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المدفوعات</th>
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الرصيد (+ربح/-خسارة)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($by_currency as $currencyCode => $currencyData)
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}
+                        </td>
+                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
+                            {{ number_format($currencyData['expenses'], 2) }}
+                        </td>
+                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #10b981;">
+                            {{ number_format($currencyData['payments'], 2) }}
+                        </td>
+                        <td
+                            style="padding: 8px; border: 1px solid #ddd; text-align: center;
                     color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
-                                {{ number_format($currencyData['profit'], 2) }}
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            {{ number_format($currencyData['profit'], 2) }}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
         {{-- @else
             <!-- Show single currency summary -->
             <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">

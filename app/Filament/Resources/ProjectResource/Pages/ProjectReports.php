@@ -45,8 +45,8 @@ class ProjectReports extends Page implements HasTable
     {
         $this->record = $record;
         $this->form->fill([
-            'start_date' => $this->record->start_date,
-            'end_date' => now(),
+            'start_date' => now()->subYears(5),
+            'end_date' => now()->addYears(5),
         ]);
     }
     public function form(Form $form): Form

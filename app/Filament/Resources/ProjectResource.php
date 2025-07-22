@@ -115,6 +115,8 @@ class ProjectResource extends Resource
                     ->color('success')
                     ->icon('heroicon-o-chart-bar')
                     ->url(fn(Project $record): string => ProjectReports::getUrl(['record' => $record])),
+
+                //Add Expense Action
                 Tables\Actions\Action::make('addExpense')
                     ->translateLabel()
                     ->color('danger')

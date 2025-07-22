@@ -11,6 +11,6 @@ class CreatePayment extends CreateRecord
     protected static string $resource = PaymentResource::class;
     protected function getRedirectUrl(): string
     {
-        return \App\Filament\Resources\ProjectResource::getUrl('index');
+        return $this->getResource()::getUrl('index');
     }
 }

@@ -105,5 +105,11 @@
     "Project Name": "اسم المشروع",
     "Financial Summary by Currency": "ملخص العمليات حسب العملة",
     "All Currencies": "كل العملات",
-    "Select Currency": "اختر العملة"
+    "Select Currency": "اختر العملة",
+    "Report Type": "نوع التقرير",
+    "Both Payments and Expenses": "الرصيد (النفقات والدفعات)",
+    "Payments Only": "الدفعات فقط",
+    "Expenses Only": "النفقات فقط",
+    "Profit ": "رابح",
+    "Loss": "خاسر"
 }

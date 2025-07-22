@@ -82,12 +82,13 @@ class CurrencyResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteAction::make(),
             ]);
+            // ->bulkActions([
+            //     Tables\Actions\BulkActionGroup::make([
+            //         Tables\Actions\DeleteBulkAction::make(),
+            //     ]),
+            // ]);
     }
     public static function getRelations(): array
     {
@@ -100,8 +101,8 @@ class CurrencyResource extends Resource
     {
         return [
             'index' => Pages\ListCurrencies::route('/'),
-            'create' => Pages\CreateCurrency::route('/create'),
-            'edit' => Pages\EditCurrency::route('/{record}/edit'),
+            //'create' => Pages\CreateCurrency::route('/create'),
+            //'edit' => Pages\EditCurrency::route('/{record}/edit'),
         ];
     }
 }

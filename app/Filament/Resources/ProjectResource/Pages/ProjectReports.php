@@ -49,30 +49,38 @@ class ProjectReports extends Page implements HasTable
             'end_date' => now(),
         ]);
     }
-
     public function form(Form $form): Form
     {
         $currencyOptions = \App\Models\Currency::query()
-        ->whereIn('id', function($query) {
-            $query->select('currency_id')
-                ->from('expenses')
-                ->where('project_id', $this->record->id);
-        })
-        ->orWhereIn('id', function($query) {
-            $query->select('currency_id')
-                ->from('payments')
-                ->where('project_id', $this->record->id);
-        })
-        ->pluck('name', 'id')
-        ->prepend(__('All Currencies'), 'all');
+            ->whereIn('id', function ($query) {
+                $query->select('currency_id')
+                    ->from('expenses')
+                    ->where('project_id', $this->record->id);
+            })
+            ->orWhereIn('id', function ($query) {
+                $query->select('currency_id')
+                    ->from('payments')
+                    ->where('project_id', $this->record->id);
+            })
+            ->pluck('name', 'id')
+            ->prepend(__('All Currencies'), 'all');
+
         return $form
             ->schema([
                 Select::make('currency_id')
                     ->label(__('Select Currency'))
                     ->options($currencyOptions)
-                    ->columnSpanFull()
                     ->required()
                     ->default('all'),
+                Select::make('report_type')
+                    ->label(__('Report Type'))
+                    ->options([
+                        'both' => __('Both Payments and Expenses'),
+                        'payments' => __('Payments Only'),
+                        'expenses' => __('Expenses Only'),
+                    ])
+                    ->required()
+                    ->default('both'),
                 DatePicker::make('start_date')
                     ->label(__('From Date'))
                     ->required(),
@@ -83,6 +91,39 @@ class ProjectReports extends Page implements HasTable
             ->columns(2)
             ->statePath('data');
     }
+    // public function form(Form $form): Form
+    // {
+    //     $currencyOptions = \App\Models\Currency::query()
+    //     ->whereIn('id', function($query) {
+    //         $query->select('currency_id')
+    //             ->from('expenses')
+    //             ->where('project_id', $this->record->id);
+    //     })
+    //     ->orWhereIn('id', function($query) {
+    //         $query->select('currency_id')
+    //             ->from('payments')
+    //             ->where('project_id', $this->record->id);
+    //     })
+    //     ->pluck('name', 'id')
+    //     ->prepend(__('All Currencies'), 'all');
+    //     return $form
+    //         ->schema([
+    //             Select::make('currency_id')
+    //                 ->label(__('Select Currency'))
+    //                 ->options($currencyOptions)
+    //                 ->columnSpanFull()
+    //                 ->required()
+    //                 ->default('all'),
+    //             DatePicker::make('start_date')
+    //                 ->label(__('From Date'))
+    //                 ->required(),
+    //             DatePicker::make('end_date')
+    //                 ->label(__('To Date'))
+    //                 ->required(),
+    //         ])
+    //         ->columns(2)
+    //         ->statePath('data');
+    // }
 
     protected function getTableQuery()
     {
@@ -94,6 +135,10 @@ class ProjectReports extends Page implements HasTable
                 ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
                 fn($q) => $q->where('currency_id', $this->data['currency_id'])
             )
+            ->when(
+                ($this->data['report_type'] ?? 'both') === 'payments',
+                fn($q) => $q->whereRaw('1 = 0') // Exclude expenses if only payments selected
+            )
             ->selectRaw("id, date, description, amount, currency_id, supplier, invoice_number, '" . __('Expense') . "' as type");
 
         $payments = Payment::query()
@@ -103,6 +148,10 @@ class ProjectReports extends Page implements HasTable
             ->when(
                 ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
                 fn($q) => $q->where('currency_id', $this->data['currency_id'])
+            )
+            ->when(
+                ($this->data['report_type'] ?? 'both') === 'expenses',
+                fn($q) => $q->whereRaw('1 = 0') // Exclude payments if only expenses selected
             )
             ->selectRaw("id, date, description, amount, currency_id, payment_method as supplier, reference as invoice_number, '" . __('Payment') . "' as type");
 
@@ -114,6 +163,36 @@ class ProjectReports extends Page implements HasTable
             ->orderBy('date', 'asc')
             ->with('currency');
     }
+    // protected function getTableQuery()
+    // {
+    //     $expenses = Expense::query()
+    //         ->where('project_id', $this->record->id)
+    //         ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
+    //         ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+    //         ->when(
+    //             ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+    //             fn($q) => $q->where('currency_id', $this->data['currency_id'])
+    //         )
+    //         ->selectRaw("id, date, description, amount, currency_id, supplier, invoice_number, '" . __('Expense') . "' as type");
+
+    //     $payments = Payment::query()
+    //         ->where('project_id', $this->record->id)
+    //         ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
+    //         ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+    //         ->when(
+    //             ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+    //             fn($q) => $q->where('currency_id', $this->data['currency_id'])
+    //         )
+    //         ->selectRaw("id, date, description, amount, currency_id, payment_method as supplier, reference as invoice_number, '" . __('Payment') . "' as type");
+
+    //     $combined = $expenses->unionAll($payments);
+
+    //     return Expense::query()
+    //         ->from(DB::raw("({$combined->toSql()}) as combined"))
+    //         ->mergeBindings($combined->getQuery())
+    //         ->orderBy('date', 'asc')
+    //         ->with('currency');
+    // }
 
     protected function getTableColumns(): array
     {
@@ -155,31 +234,40 @@ class ProjectReports extends Page implements HasTable
         // This will trigger the table and summary to refresh
         $this->resetTable();
     }
+
     public function getSummary(): array
     {
+        $reportType = $this->data['report_type'] ?? 'both';
+
         // Get expenses grouped by currency
-        $expensesByCurrency = $this->record->expenses()
-            ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
-            ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-            ->when(
-                ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
-                fn($q) => $q->where('currency_id', $this->data['currency_id'])
-            )
-            ->with('currency')
-            ->get()
-            ->groupBy('currency.code');
+        $expensesByCurrency = collect();
+        if ($reportType === 'both' || $reportType === 'expenses') {
+            $expensesByCurrency = $this->record->expenses()
+                ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
+                ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+                ->when(
+                    ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+                    fn($q) => $q->where('currency_id', $this->data['currency_id'])
+                )
+                ->with('currency')
+                ->get()
+                ->groupBy('currency.code');
+        }
 
         // Get payments grouped by currency
-        $paymentsByCurrency = $this->record->payments()
-            ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
-            ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-            ->when(
-                ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
-                fn($q) => $q->where('currency_id', $this->data['currency_id'])
-            )
-            ->with('currency')
-            ->get()
-            ->groupBy('currency.code');
+        $paymentsByCurrency = collect();
+        if ($reportType === 'both' || $reportType === 'payments') {
+            $paymentsByCurrency = $this->record->payments()
+                ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
+                ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+                ->when(
+                    ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+                    fn($q) => $q->where('currency_id', $this->data['currency_id'])
+                )
+                ->with('currency')
+                ->get()
+                ->groupBy('currency.code');
+        }
 
         // Calculate totals for each currency
         $currencySummaries = [];
@@ -205,9 +293,63 @@ class ProjectReports extends Page implements HasTable
             'by_currency' => $currencySummaries,
             'total_expenses' => $expensesByCurrency->flatten()->sum('amount'),
             'total_payments' => $paymentsByCurrency->flatten()->sum('amount'),
-            'total_profit' => $paymentsByCurrency->flatten()->sum('amount') - $expensesByCurrency->flatten()->sum('amount')
+            'total_profit' => $paymentsByCurrency->flatten()->sum('amount') - $expensesByCurrency->flatten()->sum('amount'),
+            'report_type' => $reportType
         ];
     }
+    // public function getSummary(): array
+    // {
+    //     // Get expenses grouped by currency
+    //     $expensesByCurrency = $this->record->expenses()
+    //         ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
+    //         ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+    //         ->when(
+    //             ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+    //             fn($q) => $q->where('currency_id', $this->data['currency_id'])
+    //         )
+    //         ->with('currency')
+    //         ->get()
+    //         ->groupBy('currency.code');
+
+    //     // Get payments grouped by currency
+    //     $paymentsByCurrency = $this->record->payments()
+    //         ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
+    //         ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
+    //         ->when(
+    //             ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
+    //             fn($q) => $q->where('currency_id', $this->data['currency_id'])
+    //         )
+    //         ->with('currency')
+    //         ->get()
+    //         ->groupBy('currency.code');
+
+    //     // Calculate totals for each currency
+    //     $currencySummaries = [];
+
+    //     // Get all unique currency codes from both collections
+    //     $allCurrencies = collect()
+    //         ->merge($expensesByCurrency->keys())
+    //         ->merge($paymentsByCurrency->keys())
+    //         ->unique();
+
+    //     foreach ($allCurrencies as $currencyCode) {
+    //         $expenses = $expensesByCurrency->get($currencyCode, collect());
+    //         $payments = $paymentsByCurrency->get($currencyCode, collect());
+
+    //         $currencySummaries[$currencyCode] = [
+    //             'expenses' => $expenses->sum('amount'),
+    //             'payments' => $payments->sum('amount'),
+    //             'profit' => $payments->sum('amount') - $expenses->sum('amount')
+    //         ];
+    //     }
+
+    //     return [
+    //         'by_currency' => $currencySummaries,
+    //         'total_expenses' => $expensesByCurrency->flatten()->sum('amount'),
+    //         'total_payments' => $paymentsByCurrency->flatten()->sum('amount'),
+    //         'total_profit' => $paymentsByCurrency->flatten()->sum('amount') - $expensesByCurrency->flatten()->sum('amount')
+    //     ];
+    // }
 
     public function exportToPdf(): StreamedResponse
     {
@@ -217,12 +359,30 @@ class ProjectReports extends Page implements HasTable
             $selectedCurrency = \App\Models\Currency::find($this->data['currency_id']);
         }
 
-        $filename = ($selectedCurrency ?
-            "كشف حساب (عملة {$selectedCurrency->code}) للمشروع - " :
-            "كشف حساب (كل العملات) للمشروع - ") .
+        $reportType = $this->data['report_type'] ?? 'both';
+        $reportTypeLabel = match ($reportType) {
+            'payments' => __('Payments Only'),
+            'expenses' => __('Expenses Only'),
+            default => __('Payments and Expenses'),
+        };
+        $filename = "كشف حساب ";
+        switch ($reportType) {
+            case 'both':
+                $filename .= "النفقات والدفعات ";
+                break;
+            case 'payments':
+                $filename .= "الدفعات ";
+                break;
+            case 'expenses':
+                $filename .= "النفقات ";
+                break;
+        }
+
+        $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - ":
+            "بكل العملات - ") .
             $this->record->name . ' - ' . now()->format('Y-m-d') . '.pdf';
 
-        return new StreamedResponse(function () use ($selectedCurrency) {
+        return new StreamedResponse(function () use ($selectedCurrency, $reportType) {
             $summary = $this->getSummary();
 
             $data = [
@@ -230,6 +390,7 @@ class ProjectReports extends Page implements HasTable
                 'start_date' => $this->data['start_date'] ?? null,
                 'end_date' => $this->data['end_date'] ?? null,
                 'currency_filter' => $selectedCurrency ? $selectedCurrency->name : __('All Currencies'),
+                'report_type' => $reportType,
                 'by_currency' => $summary['by_currency'],
                 'total_expenses' => $summary['total_expenses'],
                 'total_payments' => $summary['total_payments'],
@@ -239,48 +400,164 @@ class ProjectReports extends Page implements HasTable
                 'report_date' => now()->translatedFormat('j F Y'),
             ];
 
-            // Default font configuration
+            // Default font configuration (keep your existing mpdf configuration)
             $defaultConfig = (new ConfigVariables())->getDefaults();
             $fontDirs = $defaultConfig['fontDir'];
 
             $defaultFontConfig = (new FontVariables())->getDefaults();
             $fontData = $defaultFontConfig['fontdata'];
 
-            $mpdf = new Mpdf([
-                'mode' => 'utf-8',
-                'format' => 'A4',
-                'direction' => 'rtl', // Essential for RTL
-                'autoScriptToLang' => true,
-                'autoLangToFont' => true,
-                'fontDir' => [
-                    base_path('vendor/mpdf/mpdf/ttfonts'),
-                    storage_path('fonts'),
-                ],
-                'fontdata' => [
-                    'xbriyaz' => [
-                        'R' => 'XB Riyaz.ttf',
-                        'B' => 'XB RiyazBd.ttf',
-                        'useOTL' => 0xFF,  // Enable complex text layout
-                        'useKashida' => 75, // Arabic justification
-                    ]
-                ],
-                'default_font' => 'xbriyaz',
-                'margin_top' => 15,
-                'margin_bottom' => 15,
-                'margin_left' => 10,
-                'margin_right' => 10,
-                'tempDir' => storage_path('app/mpdf/tmp'),
-                'allow_output_buffering' => true,
-            ]);
+        //     $mpdf = new Mpdf([
+        //         'mode' => 'utf-8',
+        //         'format' => 'A4',
+        //         'direction' => 'rtl', // Essential for RTL
+        //         'autoScriptToLang' => true,
+        //         'autoLangToFont' => true,
+        //         'fontDir' => [
+        //             base_path('vendor/mpdf/mpdf/ttfonts'),
+        //             storage_path('fonts'),
+        //         ],
+        //         'fontdata' => [
+        //             'xbriyaz' => [
+        //                 'R' => 'XB Riyaz.ttf',
+        //                 'B' => 'XB RiyazBd.ttf',
+        //                 'useOTL' => 0xFF,  // Enable complex text layout
+        //                 'useKashida' => 75, // Arabic justification
+        //             ]
+        //         ],
+        //         'default_font' => 'xbriyaz',
+        //         'margin_top' => 15,
+        //         'margin_bottom' => 15,
+        //         'margin_left' => 10,
+        //         'margin_right' => 10,
+        //         'tempDir' => storage_path('app/mpdf/tmp'),
+        //         'allow_output_buffering' => true,
+        //     ]);
 
-            $html = view('filament.resources.project-resource.pages.project-report-pdf', $data)->render();
-            $mpdf->WriteHTML($html);
-            $mpdf->Output('', 'I'); // 'I' sends directly to output
-        }, 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        //     $html = view('filament.resources.project-resource.pages.project-report-pdf', $data)->render();
+        //     $mpdf->WriteHTML($html);
+        //     $mpdf->Output('', 'I'); // 'I' sends directly to output
+        // }, 200, [
+        //     'Content-Type' => 'application/pdf',
+        //     'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        // ]);
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'direction' => 'rtl',
+            'autoScriptToLang' => true,
+            'autoLangToFont' => true,
+            'fontDir' => [
+                base_path('vendor/mpdf/mpdf/ttfonts'),
+                storage_path('fonts'),
+            ],
+            'fontdata' => [
+                'xbriyaz' => [
+                    'R' => 'XB Riyaz.ttf',
+                    'B' => 'XB RiyazBd.ttf',
+                    'useOTL' => 0xFF,
+                    'useKashida' => 75,
+                ]
+            ],
+            'default_font' => 'xbriyaz',
+            'margin_top' => 15,
+            'margin_header' => 5,
+            'margin_bottom' => 15,
+            'margin_footer' => 5,
+            'margin_left' => 8,
+            'margin_right' => 8,
+            'tempDir' => storage_path('app/mpdf/tmp'),
+            'allow_output_buffering' => true,
         ]);
+
+        // Set footer with page number on left
+        $mpdf->SetHTMLFooter('
+            <div style="text-align: left; font-size: 10px; width: 100%;">
+                الصفحة {PAGENO} من {nbpg}
+            </div>
+        ');
+
+        $html = view('filament.resources.project-resource.pages.project-report-pdf', $data)->render();
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('', 'I');
+    }, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+    ]);
     }
+
+    // public function exportToPdf(): StreamedResponse
+    // {
+    //     // Get selected currency details if filtering
+    //     $selectedCurrency = null;
+    //     if (($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all') {
+    //         $selectedCurrency = \App\Models\Currency::find($this->data['currency_id']);
+    //     }
+
+    //     $filename = ($selectedCurrency ?
+    //         "كشف حساب (عملة {$selectedCurrency->code}) للمشروع - " :
+    //         "كشف حساب (كل العملات) للمشروع - ") .
+    //         $this->record->name . ' - ' . now()->format('Y-m-d') . '.pdf';
+
+    //     return new StreamedResponse(function () use ($selectedCurrency) {
+    //         $summary = $this->getSummary();
+
+    //         $data = [
+    //             'project' => $this->record,
+    //             'start_date' => $this->data['start_date'] ?? null,
+    //             'end_date' => $this->data['end_date'] ?? null,
+    //             'currency_filter' => $selectedCurrency ? $selectedCurrency->name : __('All Currencies'),
+    //             'by_currency' => $summary['by_currency'],
+    //             'total_expenses' => $summary['total_expenses'],
+    //             'total_payments' => $summary['total_payments'],
+    //             'total_profit' => $summary['total_profit'],
+    //             'transactions' => $this->getTableQuery()->get(),
+    //             'logo' => 'file://' . public_path('images/logo.png'),
+    //             'report_date' => now()->translatedFormat('j F Y'),
+    //         ];
+
+    //         // Default font configuration
+    //         $defaultConfig = (new ConfigVariables())->getDefaults();
+    //         $fontDirs = $defaultConfig['fontDir'];
+
+    //         $defaultFontConfig = (new FontVariables())->getDefaults();
+    //         $fontData = $defaultFontConfig['fontdata'];
+
+    //         $mpdf = new Mpdf([
+    //             'mode' => 'utf-8',
+    //             'format' => 'A4',
+    //             'direction' => 'rtl', // Essential for RTL
+    //             'autoScriptToLang' => true,
+    //             'autoLangToFont' => true,
+    //             'fontDir' => [
+    //                 base_path('vendor/mpdf/mpdf/ttfonts'),
+    //                 storage_path('fonts'),
+    //             ],
+    //             'fontdata' => [
+    //                 'xbriyaz' => [
+    //                     'R' => 'XB Riyaz.ttf',
+    //                     'B' => 'XB RiyazBd.ttf',
+    //                     'useOTL' => 0xFF,  // Enable complex text layout
+    //                     'useKashida' => 75, // Arabic justification
+    //                 ]
+    //             ],
+    //             'default_font' => 'xbriyaz',
+    //             'margin_top' => 15,
+    //             'margin_bottom' => 15,
+    //             'margin_left' => 10,
+    //             'margin_right' => 10,
+    //             'tempDir' => storage_path('app/mpdf/tmp'),
+    //             'allow_output_buffering' => true,
+    //         ]);
+
+    //         $html = view('filament.resources.project-resource.pages.project-report-pdf', $data)->render();
+    //         $mpdf->WriteHTML($html);
+    //         $mpdf->Output('', 'I'); // 'I' sends directly to output
+    //     }, 200, [
+    //         'Content-Type' => 'application/pdf',
+    //         'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+    //     ]);
+    // }
     protected function getReportData(): array
     {
         $expenses = $this->record->expenses()

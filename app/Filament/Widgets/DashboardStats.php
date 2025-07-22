@@ -40,7 +40,7 @@ class DashboardStats extends BaseWidget
         $trendData = $this->getExpenseTrendData($currency);
 
         return Stat::make(__("Total Expenses")." ({$currency->code})", number_format($totalExpenses, 2))
-            ->description('Last 30 days')
+            //->description('Last 30 days')
             ->descriptionIcon('heroicon-o-arrow-trending-down')
             ->chart($trendData)
             ->color('danger');
@@ -54,7 +54,7 @@ class DashboardStats extends BaseWidget
         $trendData = $this->getPaymentTrendData($currency);
 
         return Stat::make(__("Total Payments")." ({$currency->code})", number_format($totalPayments, 2))
-            ->description('Last 30 days')
+            //->description('Last 30 days')
             ->descriptionIcon('heroicon-o-arrow-trending-up')
             ->chart($trendData)
             ->color('success');
@@ -71,7 +71,7 @@ class DashboardStats extends BaseWidget
         $netProfit = $totalPayments - $totalExpenses;
 
         return Stat::make(__("Net Profit")." ({$currency->code})", number_format($netProfit, 2))
-            ->description($netProfit >= 0 ? 'Profit' : 'Loss')
+            ->description($netProfit >= 0 ? __('Profit ') : __('Loss'))
             ->descriptionIcon($netProfit >= 0 ? 'heroicon-o-banknotes' : 'heroicon-o-currency-dollar')
             ->color($netProfit >= 0 ? 'success' : 'danger');
     }
@@ -83,7 +83,7 @@ class DashboardStats extends BaseWidget
                 DB::raw("COALESCE(SUM(amount), 0) as total")
             )
             ->where('currency_id', $currency->id)
-            ->where('date', '>=', now()->subDays(30))
+            ->where('date', '>=', now()->subDays(3000))
             ->groupBy('date_formatted')
             ->orderBy('date_formatted')
             ->pluck('total')
@@ -97,7 +97,7 @@ class DashboardStats extends BaseWidget
                 DB::raw("COALESCE(SUM(amount), 0) as total")
             )
             ->where('currency_id', $currency->id)
-            ->where('date', '>=', now()->subDays(30))
+            ->where('date', '>=', now()->subDays(3000))
             ->groupBy('date_formatted')
             ->orderBy('date_formatted')
             ->pluck('total')

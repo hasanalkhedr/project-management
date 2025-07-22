@@ -18,6 +18,6 @@ class EditExpense extends EditRecord
     }
     protected function getRedirectUrl(): string
     {
-        return \App\Filament\Resources\ProjectResource::getUrl('index');
+        return $this->getResource()::getUrl('index');
     }
 }

@@ -70,7 +70,7 @@
         .logo-container {
             float: left;
             /* Changed from right to left */
-            width: 25%;
+            width: 20%;
         }
 
         .header-content {
@@ -97,7 +97,7 @@
         }
 
         .report-title {
-            font-size: 30px;
+            font-size: 24px;
             margin: 0 0 5px 0;
             text-align: center;
         }
@@ -108,6 +108,7 @@
             margin-bottom: 5px;
             text-align: right;
         }
+
         .client-name {
             font-size: 18px;
             text-align: right;
@@ -121,20 +122,22 @@
             text-align: right;
         }
 
+        /* Transactions Table (optimized) */
         .transactions-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            font-size: 12px;
+            font-size: 14px; /* Slightly reduced from 12px */
             direction: rtl;
+            page-break-inside: auto;
         }
-
 
         .transactions-table th,
         .transactions-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            padding: 6px; /* Reduced from 8px */
             text-align: right;
+            border: 1px solid #ddd;
+            page-break-inside: avoid;
         }
 
         .transactions-table th {
@@ -215,7 +218,7 @@
                     alt="شعار الشركة">
             @endif
         </div>
-        <div class="header-content">
+        {{-- <div class="header-content">
             <div class="company-title">شركة الريان للمقاولات</div>
             <div class="report-title">كشف حساب
                 @if ($currency_filter === __('All Currencies'))
@@ -224,17 +227,42 @@
                     بال{{ $currency_filter }}
                 @endif
             </div>
-            <div class="project-name">{{ $project->name }}</div>
             @if ($start_date && $end_date)
             <div class="report-meta">
                 الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
                 {{ \Carbon\Carbon::parse($end_date)->translatedFormat('j F Y') }}<br>
-                تم إنشاء التقرير في: {{ $report_date }}
+                تاريخ: {{ $report_date }}
             </div>
+            @endif
+        </div> --}}
+        <div class="header-content">
+            <div class="company-title">شركة الريان للمقاولات</div>
+            <div class="report-title">كشف حساب
+                @if ($report_type === 'payments')
+                    الدفعات
+                @elseif($report_type === 'expenses')
+                    النفقات
+                @else
+                    الدفعات والنفقات
+                @endif
+                @if ($currency_filter === __('All Currencies'))
+                    بكل العملات
+                @else
+                    بال{{ $currency_filter }}
+                @endif
+            </div>
+            @if ($start_date && $end_date)
+                <div class="report-meta">
+                    الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
+                    {{ \Carbon\Carbon::parse($end_date)->translatedFormat('j F Y') }}<br>
+                    تاريخ: {{ $report_date }}
+                </div>
             @endif
         </div>
     </div>
-    <div class="client-name">العميل: السيد/ة {{ $project->client->name }}: {{$project->client->address}} {{ $project->client->phone }}</div>
+    <div class="client-name">العميل: السيد/ة {{ $project->client->name }}- العنوان: {{ $project->client->address }} -
+        جوال: {{ $project->client->phone }}</div>
+    <div class="client-name">المشروع: {{ $project->name }}</div>
     <!-- Transactions Table -->
     <table class="transactions-table">
         <thead>
@@ -253,7 +281,7 @@
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($transaction->date)->translatedFormat('j F Y') }}</td>
                     <td style="color: {{ $transaction->type === __('Expense') ? '#ef4444' : '#10b981' }};">
-                        {{ $transaction->type === __('Expense') ? 'مصروف' : 'دفع' }}
+                        {{ $transaction->type === __('Expense') ? 'نفقة' : 'دفعة' }}
                     </td>
                     <td>{{ $transaction->description }}</td>
                     <td>{{ $transaction->supplier }}</td>
@@ -270,11 +298,7 @@
     <!-- Summary Section -->
     <div class="summary-section">
         <h3 style="text-align: center; margin-bottom: 15px;">
-            @if ($currency_filter === __('All Currencies'))
-                ملخص حسب العملة
-            @else
-                ملخص لعملة {{ $currency_filter }}
-            @endif
+            الملخص
         </h3>
 
         {{-- @if ($currency_filter === __('All Currencies')) --}}
@@ -283,9 +307,15 @@
             <thead>
                 <tr style="background-color: #f2f2f2;">
                     <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المصروفات</th>
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المدفوعات</th>
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الرصيد (+ربح/-خسارة)</th>
+                    @if ($report_type !== 'payments')
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">النفقات</th>
+                    @endif
+                    @if ($report_type !== 'expenses')
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الدفعات</th>
+                    @endif
+                    @if ($report_type === 'both')
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الرصيد (+ربح/-خسارة)</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -293,17 +323,23 @@
                     <tr>
                         <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}
                         </td>
-                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
-                            {{ number_format($currencyData['expenses'], 2) }}
-                        </td>
-                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #10b981;">
-                            {{ number_format($currencyData['payments'], 2) }}
-                        </td>
-                        <td
-                            style="padding: 8px; border: 1px solid #ddd; text-align: center;
+                        @if ($report_type !== 'payments')
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
+                                {{ number_format($currencyData['expenses'], 2) }}
+                            </td>
+                        @endif
+                        @if ($report_type !== 'expenses')
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #10b981;">
+                                {{ number_format($currencyData['payments'], 2) }}
+                            </td>
+                        @endif
+                        @if ($report_type === 'both')
+                            <td
+                                style="padding: 8px; border: 1px solid #ddd; text-align: center;
                     color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
-                            {{ number_format($currencyData['profit'], 2) }}
-                        </td>
+                                {{ number_format($currencyData['profit'], 2) }}
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

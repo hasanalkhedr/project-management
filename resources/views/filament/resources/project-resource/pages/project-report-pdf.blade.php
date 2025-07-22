@@ -253,8 +253,8 @@
             </div>
             @if ($start_date && $end_date)
                 <div class="report-meta">
-                    الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
-                    {{ \Carbon\Carbon::parse($end_date)->translatedFormat('j F Y') }}<br>
+                    {{-- الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
+                    {{ \Carbon\Carbon::parse($end_date)->translatedFormat('j F Y') }}<br> --}}
                     تاريخ: {{ $report_date }}
                 </div>
             @endif

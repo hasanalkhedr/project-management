@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>تقرير عام - {{ $report_date }}</title>
+    <title>كشف حساب عام - {{ $report_date }}</title>
     <style>
         @font-face {
             font-family: 'amiri';
@@ -24,93 +24,106 @@
 
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
+            margin: 0 0;
             page-break-inside: avoid;
             direction: rtl;
             unicode-bidi: embed;
         }
 
-        th,
-        td {
+        th, td {
             padding: 8px;
             text-align: right;
-            border: 1px solid #ddd;
             page-break-inside: avoid;
         }
 
-        .logo {
-            max-height: 80px;
-            width: auto;
-            float: right;
-        }
-
         .header {
-            width: 100%;
-            margin-bottom: 20px;
             border-bottom: 1px solid #ddd;
-            padding-bottom: 20px;
-            overflow: hidden;
         }
 
-        .logo-container {
-            float: left;
+        .header-table {
+            width: 100%;
+        }
+
+        .logo-cell {
             width: 20%;
+            vertical-align: middle;
+            rowspan: 3;
         }
 
-        .header-content {
-            float: right;
-            width: 75%;
+        .logo {
+            max-height: 120px;
+            width: auto;
+            max-width: 200px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .title-cell {
+            width: 60%;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .content-cell {
+            vertical-align: bottom;
             text-align: right;
         }
 
-        .footer {
-            font-size: 10px;
-            text-align: center;
-            margin-top: 20px;
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-            color: #666;
+        .company-title {
+            font-size: 22px;
+            margin: 0;
         }
 
         .report-title {
-            font-size: 20px;
-            margin: 0 0 5px 0;
-            text-align: right;
+            font-size: 28px;
+            margin: 0;
         }
 
         .report-meta {
             font-size: 12px;
             color: #666;
-            margin-bottom: 0;
+            margin: 0;
+        }
+
+        .project-name {
+            font-size: 18px;
             text-align: right;
+            margin-right: 30px;
+            margin-bottom: 10px;
         }
 
-        .summary-card {
-            border: 1px solid #eee;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            padding: 10px;
-            margin-bottom: 15px;
+        .client-name {
+            font-size: 18px;
+            text-align: right;
+            margin-right: 30px;
+            margin-top: 15px;
         }
 
-        .currency-title {
+        /* Transactions Table */
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 14px;
+            direction: rtl;
+            page-break-inside: auto;
+        }
+
+        .transactions-table th,
+        .transactions-table td {
+            padding: 6px;
+            text-align: right;
+            border: 1px solid #ddd;
+            page-break-inside: avoid;
+        }
+
+        .transactions-table th {
+            background-color: #f2f2f2;
             font-weight: bold;
-            margin-bottom: 5px;
-            text-align: center;
-            padding-bottom: 3px;
-            border-bottom: 1px solid #ddd;
         }
 
-        .summary-title {
-            font-size: 10px;
-            margin-bottom: 3px;
-            color: #666;
-        }
-
-        .summary-value {
-            font-size: 12px;
-            font-weight: bold;
+        .summary-section {
+            margin-bottom: 30px;
         }
 
         .positive {
@@ -121,8 +134,13 @@
             color: #ef4444;
         }
 
-        .page-break {
-            page-break-after: always;
+        .footer {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            color: #666;
         }
     </style>
 </head>
@@ -130,23 +148,50 @@
 <body>
     <!-- Header Section -->
     <div class="header">
-        <div class="logo-container">
-            @if (file_exists($logo))
-                <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
-            @endif
-        </div>
-        <div class="header-content">
-            <div class="report-title">تقرير مالي عام</div>
-            @if ($start_date && $end_date)
-                <div class="report-meta">
-                    الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
-                    {{ \Carbon\Carbon::parse($end_date)->translatedFormat('j F Y') }}<br>
-                    تم إنشاء التقرير في: {{ $report_date }}
-                </div>
-            @endif
-        </div>
+        <table class="header-table">
+            <tr>
+                <td class="content-cell" colspan="2">
+                    <div class="company-title">شركة الريان للمقاولات</div>
+                </td>
+                <td class="logo-cell" rowspan="3">
+                    @if (file_exists($logo))
+                        <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <!-- Empty middle cell (title spans all rows) -->
+                <td class="content-cell">
+                    <!-- Empty space in middle row -->
+                </td>
+                <td class="title-cell" rowspan="2">
+                   <div class="report-title">كشف حساب عام
+                        @if ($report_type === 'payments')
+                            الدفعات
+                        @elseif($report_type === 'expenses')
+                            النفقات
+                        @else
+                            الدفعات والنفقات
+                        @endif
+                        @if ($currency_filter === __('All Currencies'))
+                            بكل العملات
+                        @else
+                            بال{{ $currency_filter }}
+                        @endif
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    @if ($start_date && $end_date)
+                        <div class="report-meta">
+                            تاريخ: {{ $report_date }}
+                        </div>
+                    @endif
+                </td>
+            </tr>
+        </table>
     </div>
-
 
     <!-- Summary Section -->
     <div class="summary-section">
@@ -155,77 +200,121 @@
             <thead>
                 <tr style="background-color: #f2f2f2;">
                     <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المصروفات</th>
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المدفوعات</th>
-                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الربح</th>
+                    @if ($report_type !== 'payments')
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المصروفات</th>
+                    @endif
+                    @if ($report_type !== 'expenses')
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المدفوعات</th>
+                    @endif
+                    @if ($report_type === 'both')
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الربح</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
                 @foreach ($currencySummaries as $currencyCode => $currencyData)
                     <tr>
                         <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}</td>
-                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
-                            {{ number_format($currencyData['expenses'], 2) }}
-                        </td>
-                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #10b981;">
-                            {{ number_format($currencyData['payments'], 2) }}
-                        </td>
-                        <td
-                            style="padding: 8px; border: 1px solid #ddd; text-align: center;
-                    color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
-                            {{ number_format($currencyData['profit'], 2) }}
-                        </td>
+                        @if ($report_type !== 'payments')
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
+                                {{ number_format($currencyData['expenses'], 2) }}
+                            </td>
+                        @endif
+                        @if ($report_type !== 'expenses')
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #10b981;">
+                                {{ number_format($currencyData['payments'], 2) }}
+                            </td>
+                        @endif
+                        @if ($report_type === 'both')
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
+                                {{ number_format($currencyData['profit'], 2) }}
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
     <!-- Projects Summary Section -->
-    <h3 style="text-align: center; margin-bottom: 15px;">أداء المشاريع</h3>
-    <table>
-        <thead>
-            <tr style="background-color: #f2f2f2;">
-                <th>المشروع</th>
-                @foreach (array_keys($currencySummaries) as $currency)
-                    <th colspan="3" style="text-align: center;">{{ $currency }}</th>
-                @endforeach
-            </tr>
-            <tr>
-                <th></th>
-                @foreach (array_keys($currencySummaries) as $currency)
-                    <th style="text-align: center;">المصروفات</th>
-                    <th style="text-align: center;">المدفوعات</th>
-                    <th style="text-align: center;">الربح</th>
-                @endforeach
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($projectSummaries as $project)
-                <tr>
-                    <td>{{ $project['name'] }}</td>
-                    @foreach (array_keys($currencySummaries) as $currency)
-                        @php
-                            $currencyData = $project['currencies'][$currency] ?? [
-                                'expenses' => 0,
-                                'payments' => 0,
-                                'profit' => 0,
-                            ];
-                        @endphp
-                        <td style="text-align: center; color: #ef4444;">
-                            {{ number_format($currencyData['expenses'], 2) }}
-                        </td>
-                        <td style="text-align: center; color: #10b981;">
-                            {{ number_format($currencyData['payments'], 2) }}
-                        </td>
-                        <td
-                            style="text-align: center; color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
-                            {{ number_format($currencyData['profit'], 2) }}
-                        </td>
-                    @endforeach
+    <div class="summary-section">
+        <h3 style="text-align: center; margin-bottom: 15px;">أداء المشاريع</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المشروع</th>
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
+                    @if ($report_type !== 'payments')
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المصروفات</th>
+                    @endif
+                    @if ($report_type !== 'expenses')
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المدفوعات</th>
+                    @endif
+                    @if ($report_type === 'both')
+                        <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">الرصيد</th>
+                    @endif
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($projectSummaries as $project)
+                    @foreach ($project['currencies'] as $currency => $currencyData)
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $project['name'] }}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currency }}</td>
+                            @if ($report_type !== 'payments')
+                                <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
+                                    {{ number_format($currencyData['expenses'], 2) }}
+                                </td>
+                            @endif
+                            @if ($report_type !== 'expenses')
+                                <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #10b981;">
+                                    {{ number_format($currencyData['payments'], 2) }}
+                                </td>
+                            @endif
+                            @if ($report_type === 'both')
+                                <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
+                                    {{ number_format($currencyData['profit'], 2) }}
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="summary-section">
+        <h3 style="text-align: center; margin-bottom: 15px;">سجل العمليات</h3>
+        <table class="transactions-table">
+            <thead>
+                <tr>
+                    <th>التاريخ</th>
+                    <th>النوع</th>
+                    <th>المشروع</th>
+                    <th>الوصف</th>
+                    <th>المبلغ</th>
+                    <th>العملة</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($transactions as $transaction)
+                    <tr>
+                        <td>{{ \Carbon\Carbon::parse($transaction['date'])->translatedFormat('j F Y') }}</td>
+                        <td style="color: {{ $transaction['type'] === __('Expense') ? '#ef4444' : '#10b981' }};">
+                            {{ $transaction['type'] === __('Expense') ? 'نفقة' : 'دفعة' }}
+                        </td>
+                        <td>{{ $transaction['project'] }}</td>
+                        <td>{{ $transaction['description'] }}</td>
+                        <td style="color: {{ $transaction['type'] === __('Expense') ? '#ef4444' : '#10b981' }};">
+                            {{ number_format($transaction['amount'], 2) }}
+                        </td>
+                        <td>{{ $transaction['currency'] }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     <!-- Footer Section -->
     <div class="footer">

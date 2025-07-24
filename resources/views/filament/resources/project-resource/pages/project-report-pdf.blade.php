@@ -24,8 +24,8 @@
 
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
+
+            margin: 0 0;
             page-break-inside: avoid;
             direction: rtl;
             unicode-bidi: embed;
@@ -35,91 +35,71 @@
         td {
             padding: 8px;
             text-align: right;
-            border: 1px solid #ddd;
+
             page-break-inside: avoid;
         }
 
+        .header {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header-table {
+            width: 100%;
+        }
+
+        .logo-cell {
+            width: 20%;
+            vertical-align: middle;
+            rowspan: 3;
+        }
 
         .logo {
             max-height: 120px;
             width: auto;
-            max-width: 300px;
+            max-width: 200px;
+            height: 100px;
+            object-fit: contain;
         }
 
-        .header {
-            width: 100%;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-            overflow: hidden;
-        }
-
-        .header-left {
-            display: table-cell;
-            width: 20%;
-            vertical-align: top;
-            padding-left: 20px;
-        }
-
-        .logo {
-            height: 100px !important;
-            width: auto !important;
-            max-width: 200px !important;
-        }
-
-        .logo-container {
-            float: left;
-            /* Changed from right to left */
-            width: 20%;
-        }
-
-        .header-content {
-            float: right;
-            /* Changed from left to right */
-            width: 75%;
-            text-align: right;
-        }
-
-        .footer {
-            font-size: 10px;
+        .title-cell {
+            width: 60%;
             text-align: center;
-            margin-top: 20px;
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-            color: #666;
+            vertical-align: top;
+        }
+
+        .content-cell {
+            vertical-align: bottom;
+            text-align: right;
         }
 
         .company-title {
-            font-size: 20px;
-            margin: 0 0 5px 0;
-            text-align: right;
-            color: #ebb436;
+            font-size: 22px;
+            margin: 0;
         }
 
         .report-title {
-            font-size: 24px;
-            margin: 0 0 5px 0;
-            text-align: center;
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .report-meta {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
         }
 
         .project-name {
             font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
             text-align: right;
+            margin-right: 30px;
+            margin-bottom: 10px;
         }
 
         .client-name {
             font-size: 18px;
             text-align: right;
             margin-right: 30px;
-        }
-
-        .report-meta {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 0;
-            text-align: right;
+            margin-top: 15px;
         }
 
         /* Transactions Table (optimized) */
@@ -127,14 +107,16 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            font-size: 14px; /* Slightly reduced from 12px */
+            font-size: 14px;
+            /* Slightly reduced from 12px */
             direction: rtl;
             page-break-inside: auto;
         }
 
         .transactions-table th,
         .transactions-table td {
-            padding: 6px; /* Reduced from 8px */
+            padding: 6px;
+            /* Reduced from 8px */
             text-align: right;
             border: 1px solid #ddd;
             page-break-inside: avoid;
@@ -206,63 +188,70 @@
         .negative {
             color: #ef4444;
         }
+
+        .footer {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            color: #666;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Header Section -->
+
     <div class="header">
-        <div class="logo-container">
-            @if (file_exists($logo))
-                <img src="{{ $logo }}" class="logo" style="height: 150px; width: auto; object-fit: contain;"
-                    alt="شعار الشركة">
-            @endif
-        </div>
-        {{-- <div class="header-content">
-            <div class="company-title">شركة الريان للمقاولات</div>
-            <div class="report-title">كشف حساب
-                @if ($currency_filter === __('All Currencies'))
-                    بكل العملات
-                @else
-                    بال{{ $currency_filter }}
-                @endif
-            </div>
-            @if ($start_date && $end_date)
-            <div class="report-meta">
-                الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
-                {{ \Carbon\Carbon::parse($end_date)->translatedFormat('j F Y') }}<br>
-                تاريخ: {{ $report_date }}
-            </div>
-            @endif
-        </div> --}}
-        <div class="header-content">
-            <div class="company-title">شركة الريان للمقاولات</div>
-            <div class="report-title">كشف حساب
-                @if ($report_type === 'payments')
-                    الدفعات
-                @elseif($report_type === 'expenses')
-                    النفقات
-                @else
-                    الدفعات والنفقات
-                @endif
-                @if ($currency_filter === __('All Currencies'))
-                    بكل العملات
-                @else
-                    بال{{ $currency_filter }}
-                @endif
-            </div>
-            @if ($start_date && $end_date)
-                <div class="report-meta">
-                    {{-- الفترة: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('j F Y') }} إلى
-                    {{ \Carbon\Carbon::parse($end_date)->translatedFormat('j F Y') }}<br> --}}
-                    تاريخ: {{ $report_date }}
-                </div>
-            @endif
-        </div>
+        <table class="header-table">
+            <tr>
+                <td class="content-cell" colspan="2">
+                    <div class="company-title">شركة الريان للمقاولات</div>
+                </td>
+                <td class="logo-cell" rowspan="3">
+                    @if (file_exists($logo))
+                        <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <!-- Empty middle cell (title spans all rows) -->
+                <td class="content-cell">
+                    <!-- Empty space in middle row -->
+                </td>
+                <td class="title-cell" rowspan="2">
+                    <div class="report-title">كشف حساب
+                        @if ($report_type === 'payments')
+                            الدفعات
+                        @elseif($report_type === 'expenses')
+                            النفقات
+                        @else
+                            الدفعات والنفقات
+                        @endif
+                        @if ($currency_filter === __('All Currencies'))
+                            بكل العملات
+                        @else
+                            بال{{ $currency_filter }}
+                        @endif
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    @if ($start_date && $end_date)
+                        <div class="report-meta">
+                            تاريخ: {{ $report_date }}
+                        </div>
+                    @endif
+                </td>
+            </tr>
+        </table>
     </div>
+
     <div class="client-name">العميل: السيد/ة {{ $project->client->name }}- العنوان: {{ $project->client->address }} -
         جوال: {{ $project->client->phone }}</div>
-    <div class="client-name">المشروع: {{ $project->name }}</div>
+    <div class="project-name">المشروع: {{ $project->name }}</div>
     <!-- Transactions Table -->
     <table class="transactions-table">
         <thead>

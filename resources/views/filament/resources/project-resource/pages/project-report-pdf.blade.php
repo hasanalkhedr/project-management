@@ -208,11 +208,17 @@
                 <td class="content-cell" colspan="2">
                     <div class="company-title">شركة الريان للمقاولات</div>
                 </td>
-                <td class="logo-cell" rowspan="3">
+                <td class="logo-cell" rowspan="5">
                     @if (file_exists($logo))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
                     @endif
                 </td>
+            </tr>
+            <tr>
+                <td class="content-cell"></td>
+            </tr>
+             <tr>
+                <td class="content-cell"></td>
             </tr>
             <tr>
                 <!-- Empty middle cell (title spans all rows) -->
@@ -236,6 +242,9 @@
                     </div>
                 </td>
 
+            </tr>
+            <tr>
+                <td class="content-cell"></td>
             </tr>
             <tr>
                 <td class="content-cell">

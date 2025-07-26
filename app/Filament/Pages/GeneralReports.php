@@ -451,7 +451,7 @@ class GeneralReports extends Page
                     ]
                 ],
                 'default_font' => 'xbriyaz',
-                'margin_top' => 15,
+                'margin_top' => 5,
                 'margin_bottom' => 15,
                 'margin_left' => 10,
                 'margin_right' => 10,

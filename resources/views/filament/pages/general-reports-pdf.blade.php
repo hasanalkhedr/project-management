@@ -30,7 +30,8 @@
             unicode-bidi: embed;
         }
 
-        th, td {
+        th,
+        td {
             padding: 8px;
             text-align: right;
             page-break-inside: avoid;
@@ -153,11 +154,18 @@
                 <td class="content-cell" colspan="2">
                     <div class="company-title">شركة الريان للمقاولات</div>
                 </td>
-                <td class="logo-cell" rowspan="3">
+
+                <td class="logo-cell" rowspan="5">
                     @if (file_exists($logo))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
                     @endif
                 </td>
+            </tr>
+            <tr>
+                <td class="content-cell"></td>
+            </tr>
+            <tr>
+                <td class="content-cell"></td>
             </tr>
             <tr>
                 <!-- Empty middle cell (title spans all rows) -->
@@ -165,7 +173,7 @@
                     <!-- Empty space in middle row -->
                 </td>
                 <td class="title-cell" rowspan="2">
-                   <div class="report-title">كشف حساب عام
+                    <div class="report-title">كشف حساب عام
                         @if ($report_type === 'payments')
                             الدفعات
                         @elseif($report_type === 'expenses')
@@ -180,6 +188,10 @@
                         @endif
                     </div>
                 </td>
+            </tr>
+            <tr>
+                <td class="content-cell"></td>
+
             </tr>
             <tr>
                 <td class="content-cell">
@@ -226,7 +238,8 @@
                             </td>
                         @endif
                         @if ($report_type === 'both')
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
+                            <td
+                                style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
                                 {{ number_format($currencyData['profit'], 2) }}
                             </td>
                         @endif
@@ -259,8 +272,10 @@
                 @foreach ($projectSummaries as $project)
                     @foreach ($project['currencies'] as $currency => $currencyData)
                         <tr>
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $project['name'] }}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currency }}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">
+                                {{ $project['name'] }}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currency }}
+                            </td>
                             @if ($report_type !== 'payments')
                                 <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #ef4444;">
                                     {{ number_format($currencyData['expenses'], 2) }}
@@ -272,7 +287,8 @@
                                 </td>
                             @endif
                             @if ($report_type === 'both')
-                                <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
+                                <td
+                                    style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $currencyData['profit'] >= 0 ? '#10b981' : '#ef4444' }};">
                                     {{ number_format($currencyData['profit'], 2) }}
                                 </td>
                             @endif

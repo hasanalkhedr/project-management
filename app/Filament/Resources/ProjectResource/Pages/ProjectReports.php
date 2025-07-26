@@ -336,7 +336,7 @@ class ProjectReports extends Page implements HasTable
                 ]
             ],
             'default_font' => 'xbriyaz',
-            'margin_top' => 15,
+            'margin_top' => 5,
             'margin_header' => 5,
             'margin_bottom' => 15,
             'margin_footer' => 5,

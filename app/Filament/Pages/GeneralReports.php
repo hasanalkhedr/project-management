@@ -423,6 +423,7 @@ class GeneralReports extends Page
                 'logo' => 'file://' . public_path('images/logo.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
                 'report_title' => 'تقرير عام لجميع المشاريع',
+                'company_name' => 'file://' . public_path('images/name.png'),
                 'currency_filter' => $selectedCurrency ? $selectedCurrency->name : __('All Currencies'),
             ];
             // Default font configuration

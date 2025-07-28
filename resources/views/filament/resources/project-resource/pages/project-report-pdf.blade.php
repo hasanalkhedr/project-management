@@ -54,10 +54,10 @@
         }
 
         .logo {
-            max-height: 120px;
+            max-height: 150px;
             width: auto;
             max-width: 200px;
-            height: 100px;
+            height: 120px;
             object-fit: contain;
         }
 
@@ -206,7 +206,10 @@
         <table class="header-table">
             <tr>
                 <td class="content-cell" colspan="2">
-                    <div class="company-title">شركة الريان للمقاولات</div>
+                    @if (file_exists($company_name))
+                        <img src="{{ $company_name }}" class="company-title" alt="شعار الشركة">
+                    @endif
+                    {{-- <div class="company-title">شركة الريان للمقاولات</div> --}}
                 </td>
                 <td class="logo-cell" rowspan="5">
                     @if (file_exists($logo))

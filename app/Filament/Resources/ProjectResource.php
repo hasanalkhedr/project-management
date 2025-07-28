@@ -116,23 +116,23 @@ class ProjectResource extends Resource
                     ->icon('heroicon-o-chart-bar')
                     ->url(fn(Project $record): string => ProjectReports::getUrl(['record' => $record])),
 
-                //Add Expense Action
-                Tables\Actions\Action::make('addExpense')
-                    ->translateLabel()
-                    ->color('danger')
-                    ->icon('heroicon-o-banknotes')
-                    ->url(fn(Project $record): string => route('filament.admin.resources.expenses.create', [
-                        'project_id' => $record->id
-                    ])),
+                // //Add Expense Action
+                // Tables\Actions\Action::make('addExpense')
+                //     ->translateLabel()
+                //     ->color('danger')
+                //     ->icon('heroicon-o-banknotes')
+                //     ->url(fn(Project $record): string => route('filament.admin.resources.expenses.create', [
+                //         'project_id' => $record->id
+                //     ])),
 
-                // Add Payment Action
-                Tables\Actions\Action::make('addPayment')
-                    ->translateLabel()
-                    ->color('primary')
-                    ->icon('heroicon-o-credit-card')
-                    ->url(fn(Project $record): string => route('filament.admin.resources.payments.create', [
-                        'project_id' => $record->id
-                    ])),
+                // // Add Payment Action
+                // Tables\Actions\Action::make('addPayment')
+                //     ->translateLabel()
+                //     ->color('primary')
+                //     ->icon('heroicon-o-credit-card')
+                //     ->url(fn(Project $record): string => route('filament.admin.resources.payments.create', [
+                //         'project_id' => $record->id
+                //     ])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

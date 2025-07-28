@@ -273,6 +273,7 @@ class ProjectReports extends Page implements HasTable
                 'total_profit' => $summary['total_profit'],
                 'transactions' => $this->getTableQuery()->get(),
                 'logo' => 'file://' . public_path('images/logo.png'),
+                'company_name' => 'file://' . public_path('images/name.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
             ];
 
@@ -282,41 +283,6 @@ class ProjectReports extends Page implements HasTable
 
             $defaultFontConfig = (new FontVariables())->getDefaults();
             $fontData = $defaultFontConfig['fontdata'];
-
-        //     $mpdf = new Mpdf([
-        //         'mode' => 'utf-8',
-        //         'format' => 'A4',
-        //         'direction' => 'rtl', // Essential for RTL
-        //         'autoScriptToLang' => true,
-        //         'autoLangToFont' => true,
-        //         'fontDir' => [
-        //             base_path('vendor/mpdf/mpdf/ttfonts'),
-        //             storage_path('fonts'),
-        //         ],
-        //         'fontdata' => [
-        //             'xbriyaz' => [
-        //                 'R' => 'XB Riyaz.ttf',
-        //                 'B' => 'XB RiyazBd.ttf',
-        //                 'useOTL' => 0xFF,  // Enable complex text layout
-        //                 'useKashida' => 75, // Arabic justification
-        //             ]
-        //         ],
-        //         'default_font' => 'xbriyaz',
-        //         'margin_top' => 15,
-        //         'margin_bottom' => 15,
-        //         'margin_left' => 10,
-        //         'margin_right' => 10,
-        //         'tempDir' => storage_path('app/mpdf/tmp'),
-        //         'allow_output_buffering' => true,
-        //     ]);
-
-        //     $html = view('filament.resources.project-resource.pages.project-report-pdf', $data)->render();
-        //     $mpdf->WriteHTML($html);
-        //     $mpdf->Output('', 'I'); // 'I' sends directly to output
-        // }, 200, [
-        //     'Content-Type' => 'application/pdf',
-        //     'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-        // ]);
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',

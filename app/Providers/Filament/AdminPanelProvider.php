@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\GeneralReports;
+use App\Filament\Resources\TransactionResource\Widgets\TransStats;
 use App\Filament\Widgets\DashboardStats;
 use App\Filament\Widgets\FinancialTrendsChart;
 use App\Filament\Widgets\ProjectsByStatusChart;
@@ -74,6 +75,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->widgets([
                 DashboardStats::class,
+                TransStats::class,
                 ProjectsByStatusChart::class,
                 FinancialTrendsChart::class,
                 RecentProjectsTable::class,

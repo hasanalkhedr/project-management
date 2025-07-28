@@ -111,5 +111,17 @@
     "Payments Only": "الدفعات فقط",
     "Expenses Only": "النفقات فقط",
     "Profit ": "رابح",
-    "Loss": "خاسر"
+    "Loss": "خاسر",
+    "Transaction": "دفعة/نفقة خاصة",
+    "Transactions": "الدفعات والنفقات الخاصة",
+    "Total Special Payments": "مجموع الدفعات الخاصة",
+    "Incoming payments in": "الدفعات الخاصة بـ",
+    "Total Special Expenses": "مجموع النفقات الخاصة",
+    "Outgoing expenses in": "النفقات الخاصة بـ",
+    "Net Balance": "الرصيد",
+    "Positive balance": "رابح",
+    "Negative balance": "خاسر",
+    "Transaction Report": "تقرير الدفعات والنفقات الخاصة",
+    "Special Payments/Expenses Summary": "ملخّس الدفعات والنفقات الخاصة",
+    "View Report": "تقرير الدفعات والنفقات الخاصة"
 }

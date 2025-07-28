@@ -1,5 +1,4 @@
 <x-filament::page>
-    <h2 class="text-2xl font-bold">{{ $this->record->name }}</h2>
     <x-filament-panels::form wire:submit.prevent="generateReport">
         {{ $this->form }}
         <div class="flex gap-4 mt-4 justify-center">
@@ -17,12 +16,11 @@
         <div class="space-y-6 mt-6">
             <!-- Summary Cards -->
             <div class="grid grid-cols-1 gap-6">
-
                 @foreach ($this->getSummary()['by_currency'] as $currencyCode => $currencySummary)
                     <x-filament::card>
                         <h3 class="text-lg font-semibold mb-4">{{ $currencyCode }} {{ __('Summary') }}</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            @if ($this->data['report_type'] !== 'payments')
+                            @if($this->data['report_type'] !== 'payment')
                                 <div>
                                     <p class="text-gray-500">{{ __('Expenses') }}</p>
                                     <p class="text-2xl font-bold text-danger-600">
@@ -30,7 +28,7 @@
                                     </p>
                                 </div>
                             @endif
-                            @if ($this->data['report_type'] !== 'expenses')
+                            @if($this->data['report_type'] !== 'expense')
                                 <div>
                                     <p class="text-gray-500">{{ __('Payments') }}</p>
                                     <p class="text-2xl font-bold text-success-600">
@@ -38,11 +36,10 @@
                                     </p>
                                 </div>
                             @endif
-                            @if ($this->data['report_type'] === 'both')
+                            @if($this->data['report_type'] === 'both')
                                 <div>
                                     <p class="text-gray-500">{{ __('Profit') }}</p>
-                                    <p
-                                        class="text-2xl font-bold {{ $currencySummary['profit'] >= 0 ? 'text-success-600' : 'text-danger-600' }}">
+                                    <p class="text-2xl font-bold {{ $currencySummary['profit'] >= 0 ? 'text-success-600' : 'text-danger-600' }}">
                                         {{ number_format($currencySummary['profit'], 2) }} {{ $currencyCode }}
                                     </p>
                                 </div>
@@ -52,7 +49,7 @@
                 @endforeach
             </div>
 
-            <!-- Expenses Table -->
+            <!-- Transactions Table -->
             <x-filament::card>
                 <h3 class="text-lg font-semibold mb-4">{{ __('Transaction Details') }}</h3>
                 {{ $this->table }}

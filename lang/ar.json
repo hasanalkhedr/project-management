@@ -123,5 +123,14 @@
     "Negative balance": "خاسر",
     "Transaction Report": "تقرير الدفعات والنفقات الخاصة",
     "Special Payments/Expenses Summary": "ملخّس الدفعات والنفقات الخاصة",
-    "View Report": "تقرير الدفعات والنفقات الخاصة"
+    "View Report": "تقرير الدفعات والنفقات الخاصة",
+    "Profit Payment": "دفعة أرباح",
+    "Profit Payments": "دفعات الأرباح",
+    "View Profit Report": "كشف حساب الأرباح",
+    "Profit Report": "كشف حساب الأرباح",
+    "Select Project": "اختر المشروع",
+    "All Projects": "كل المشاريع",
+    "Currency Summary": "ملخّص حسب العملة",
+    "Project Summary": "ملخّص حسب المشروع"
+
 }

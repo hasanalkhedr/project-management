@@ -36,7 +36,11 @@ class TransactionResource extends Resource
     {
         return __('Transactions');
     }
-
+//to hide from navigation
+    public static function shouldRegisterNavigation(): bool
+{
+    return false;
+}
     protected static ?int $navigationSort = 6;
     protected static ?string $navigationIcon = 'heroicon-s-arrow-trending-up';
 

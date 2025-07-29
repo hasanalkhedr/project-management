@@ -30,6 +30,10 @@ class Project extends Model
     {
         return $this->hasMany(Payment::class)->with('currency');
     }
+    public function profits()
+    {
+        return $this->hasMany(Profit::class)->with('currency');
+    }
 
     public function getProgressPercentage(): float
     {

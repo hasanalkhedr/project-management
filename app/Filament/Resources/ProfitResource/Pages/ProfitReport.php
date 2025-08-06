@@ -225,6 +225,10 @@ public function getSummary(): array
 
     public function exportToPdf(): StreamedResponse
     {
+        $this->validate([
+        'data.currency_id' => 'required',
+        'data.project_id' => 'required',
+    ]);
         $selectedCurrency = null;
     if (($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all') {
         $selectedCurrency = Currency::find($this->data['currency_id']);
@@ -235,7 +239,7 @@ public function getSummary(): array
         $selectedProject = Project::find($this->data['project_id']); // Fixed: Changed from Currency to Project
     }
 
-    $filename = "كشف الأرباح ";
+    $filename = "كشف حساب دفعات الأرباح ";
     $filename .= ($selectedProject ? "{$selectedProject->name} - " : "كل المشاريع - ");
     $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - " : "بكل العملات - ") . now()->format('Y-m-d') . '.pdf';
 

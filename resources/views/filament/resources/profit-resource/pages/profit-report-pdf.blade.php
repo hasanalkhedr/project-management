@@ -2,7 +2,7 @@
 <html dir="rtl" lang="ar">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>كشف حساب الدفعات والنفقات الخاصة</title>
+    <title>كشف حساب دفعات الإشراف</title>
     <style>
         @font-face {
             font-family: 'amiri';
@@ -226,7 +226,7 @@
                     <!-- Empty space in middle row -->
                 </td>
                 <td class="title-cell" rowspan="2">
-                    <div class="report-title">كشف الأرباح
+                    <div class="report-title">كشف حساب دفعات الإشراف
                         @if ($project_filter === __('All Projects'))
                             كل المشاريع
                         @else

@@ -227,11 +227,7 @@
                 </td>
                 <td class="title-cell" rowspan="2">
                     <div class="report-title">كشف حساب دفعات الإشراف
-                        @if ($project_filter === __('All Projects'))
-                            كل المشاريع
-                        @else
-                            {{ $project_filter->name }}
-                        @endif
+
                         @if ($currency_filter === __('All Currencies'))
                             بكل العملات
                         @else

@@ -230,7 +230,7 @@
                         @if ($project_filter === __('All Projects'))
                             كل المشاريع
                         @else
-                            {{ $project_filter }}
+                            {{ $project_filter->name }}
                         @endif
                         @if ($currency_filter === __('All Currencies'))
                             بكل العملات
@@ -255,6 +255,11 @@
             </tr>
         </table>
     </div>
+@if($project_filter !== __('All Projects'))
+    <div class="client-name">العميل: السيد/ة {{ $project_filter->client->name }}- العنوان: {{ $project_filter->client->address }} -
+        جوال: {{ $project_filter->client->phone }}</div>
+    <div class="project-name">المشروع: {{ $project_filter->name }}</div>
+@endif
 
     {{-- <!-- Summary Section -->
     <div class="summary-section">

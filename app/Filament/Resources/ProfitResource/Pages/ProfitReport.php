@@ -251,7 +251,7 @@ public function getSummary(): array
             'start_date' => $this->data['start_date'] ?? null,
             'end_date' => $this->data['end_date'] ?? null,
             'currency_filter' => $selectedCurrency ? $selectedCurrency->name : __('All Currencies'),
-            'project_filter' => $selectedProject ? $selectedProject->name : __('All Projects'),
+            'project_filter' => $selectedProject ? $selectedProject : __('All Projects'),
             'by_currency' => $summary['by_currency'],
             'by_project' => $summary['by_project'], // Add project summary data
             'profits' => $profits,

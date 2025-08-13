@@ -239,7 +239,7 @@ public function getSummary(): array
         $selectedProject = Project::find($this->data['project_id']); // Fixed: Changed from Currency to Project
     }
 
-    $filename = "كشف حساب دفعات الأرباح ";
+    $filename = "كشف حساب دفعات الإشراف ";
     $filename .= ($selectedProject ? "{$selectedProject->name} - " : "كل المشاريع - ");
     $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - " : "بكل العملات - ") . now()->format('Y-m-d') . '.pdf';
 

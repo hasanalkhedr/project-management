@@ -210,7 +210,7 @@
                     {{-- @if (file_exists($company_name))
                         <img src="{{ $company_name }}" class="company-title" alt="شعار الشركة">
                     @endif --}}
-                    <div class="company-title">أبراج الريان للمقاولات</div>
+                    <div class="company-title">شركة أبراج الريان للمقاولات</div>
                 </td>
                 <td class="logo-cell" rowspan="5">
                     @if (file_exists($logo))

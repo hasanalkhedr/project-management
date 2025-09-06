@@ -213,9 +213,11 @@ class SupplierReport extends Page implements HasTable
 
         $filename = "كشف حساب المورّد ".$this->record->name.' ';
         $filename .= ($selectedProject ? "للمشروع {$selectedProject->name} - " : " ");
-        $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - " : "بكل العملات ") . '.pdf';
+        $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - " : "بكل العملات ");
+        $report_title = $filename;
+        $filename .= '.pdf';
 
-        return new StreamedResponse(function () use ($selectedCurrency, $selectedProject, $filename) {
+        return new StreamedResponse(function () use ($selectedCurrency, $selectedProject, $report_title) {
             $summary = $this->getSummary();
             $expenses = $this->getTableQuery()->get();
 
@@ -230,7 +232,7 @@ class SupplierReport extends Page implements HasTable
                 'logo' => 'file://' . public_path('images/logo.png'),
                 'company_name' => 'file://' . public_path('images/name.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
-                'report_title' => $filename,
+                'report_title' => $report_title,
             ];
 
 

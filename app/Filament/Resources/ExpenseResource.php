@@ -65,8 +65,14 @@ class ExpenseResource extends Resource
                     ->required()->translateLabel(),
                 Forms\Components\TextInput::make('invoice_number')
                     ->maxLength(255)->translateLabel(),
-                Forms\Components\TextInput::make('supplier')
-                    ->maxLength(255)->translateLabel(),
+                Forms\Components\Select::make('supplier_id')
+                    ->relationship('supplier', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->nullable()
+                    ->label('Supplier'),
+                // Forms\Components\TextInput::make('supplier')
+                //     ->maxLength(255)->translateLabel(),
                 Forms\Components\TextInput::make('category')
                     ->maxLength(255)->translateLabel(),
             ]);
@@ -88,6 +94,11 @@ class ExpenseResource extends Resource
                 Tables\Columns\TextColumn::make('date')
                     ->date()->translateLabel()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('supplier.name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Supplier')
+                    ->translateLabel(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('project')->translateLabel()

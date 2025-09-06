@@ -73,6 +73,7 @@
 
         .company-title {
             font-size: 22px;
+            font-weight: bold;
             margin: 0;
         }
 
@@ -203,10 +204,10 @@
         <table class="header-table">
             <tr>
                 <td class="content-cell" colspan="2">
-                    @if (file_exists($company_name))
+                    {{-- @if (file_exists($company_name))
                         <img src="{{ $company_name }}" class="company-title" alt="شعار الشركة">
-                    @endif
-                    {{-- <div class="company-title">شركة الريان للمقاولات</div> --}}
+                    @endif --}}
+                    <div class="company-title">أبراج الريان للمقاولات</div>
                 </td>
                 <td class="logo-cell" rowspan="6">
                     @if (file_exists($logo))
@@ -325,13 +326,15 @@
         </thead>
         <tbody>
             @foreach ($by_project as $projectName => $projectData)
-                <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $projectName }}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $projectData['currency'] }}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $projectData['total'] >= 0 ? '#10b981' : '#ef4444' }};">
-                        {{ number_format($projectData['total'], 2) }}
-                    </td>
-                </tr>
+                @foreach ($projectData as $currencyCode => $total)
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $projectName }}</td>
+                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}</td>
+                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $total >= 0 ? '#10b981' : '#ef4444' }};">
+                            {{ number_format($total, 2) }}
+                        </td>
+                    </tr>
+                @endforeach
             @endforeach
         </tbody>
     </table>

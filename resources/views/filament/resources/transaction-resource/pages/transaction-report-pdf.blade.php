@@ -73,6 +73,7 @@
 
         .company-title {
             font-size: 22px;
+            font-weight: bold;
             margin: 0;
         }
 
@@ -203,10 +204,10 @@
         <table class="header-table">
             <tr>
                 <td class="content-cell" colspan="2">
-                    @if (file_exists($company_name))
+                    {{-- @if (file_exists($company_name))
                         <img src="{{ $company_name }}" class="company-title" alt="شعار الشركة">
-                    @endif
-                    {{-- <div class="company-title">شركة الريان للمقاولات</div> --}}
+                    @endif --}}
+                    <div class="company-title">أبراج الريان للمقاولات</div>
                 </td>
                 <td class="logo-cell" rowspan="6">
                     @if (file_exists($logo))

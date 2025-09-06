@@ -16,6 +16,7 @@ class Expense extends Model
         'date',
         'invoice_number',
         'supplier',
+        'supplier_id',
         'category',
     ];
     protected $casts = [
@@ -25,6 +26,11 @@ class Expense extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
     public function currency()

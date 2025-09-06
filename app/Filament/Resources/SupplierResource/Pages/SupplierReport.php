@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\ProfitResource\Pages;
+namespace App\Filament\Resources\SupplierResource\Pages;
 
-use App\Filament\Resources\ProfitResource;
+use App\Filament\Resources\SupplierResource;
 use App\Models\Currency;
-use App\Models\Profit;
+use App\Models\Expense;
+use App\Models\Supplier;
 use App\Models\Project;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -18,27 +19,29 @@ use Mpdf\Config\FontVariables;
 use Mpdf\Mpdf;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class ProfitReport extends Page implements HasTable
+class SupplierReport extends Page implements HasTable
 {
     use InteractsWithTable;
 
-    protected static string $resource = ProfitResource::class;
-    protected static string $view = 'filament.resources.profit-resource.pages.profit-report';
+    protected static string $resource = SupplierResource::class;
+    protected static string $view = 'filament.resources.supplier-resource.pages.supplier-report';
 
     public array $data = [];
 
+    public Supplier $record;
     public function getBreadcrumb(): ?string
     {
-        return __('Profit Report');
+        return __('Supplier Report');
     }
 
     public function getHeading(): string
     {
-        return __('Profit Report');
+        return __('Supplier Report');
     }
 
-    public function mount(): void
+    public function mount(Supplier $record): void
     {
+        $this->record = $record;
         $this->form->fill([
             'start_date' => now()->subYears(5),
             'end_date' => now()->addyears(5),
@@ -50,7 +53,8 @@ class ProfitReport extends Page implements HasTable
         $currencyOptions = Currency::query()
             ->whereIn('id', function ($query) {
                 $query->select('currency_id')
-                    ->from('profits');
+                    ->from('expenses')
+                    ->where('supplier_id', $this->record->id);
             })
             ->pluck('name', 'id')
             ->prepend(__('All Currencies'), 'all');
@@ -58,7 +62,8 @@ class ProfitReport extends Page implements HasTable
         $projectOptions = Project::query()
             ->whereIn('id', function ($query) {
                 $query->select('project_id')
-                    ->from('profits');
+                    ->from('expenses')
+                    ->where('supplier_id', $this->record->id);
             })
             ->pluck('name', 'id')
             ->prepend(__('All Projects'), 'all');
@@ -91,7 +96,8 @@ class ProfitReport extends Page implements HasTable
 
     protected function getTableQuery()
     {
-        return Profit::query()
+        return Expense::query()
+            ->where('supplier_id', $this->record->id)
             ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
             ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
             ->when(
@@ -146,7 +152,8 @@ class ProfitReport extends Page implements HasTable
     }
     public function getSummary(): array
     {
-        $query = Profit::query()
+        $query = Expense::query()
+            ->where('supplier_id', $this->record->id)
             ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
             ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
             ->when(
@@ -159,70 +166,35 @@ class ProfitReport extends Page implements HasTable
             )
             ->with(['currency', 'project']);
 
-        // Get all profits once (for both summaries)
-        $profits = $query->get();
+        // Get all suppliers once (for both summaries)
+        $expenses = $query->get();
 
         // Group by currency for currency summary
-        $profitsByCurrency = $profits->groupBy('currency.code');
+        $expensesByCurrency = $expenses->groupBy('currency.code');
 
         // Group by project for project summary (already currency-filtered)
-        $profitsByProject = $profits->groupBy('project.name');
+        $expensesByProject = $expenses->groupBy(['project.name']);
 
         // Calculate totals for each currency
         $currencySummaries = [];
-        foreach ($profitsByCurrency as $currencyCode => $profits) {
-            $sumProfits = $profits->sum('amount');
-            $currencySummaries[$currencyCode] = $sumProfits;
+        foreach ($expensesByCurrency as $currencyCode => $expenses) {
+            $sumSuppliers = $expenses->sum('amount');
+            $currencySummaries[$currencyCode] = $sumSuppliers;
         }
-
         // Calculate totals for each project (with currency filter applied)
         $projectSummaries = [];
-        foreach ($profitsByProject as $projectName => $profits) {
+        foreach ($expensesByProject as $projectName => $expenses) {
             $projectSummaries[$projectName] = [];
-            $sumProfits = $profits->groupBy('currency.code');
-            foreach ($sumProfits as $currencyCode => $profits) {
-                $projectSummaries[$projectName][$currencyCode] = $profits->sum('amount');
+            $sumSuppliers = $expenses->groupBy('currency.code');
+            foreach ($sumSuppliers as $currencyCode => $expenses) {
+                $projectSummaries[$projectName][$currencyCode] = $expenses->sum('amount');
             }
         }
-
         return [
             'by_currency' => $currencySummaries,
             'by_project' => $projectSummaries,
         ];
     }
-    // public function getSummary(): array
-    // {
-    //     // Get profits grouped by currency
-    //     $profitsByCurrency = Profit::query()
-    //         ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
-    //         ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-    //         ->when(
-    //             ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
-    //             fn($q) => $q->where('currency_id', $this->data['currency_id'])
-    //         )
-    //         ->when(
-    //             ($this->data['project_id'] ?? null) && $this->data['project_id'] !== 'all',
-    //             fn($q) => $q->where('project_id', $this->data['project_id'])
-    //         )
-    //         ->with('currency')
-    //         ->get()
-    //         ->groupBy('currency.code');
-
-    //     // Calculate totals for each currency
-    //     $currencySummaries = [];
-
-
-
-    //     foreach ($profitsByCurrency as $currencyCode => $profits) {
-    //         $sumProfits = $profits->sum('amount');
-    //         $currencySummaries[$currencyCode] = $sumProfits;
-    //     }
-    //     return [
-    //         'by_currency' => $currencySummaries,
-    //     ];
-
-    // }
-
     public function exportToPdf(): StreamedResponse
     {
         $this->validate([
@@ -239,13 +211,13 @@ class ProfitReport extends Page implements HasTable
             $selectedProject = Project::find($this->data['project_id']); // Fixed: Changed from Currency to Project
         }
 
-        $filename = "كشف حساب دفعات الإشراف ";
-        $filename .= ($selectedProject ? "{$selectedProject->name} - " : "كل المشاريع - ");
-        $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - " : "بكل العملات - ") . now()->format('Y-m-d') . '.pdf';
+        $filename = "كشف حساب المورّد ".$this->record->name.' ';
+        $filename .= ($selectedProject ? "للمشروع {$selectedProject->name} - " : " ");
+        $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - " : "بكل العملات ") . '.pdf';
 
-        return new StreamedResponse(function () use ($selectedCurrency, $selectedProject) {
+        return new StreamedResponse(function () use ($selectedCurrency, $selectedProject, $filename) {
             $summary = $this->getSummary();
-            $profits = $this->getTableQuery()->get();
+            $expenses = $this->getTableQuery()->get();
 
             $data = [
                 'start_date' => $this->data['start_date'] ?? null,
@@ -254,10 +226,11 @@ class ProfitReport extends Page implements HasTable
                 'project_filter' => $selectedProject ? $selectedProject : __('All Projects'),
                 'by_currency' => $summary['by_currency'],
                 'by_project' => $summary['by_project'], // Add project summary data
-                'profits' => $profits,
+                'expenses' => $expenses,
                 'logo' => 'file://' . public_path('images/logo.png'),
                 'company_name' => 'file://' . public_path('images/name.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
+                'report_title' => $filename,
             ];
 
 
@@ -301,7 +274,7 @@ class ProfitReport extends Page implements HasTable
                 الصفحة {PAGENO} من {nbpg}
             </div>
         ');
-            $html = view('filament.resources.profit-resource.pages.profit-report-pdf', $data)->render();
+            $html = view('filament.resources.supplier-resource.pages.supplier-report-pdf', $data)->render();
             $mpdf->WriteHTML($html);
             $mpdf->Output('', 'I');
         }, 200, [

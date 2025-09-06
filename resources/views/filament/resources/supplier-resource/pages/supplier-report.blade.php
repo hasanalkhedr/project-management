@@ -21,7 +21,8 @@
                     @foreach ($this->getSummary()['by_currency'] as $currencyCode => $currencySummary)
                         <div>
                             <p class="text-gray-500">{{ $currencyCode }}</p>
-                            <p class="text-2xl font-bold {{ $currencySummary >= 0 ? 'text-success-600' : 'text-danger-600' }}">
+                            <p
+                                class="text-2xl font-bold {{ $currencySummary >= 0 ? 'text-success-600' : 'text-danger-600' }}">
                                 {{ number_format($currencySummary, 2) }}
                             </p>
                         </div>

@@ -70,7 +70,7 @@
     "End Date": "تاريخ الانتهاء",
     "Start date": "تاريخ البدء",
     "End date": "تاريخ الانتهاء",
-    "Reports": "التقارير",
+    "Reports": "كشف حساب",
     "Add expense": "إضافة نفقة",
     "Add payment": "إضافة دفعة",
     "Add": "إضافة",
@@ -85,7 +85,6 @@
     "Amount": "المبلغ",
     "Date": "التاريخ",
     "Invoice number": "رقم الفاتورة",
-    "Supplier": "دفع لصالح",
     "Category": "الفئة",
     "Payment method": "طريقة الدفع",
     "Reference": "المرجع",
@@ -131,6 +130,17 @@
     "Select Project": "اختر المشروع",
     "All Projects": "كل المشاريع",
     "Currency Summary": "ملخّص حسب العملة",
-    "Project Summary": "ملخّص حسب المشروع"
+    "Project Summary": "ملخّص حسب المشروع",
 
+    "Supplier": "مورّد",
+    "Suppliers": "الموردون",
+    "Supplier Report": "كشف حساب المورّد",
+    "Contact person": "الاتصال بـ",
+    "Is active": "فعّال/غير فعّال",
+    "Supplier Information": "معلومات المورّد",
+    "Contact Details": "بيانات الاتصال",
+    "Additional Information": "معلومات إضافية",
+    "Website": "الموقع الالكتروني",
+    "Tax ID": "الرقم الضريبي",
+    "Notes": "ملاحظات أخرى"
 }

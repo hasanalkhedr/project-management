@@ -273,6 +273,7 @@ class ProjectReports extends Page implements HasTable
                 'total_profit' => $summary['total_profit'],
                 'transactions' => $this->getTableQuery()->get(),
                 'logo' => 'file://' . public_path('images/logo.png'),
+                'stamp' => 'file://' . public_path('images/stamp.png'),
                 'company_name' => 'file://' . public_path('images/name.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
             ];

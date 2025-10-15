@@ -196,7 +196,39 @@
             border-top: 1px solid #ddd;
             padding-top: 10px;
             color: #666;
+            width: 100%;
         }
+
+        .footer-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stamp-cell {
+            width: 30%;
+            vertical-align: bottom;
+            text-align: left;
+        }
+
+        .content-cell {
+            vertical-align: bottom;
+            text-align: center;
+            width: 50%;
+        }
+
+        .spacer-cell {
+            width: 20%;
+        }
+
+        .stamp {
+            max-height: 250px;
+            width: auto;
+            max-width: 250px;
+            height: 250px;
+            object-fit: contain;
+            vertical-align: bottom;
+        }
+
     </style>
 </head>
 <body>
@@ -339,8 +371,22 @@
 
     <!-- Footer Section -->
     <div class="footer">
-        <p>https://alrayanrealestate.com/ | Mobile: </p>
-        <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p>
+        <table class="footer-table">
+            <tr>
+                <td class="spacer-cell">
+                    <!-- Empty cell for balance -->
+                </td>
+                <td class="content-cell">
+                    <p>https://alrayanrealestate.com/</p>
+                    <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p>
+                </td>
+                <td class="stamp-cell">
+                    @if (file_exists($stamp))
+                        <img src="{{ $stamp }}" class="stamp" alt="شعار الشركة">
+                    @endif
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

@@ -421,6 +421,7 @@ class GeneralReports extends Page
                 'end_date' => $this->data['end_date'] ?? null,
                 'report_type' => $this->data['report_type'] ?? 'both',
                 'logo' => 'file://' . public_path('images/logo.png'),
+                'stamp' => 'file://' . public_path('images/stamp.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
                 'report_title' => 'تقرير عام لجميع المشاريع',
                 'company_name' => 'file://' . public_path('images/name.png'),

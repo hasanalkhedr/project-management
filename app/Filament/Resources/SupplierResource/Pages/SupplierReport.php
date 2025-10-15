@@ -230,6 +230,7 @@ class SupplierReport extends Page implements HasTable
                 'by_project' => $summary['by_project'], // Add project summary data
                 'expenses' => $expenses,
                 'logo' => 'file://' . public_path('images/logo.png'),
+                'stamp' => 'file://' . public_path('images/stamp.png'),
                 'company_name' => 'file://' . public_path('images/name.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
                 'report_title' => $report_title,

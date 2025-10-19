@@ -155,12 +155,14 @@
             width: 30%;
             vertical-align: bottom;
             text-align: left;
+            margin-right: 40px;
         }
 
-        .content-cell {
+        .footer-content-cell {
             vertical-align: bottom;
             text-align: center;
             width: 50%;
+            color: #666;
         }
 
         .spacer-cell {
@@ -168,10 +170,10 @@
         }
 
         .stamp {
-            max-height: 250px;
+            max-height: 160px;
             width: auto;
-            max-width: 250px;
-            height: 250px;
+            max-width: 160px;
+            height: 160px;
             object-fit: contain;
             vertical-align: bottom;
         }
@@ -374,7 +376,7 @@
                 <td class="spacer-cell">
                     <!-- Empty cell for balance -->
                 </td>
-                <td class="content-cell">
+                <td class="footer-content-cell">
                     <p>https://alrayanrealestate.com/</p>
                     <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p>
                 </td>

@@ -30,7 +30,7 @@ class PaymentResource extends Resource
     {
         return __('Payments');
     }
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 6;
     protected static ?string $navigationIcon = 'heroicon-s-arrow-trending-up';
     public static function getEloquentQuery(): Builder
     {

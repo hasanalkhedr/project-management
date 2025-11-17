@@ -18,7 +18,7 @@ class ExpenseResource extends Resource
     protected static ?string $model = Expense::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-arrow-trending-down';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 5;
     public static function getModelLabel(): string
     {
         return __('Expense');

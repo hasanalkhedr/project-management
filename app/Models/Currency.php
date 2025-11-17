@@ -34,4 +34,9 @@ class Currency extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function project_contracts(): HasMany
+    {
+        return $this->hasMany(ProjectContract::class);
+    }
 }

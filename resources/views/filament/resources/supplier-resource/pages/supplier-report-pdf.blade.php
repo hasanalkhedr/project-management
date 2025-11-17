@@ -281,9 +281,10 @@
             </tr>
         </table>
     </div>
+    <div class="client-name">المورد: السيد/ة {{ $supplier_name }}- العنوان: {{ $supplier_address }} -
+        جوال: {{ $supplier_phone }}</div>
+
 @if($project_filter !== __('All Projects'))
-    <div class="client-name">العميل: السيد/ة {{ $project_filter->client->name }}- العنوان: {{ $project_filter->client->address }} -
-        جوال: {{ $project_filter->client->phone }}</div>
     <div class="project-name">المشروع: {{ $project_filter->name }}</div>
 @endif
 

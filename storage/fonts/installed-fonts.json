@@ -1,5 +1,9 @@
 {
     "arabicfont": {
         "normal": "arabicfont_normal_cc28823c7cb19317802cd8b87e603240"
+    },
+    "amiri": {
+        "normal": "C:\\project-management\\storage\\fonts\/amiri_normal_5a8d0c532252a2b358031f093799a28b",
+        "bold": "amiri_bold_6b38d60613a6bb7704446b591cb31b0c"
     }
 }

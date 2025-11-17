@@ -234,6 +234,9 @@ class SupplierReport extends Page implements HasTable
                 'company_name' => 'file://' . public_path('images/name.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
                 'report_title' => $report_title,
+                'supplier_name' => $this->record->name,
+                'supplier_address' => $this->record->address,
+                'supplier_phone' => $this->record->phone,
             ];
 
 

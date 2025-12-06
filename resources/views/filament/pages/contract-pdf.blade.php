@@ -232,7 +232,7 @@
                     <div class="company-title">شركة أبراج الريان للمقاولات</div>
                 </td>
                 <td class="logo-cell" rowspan="3">
-                    @if(file_exists(public_path('images/logo.png')))
+                    @if(file_exists(public_path('images/new-logo.png')))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
                     @endif
                 </td>

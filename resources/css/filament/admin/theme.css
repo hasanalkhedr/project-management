@@ -3,11 +3,11 @@
 @config 'tailwind.config.js';
 @source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
 .fi-topbar > nav {
-    @apply bg-[#06332e] !important;
+    @apply bg-[#e6ebeb] !important;
 }
 section > .fi-sidebar-header {
     min-height: 15rem;
-    @apply bg-[#06332e] !important;
+    @apply bg-[#e6ebeb] !important;
 }
 section > .fi-sidebar-header > .fi-logo {
     min-height: 15rem;
@@ -18,7 +18,7 @@ section > .fi-sidebar-header > .fi-logo {
 }
 div > .fi-sidebar-header {
     min-height: 6rem;
-    @apply bg-[#06332e] justify-center !important;
+    @apply bg-[#e6ebeb] justify-center !important;
 
 }
 div > .fi-sidebar-header > .fi-logo {
@@ -30,7 +30,7 @@ div > .fi-sidebar-header > .fi-logo {
     @apply text-[#e2ab2c] !important;
 }
 .fi-sidebar-nav {
-    @apply bg-[#06332e] !important;
+    @apply bg-[#e6ebeb] !important;
 }
 .fi-sidebar-item-icon {
     @apply text-[#9a8451] !important;
@@ -38,6 +38,7 @@ div > .fi-sidebar-header > .fi-logo {
 .fi-sidebar-item-label {
     @apply text-[#e2ab2c] text-lg !important;
 }
+.fi-sidebar-item-label
 .fi-avatar {
     @apply bg-[#e2ab2c] !important;
 }

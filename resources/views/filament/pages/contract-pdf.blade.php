@@ -2,7 +2,7 @@
 <html dir="rtl" lang="ar">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>عقد اتفاق لتنفيذ أعمال البناء والتشطيب - {{ $record->id }}</title>
+    <title>عقد اتفاق لتنفيذ أعمال البناء - {{ $record->id }}</title>
     <style>
         @font-face {
             font-family: 'amiri';
@@ -242,7 +242,7 @@
                     <!-- Empty space -->
                 </td>
                 <td class="title-cell">
-                    <div class="contract-title">عقد اتفاق لتنفيذ أعمال البناء والتشطيب</div>
+                    <div class="contract-title">عقد اتفاق لتنفيذ أعمال البناء</div>
                 </td>
             </tr>
             <tr>

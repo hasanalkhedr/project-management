@@ -27,22 +27,22 @@ div > .fi-sidebar-header > .fi-logo {
 }
 .fi-simple-header-heading {
     @apply hidden !important;
-    @apply text-[#e2ab2c] !important;
+    @apply text-[#1a6121] !important;
 }
 .fi-sidebar-nav {
     @apply bg-[#e6ebeb] !important;
 }
 .fi-sidebar-item-icon {
-    @apply text-[#9a8451] !important;
+    @apply text-[#1a6121] !important;
 }
 .fi-sidebar-item-label {
-    @apply text-[#e2ab2c] text-lg !important;
+    @apply text-[#1a6121] text-lg !important;
 }
 .fi-sidebar-item-label
 .fi-avatar {
-    @apply bg-[#e2ab2c] !important;
+    @apply bg-[#1a6121] !important;
 }
 
 .fi-user-avatar {
-    @apply bg-[#e2ab2c] !important;
+    @apply bg-[#1a6121] !important;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>عقد اتفاق لتنفيذ أعمال البناء - {{ $record->id }}</title>
@@ -29,7 +30,8 @@
             unicode-bidi: embed;
         }
 
-        th, td {
+        th,
+        td {
             padding: 8px;
             text-align: right;
             page-break-inside: avoid;
@@ -223,17 +225,18 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header Section -->
     <div class="header">
         <table class="header-table">
             <tr>
-                <td class="content-cell" colspan="2">
+                {{-- <td class="content-cell" colspan="2">
                     <div class="company-title">شركة أبراج الريان للمقاولات</div>
-                </td>
-                <td class="logo-cell" rowspan="3">
-                    @if(file_exists(public_path('images/new-logo.png')))
-                        <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
+                </td> --}}
+                <td class="logo-cell" rowspan="4" colspan="2">
+                    @if (file_exists(public_path('images/new-logo.png')))
+                        <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
             </tr>
@@ -241,7 +244,9 @@
                 <td class="content-cell">
                     <!-- Empty space -->
                 </td>
-                <td class="title-cell">
+            </tr>
+            <tr>
+                <td class="content-cell">
                     <div class="contract-title">عقد اتفاق لتنفيذ أعمال البناء</div>
                 </td>
             </tr>
@@ -260,14 +265,20 @@
         <div class="party-row">
             <div class="party-header">الطرف الأول (المالك):</div>
             <div class="party-details">
-                الاسم: <span class="highlight">{{ $record->owner_name }}</span> - رقم الهوية: <span class="highlight">{{ $record->owner_id_number }}</span> - العنوان: <span class="highlight">{{ $record->owner_address }}</span> - الهاتف: <span class="highlight">{{ $record->owner_phone }}</span>
+                الاسم: <span class="highlight">{{ $record->owner_name }}</span> - رقم الهوية: <span
+                    class="highlight">{{ $record->owner_id_number }}</span> - العنوان: <span
+                    class="highlight">{{ $record->owner_address }}</span> - الهاتف: <span
+                    class="highlight">{{ $record->owner_phone }}</span>
                 {{-- {{ $record->owner_name }} - هوية: {{ $record->owner_id_number }} - هاتف: {{ $record->owner_phone }} - عنوان: {{ Str::limit($record->owner_address, 30) }} --}}
             </div>
         </div>
         <div class="party-row">
             <div class="party-header">الطرف الثاني (المقاول):</div>
             <div class="party-details">
-                الاسم/اسم الشركة: <span class="highlight">{{ $record->contractor_name }}</span> - السجل التجاري: <span class="highlight">{{ $record->contractor_commercial_registration }}</span> - العنوان: <span class="highlight">{{ $record->contractor_address }}</span> - الهاتف: <span class="highlight">{{ $record->contractor_phone }}</span>
+                الاسم/اسم الشركة: <span class="highlight">{{ $record->contractor_name }}</span> - السجل التجاري: <span
+                    class="highlight">{{ $record->contractor_commercial_registration }}</span> - العنوان: <span
+                    class="highlight">{{ $record->contractor_address }}</span> - الهاتف: <span
+                    class="highlight">{{ $record->contractor_phone }}</span>
                 {{-- {{ $record->contractor_name }} - سجل: {{ $record->contractor_commercial_registration }} - هاتف: {{ $record->contractor_phone }} - عنوان: {{ Str::limit($record->contractor_address, 30) }} --}}
             </div>
         </div>
@@ -276,7 +287,8 @@
     <!-- التمهيد -->
     <div class="preamble no-break">
         <span class="text-bold">تمهيد:</span>
-        حيث إن الطرف الأول يرغب في تنفيذ أعمال بناء وتشطيب لمشروعه الكائن في {{ $record->project_location }}، وحيث إن الطرف الثاني لديه الخبرة والإمكانيات اللازمة لتنفيذ هذه الأعمال، فقد اتفق الطرفان على ما يلي:
+        حيث إن الطرف الأول يرغب في تنفيذ أعمال بناء وتشطيب لمشروعه الكائن في {{ $record->project_location }}، وحيث إن
+        الطرف الثاني لديه الخبرة والإمكانيات اللازمة لتنفيذ هذه الأعمال، فقد اتفق الطرفان على ما يلي:
     </div>
 
     <div class="divider"></div>
@@ -285,7 +297,8 @@
     <div class="clause no-break">
         <div class="clause-title">البند الأول: موضوع العقد</div>
         <div class="clause-content">
-            يتعهد الطرف الثاني بتنفيذ جميع الأعمال الخاصة بـ الإنشاء والتشييد والتشطيب والإكساء لمبنى الطرف الأول، وتشمل على سبيل المثال لا الحصر:
+            يتعهد الطرف الثاني بتنفيذ جميع الأعمال الخاصة بـ الإنشاء والتشييد والتشطيب والإكساء لمبنى الطرف الأول، وتشمل
+            على سبيل المثال لا الحصر:
             <ul>
                 <li>أعمال الحفر والأساسات والهيكل الخرساني.</li>
                 <li>أعمال البناء واللياسة والدهان.</li>
@@ -300,7 +313,8 @@
     <div class="clause no-break">
         <div class="clause-title">البند الثاني: المواصفات والمخططات</div>
         <div class="clause-content">
-            يتم تنفيذ الأعمال طبقاً للمخططات الهندسية والمواصفات الفنية المعتمدة من الطرف الأول أو من المهندس المشرف، ويُعد أي تعديل لاحق بموجب ملحق اتفاق خطي موقع من الطرفين.
+            يتم تنفيذ الأعمال طبقاً للمخططات الهندسية والمواصفات الفنية المعتمدة من الطرف الأول أو من المهندس المشرف،
+            ويُعد أي تعديل لاحق بموجب ملحق اتفاق خطي موقع من الطرفين.
         </div>
     </div>
 
@@ -309,8 +323,11 @@
     <div class="clause no-break">
         <div class="clause-title">البند الثالث: مدة التنفيذ</div>
         <div class="clause-content">
-            مدة تنفيذ المشروع هي (<span class="highlight">{{ $record->execution_period }} يوم</span>) تبدأ من تاريخ تسليم الموقع، على أن يلتزم الطرف الثاني بالجدول الزمني المتفق عليه.
-            وفي حال التأخير غير المبرر، يحق للطرف الأول فرض غرامة تأخير بنسبة (<span class="highlight">{{ $record->delay_penalty_percentage }}%</span>) عن كل يوم تأخير بعد المدة المحددة، بحد أقصى (<span class="highlight">{{ $record->max_penalty_percentage }}%</span>) من قيمة العقد.
+            مدة تنفيذ المشروع هي (<span class="highlight">{{ $record->execution_period }} يوم</span>) تبدأ من تاريخ
+            تسليم الموقع، على أن يلتزم الطرف الثاني بالجدول الزمني المتفق عليه.
+            وفي حال التأخير غير المبرر، يحق للطرف الأول فرض غرامة تأخير بنسبة (<span
+                class="highlight">{{ $record->delay_penalty_percentage }}%</span>) عن كل يوم تأخير بعد المدة المحددة،
+            بحد أقصى (<span class="highlight">{{ $record->max_penalty_percentage }}%</span>) من قيمة العقد.
         </div>
     </div>
 
@@ -323,12 +340,17 @@
                 $currencySymbol = $record->currency->symbol ?? 'ريال';
                 $totalValue = number_format($record->total_contract_value, 2);
             @endphp
-            قيمة العقد الإجمالية هي مبلغ وقدره (<span class="highlight">{{ $totalValue }} {{ $currencySymbol }}</span>) تُدفع على النحو التالي:
+            قيمة العقد الإجمالية هي مبلغ وقدره (<span class="highlight">{{ $totalValue }}
+                {{ $currencySymbol }}</span>) تُدفع على النحو التالي:
             <ul>
-                <li>دفعة أولى: عند توقيع العقد بنسبة (<span class="highlight">{{ $record->initial_payment_percentage }}%</span>) من قيمة العقد.</li>
-                <li>دفعة ثانية: بعد إنجاز مرحلة الهيكل الخرساني بنسبة (<span class="highlight">{{ $record->concrete_stage_payment_percentage }}%</span>).</li>
-                <li>دفعة ثالثة: بعد الانتهاء من أعمال التشطيب بنسبة (<span class="highlight">{{ $record->finishing_stage_payment_percentage }}%</span>).</li>
-                <li>دفعة نهائية: بعد التسليم النهائي وخلو المشروع من الملاحظات بنسبة (<span class="highlight">{{ $record->final_payment_percentage }}%</span>).</li>
+                <li>دفعة أولى: عند توقيع العقد بنسبة (<span
+                        class="highlight">{{ $record->initial_payment_percentage }}%</span>) من قيمة العقد.</li>
+                <li>دفعة ثانية: بعد إنجاز مرحلة الهيكل الخرساني بنسبة (<span
+                        class="highlight">{{ $record->concrete_stage_payment_percentage }}%</span>).</li>
+                <li>دفعة ثالثة: بعد الانتهاء من أعمال التشطيب بنسبة (<span
+                        class="highlight">{{ $record->finishing_stage_payment_percentage }}%</span>).</li>
+                <li>دفعة نهائية: بعد التسليم النهائي وخلو المشروع من الملاحظات بنسبة (<span
+                        class="highlight">{{ $record->final_payment_percentage }}%</span>).</li>
             </ul>
         </div>
     </div>
@@ -360,7 +382,8 @@
     <div class="clause no-break">
         <div class="clause-title">البند السادس: الضمان والصيانة</div>
         <div class="clause-content">
-            يتعهد الطرف الثاني بضمان الأعمال المنفذة لمدة (<span class="highlight">12 شهراً</span>) من تاريخ التسليم النهائي، ضد أي عيب في التنفيذ أو المواد، ويتحمل نفقات الإصلاح خلال هذه المدة.
+            يتعهد الطرف الثاني بضمان الأعمال المنفذة لمدة (<span class="highlight">12 شهراً</span>) من تاريخ التسليم
+            النهائي، ضد أي عيب في التنفيذ أو المواد، ويتحمل نفقات الإصلاح خلال هذه المدة.
         </div>
     </div>
 
@@ -375,7 +398,8 @@
                 <li>إخلاله بالشروط أو المواصفات المتفق عليها.</li>
                 <li>توقفه عن العمل دون سبب وجيه لأكثر من (15) يوماً.</li>
             </ul>
-            وفي حال الفسخ، يُلزم الطرف الثاني بتسليم جميع المواد والأعمال المنفذة حتى تاريخه ودفع أي تعويض يترتب على ذلك.
+            وفي حال الفسخ، يُلزم الطرف الثاني بتسليم جميع المواد والأعمال المنفذة حتى تاريخه ودفع أي تعويض يترتب على
+            ذلك.
         </div>
     </div>
 
@@ -384,7 +408,8 @@
     <div class="clause no-break">
         <div class="clause-title">البند الثامن: التحكيم وحل النزاعات</div>
         <div class="clause-content">
-            في حال حدوث أي خلاف بين الطرفين، يتم حله وديًا، وإن تعذر ذلك يُحال النزاع إلى التحكيم وفق القوانين المعمول بها في (<span class="highlight">{{ $record->arbitration_location }}</span>).
+            في حال حدوث أي خلاف بين الطرفين، يتم حله وديًا، وإن تعذر ذلك يُحال النزاع إلى التحكيم وفق القوانين المعمول
+            بها في (<span class="highlight">{{ $record->arbitration_location }}</span>).
         </div>
     </div>
 
@@ -396,11 +421,11 @@
             <ul>
                 <li>لا يجوز لأي طرف التنازل عن العقد أو جزء منه دون موافقة الطرف الآخر كتابةً.</li>
                 <li>هذا العقد يشكل الاتفاق الكامل بين الطرفين ويلغي ما قبله من تفاهمات شفوية أو كتابية.</li>
-                {{-- @if($record->general_terms)
+                {{-- @if ($record->general_terms)
                 <li>{{ $record->general_terms }}</li>
                 @endif --}}
             </ul>
-            {{-- @if($record->notes)
+            {{-- @if ($record->notes)
             <div style="background: #fff3cd; padding: 8px; border-radius: 5px; margin-top: 8px;">
                 <strong>ملاحظات:</strong> {{ $record->notes }}
             </div>
@@ -418,7 +443,7 @@
                     <div>الاسم: {{ $record->owner_name }}</div>
                     <div>التاريخ: {{ $record->contract_date->format('Y-m-d') }}</div>
                     <div class="stamp-placeholder">
-                        <br/><br/><br/><br/><br/><br/><br/>
+                        <br /><br /><br /><br /><br /><br /><br />
                     </div>
                 </td>
 
@@ -428,7 +453,7 @@
                     <div>الاسم: {{ $record->contractor_name }}</div>
                     <div>التاريخ: {{ $record->contract_date->format('Y-m-d') }}</div>
                     <div class="stamp-placeholder">
-                        <br/><br/><br/><br/><br/><br/><br/>
+                        <br /><br /><br /><br /><br /><br /><br />
                     </div>
                 </td>
             </tr>
@@ -444,4 +469,5 @@
         <div>https://alrayanrealestate.com/ - © {{ date('Y') }} جميع الحقوق محفوظة</div>
     </div> --}}
 </body>
+
 </html>

@@ -190,38 +190,6 @@ class ProfitReport extends Page implements HasTable
             'by_project' => $projectSummaries,
         ];
     }
-    // public function getSummary(): array
-    // {
-    //     // Get profits grouped by currency
-    //     $profitsByCurrency = Profit::query()
-    //         ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))
-    //         ->when($this->data['end_date'] ?? null, fn($q, $date) => $q->where('date', '<=', $date))
-    //         ->when(
-    //             ($this->data['currency_id'] ?? null) && $this->data['currency_id'] !== 'all',
-    //             fn($q) => $q->where('currency_id', $this->data['currency_id'])
-    //         )
-    //         ->when(
-    //             ($this->data['project_id'] ?? null) && $this->data['project_id'] !== 'all',
-    //             fn($q) => $q->where('project_id', $this->data['project_id'])
-    //         )
-    //         ->with('currency')
-    //         ->get()
-    //         ->groupBy('currency.code');
-
-    //     // Calculate totals for each currency
-    //     $currencySummaries = [];
-
-
-
-    //     foreach ($profitsByCurrency as $currencyCode => $profits) {
-    //         $sumProfits = $profits->sum('amount');
-    //         $currencySummaries[$currencyCode] = $sumProfits;
-    //     }
-    //     return [
-    //         'by_currency' => $currencySummaries,
-    //     ];
-
-    // }
 
     public function exportToPdf(): StreamedResponse
     {
@@ -279,14 +247,14 @@ class ProfitReport extends Page implements HasTable
                     storage_path('fonts'),
                 ],
                 'fontdata' => [
-                    'xbriyaz' => [
-                        'R' => 'XB Riyaz.ttf',
-                        'B' => 'XB RiyazBd.ttf',
+                    'almarai' => [
+                        'R' => 'Almarai-Regular.ttf',
+                        'B' => 'Almarai-ExtraBold.ttf',
                         'useOTL' => 0xFF,
                         'useKashida' => 75,
                     ]
                 ],
-                'default_font' => 'xbriyaz',
+                'default_font' => 'almarai',
                 'margin_top' => 5,
                 'margin_header' => 5,
                 'margin_bottom' => 15,

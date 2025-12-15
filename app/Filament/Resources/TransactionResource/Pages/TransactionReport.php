@@ -114,13 +114,13 @@ class TransactionReport extends Page implements HasTable
                 ->searchable(),
 
             Tables\Columns\BadgeColumn::make('type')
-                    ->translateLabel()
-                    ->colors([
-                        'danger' => 'expense',
-                        'success' => 'payment',
-                    ])
-                    ->formatStateUsing(fn(string $state): string => __(ucfirst($state)))
-                    ->sortable(),
+                ->translateLabel()
+                ->colors([
+                    'danger' => 'expense',
+                    'success' => 'payment',
+                ])
+                ->formatStateUsing(fn(string $state): string => __(ucfirst($state)))
+                ->sortable(),
             Tables\Columns\TextColumn::make('amount')
                 ->numeric(decimalPlaces: 2)
                 ->translateLabel()
@@ -180,7 +180,7 @@ class TransactionReport extends Page implements HasTable
             'total_expenses' => $transactionsByCurrency->flatten()->where('type', 'expense')->sum('amount'),
             'total_payments' => $transactionsByCurrency->flatten()->where('type', 'payment')->sum('amount'),
             'total_profit' => $transactionsByCurrency->flatten()->where('type', 'payment')->sum('amount') -
-                             $transactionsByCurrency->flatten()->where('type', 'expense')->sum('amount'),
+                $transactionsByCurrency->flatten()->where('type', 'expense')->sum('amount'),
             'report_type' => $reportType
         ];
     }
@@ -194,7 +194,7 @@ class TransactionReport extends Page implements HasTable
 
         $reportType = $this->data['report_type'] ?? 'both';
 
-        $filename = "كشف حساب " ;
+        $filename = "كشف حساب ";
         switch ($reportType) {
             case 'both':
                 $filename .= "النفقات والدفعات الخاصة ";
@@ -206,8 +206,8 @@ class TransactionReport extends Page implements HasTable
                 $filename .= "النفقات الخاصة ";
                 break;
         }
-         $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - ":
-            "بكل العملات - ") .' - ' . now()->format('Y-m-d') . '.pdf';
+        $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - " :
+            "بكل العملات - ") . ' - ' . now()->format('Y-m-d') . '.pdf';
 
         return new StreamedResponse(function () use ($selectedCurrency, $reportType) {
             $summary = $this->getSummary();
@@ -241,29 +241,29 @@ class TransactionReport extends Page implements HasTable
                 'autoScriptToLang' => true,
                 'autoLangToFont' => true,
                 'fontDir' => [
-                base_path('vendor/mpdf/mpdf/ttfonts'),
-                storage_path('fonts'),
-            ],
-            'fontdata' => [
-                'xbriyaz' => [
-                    'R' => 'XB Riyaz.ttf',
-                    'B' => 'XB RiyazBd.ttf',
-                    'useOTL' => 0xFF,
-                    'useKashida' => 75,
-                ]
-            ],
-            'default_font' => 'xbriyaz',
+                    base_path('vendor/mpdf/mpdf/ttfonts'),
+                    storage_path('fonts'),
+                ],
+                'fontdata' => [
+                    'almarai' => [
+                        'R' => 'Almarai-Regular.ttf',
+                        'B' => 'Almarai-ExtraBold.ttf',
+                        'useOTL' => 0xFF,
+                        'useKashida' => 75,
+                    ]
+                ],
+                'default_font' => 'almarai',
                 'margin_top' => 5,
-            'margin_header' => 5,
-            'margin_bottom' => 15,
-            'margin_footer' => 5,
-            'margin_left' => 8,
-            'margin_right' => 8,
-            'tempDir' => storage_path('app/mpdf/tmp'),
-            'allow_output_buffering' => true,
+                'margin_header' => 5,
+                'margin_bottom' => 15,
+                'margin_footer' => 5,
+                'margin_left' => 8,
+                'margin_right' => 8,
+                'tempDir' => storage_path('app/mpdf/tmp'),
+                'allow_output_buffering' => true,
             ]);
-// Set footer with page number on left
-        $mpdf->SetHTMLFooter('
+            // Set footer with page number on left
+            $mpdf->SetHTMLFooter('
             <div style="text-align: left; font-size: 10px; width: 100%;">
                 الصفحة {PAGENO} من {nbpg}
             </div>

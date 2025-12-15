@@ -53,21 +53,15 @@ class ExportContractToPdfAction
                     base_path('vendor/mpdf/mpdf/ttfonts'),
                     storage_path('fonts'),
                 ]),
-                'fontdata' => $fontData + [
-                    'xbriyaz' => [
-                        'R' => 'XB Riyaz.ttf',
-                        'B' => 'XB RiyazBd.ttf',
+                'fontdata' => [
+                    'almarai' => [
+                        'R' => 'Almarai-Regular.ttf',
+                        'B' => 'Almarai-ExtraBold.ttf',
                         'useOTL' => 0xFF,
                         'useKashida' => 75,
                     ],
-                    'amiri' => [
-                        'R' => 'Amiri-Regular.ttf',
-                        'B' => 'Amiri-Bold.ttf',
-                        'I' => 'Amiri-Italic.ttf',
-                        'BI' => 'Amiri-BoldItalic.ttf',
-                    ]
                 ],
-                'default_font' => 'xbriyaz',
+                'default_font' => 'almarai',
                 'margin_top' => 10,
                 'margin_bottom' => 15,
                 'margin_left' => 8,

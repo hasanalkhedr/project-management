@@ -254,7 +254,7 @@ class ProjectReports extends Page implements HasTable
                 break;
         }
 
-        $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - ":
+        $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - " :
             "بكل العملات - ") .
             $this->record->name . ' - ' . now()->format('Y-m-d') . '.pdf';
 
@@ -284,49 +284,49 @@ class ProjectReports extends Page implements HasTable
 
             $defaultFontConfig = (new FontVariables())->getDefaults();
             $fontData = $defaultFontConfig['fontdata'];
-        $mpdf = new Mpdf([
-            'mode' => 'utf-8',
-            'format' => 'A4',
-            'direction' => 'rtl',
-            'autoScriptToLang' => true,
-            'autoLangToFont' => true,
-            'fontDir' => [
-                base_path('vendor/mpdf/mpdf/ttfonts'),
-                storage_path('fonts'),
-            ],
-            'fontdata' => [
-                'xbriyaz' => [
-                    'R' => 'XB Riyaz.ttf',
-                    'B' => 'XB RiyazBd.ttf',
-                    'useOTL' => 0xFF,
-                    'useKashida' => 75,
-                ]
-            ],
-            'default_font' => 'xbriyaz',
-            'margin_top' => 5,
-            'margin_header' => 5,
-            'margin_bottom' => 15,
-            'margin_footer' => 5,
-            'margin_left' => 8,
-            'margin_right' => 8,
-            'tempDir' => storage_path('app/mpdf/tmp'),
-            'allow_output_buffering' => true,
-        ]);
+            $mpdf = new Mpdf([
+                'mode' => 'utf-8',
+                'format' => 'A4',
+                'direction' => 'rtl',
+                'autoScriptToLang' => true,
+                'autoLangToFont' => true,
+                'fontDir' => [
+                    base_path('vendor/mpdf/mpdf/ttfonts'),
+                    storage_path('fonts'),
+                ],
+                'fontdata' => [
+                    'almarai' => [
+                        'R' => 'Almarai-Regular.ttf',
+                        'B' => 'Almarai-ExtraBold.ttf',
+                        'useOTL' => 0xFF,
+                        'useKashida' => 75,
+                    ]
+                ],
+                'default_font' => 'almarai',
+                'margin_top' => 5,
+                'margin_header' => 5,
+                'margin_bottom' => 15,
+                'margin_footer' => 5,
+                'margin_left' => 8,
+                'margin_right' => 8,
+                'tempDir' => storage_path('app/mpdf/tmp'),
+                'allow_output_buffering' => true,
+            ]);
 
-        // Set footer with page number on left
-        $mpdf->SetHTMLFooter('
+            // Set footer with page number on left
+            $mpdf->SetHTMLFooter('
             <div style="text-align: left; font-size: 10px; width: 100%;">
                 الصفحة {PAGENO} من {nbpg}
             </div>
         ');
 
-        $html = view('filament.resources.project-resource.pages.project-report-pdf', $data)->render();
-        $mpdf->WriteHTML($html);
-        $mpdf->Output('', 'I');
-    }, 200, [
-        'Content-Type' => 'application/pdf',
-        'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-    ]);
+            $html = view('filament.resources.project-resource.pages.project-report-pdf', $data)->render();
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('', 'I');
+        }, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
     }
     protected function getReportData(): array
     {

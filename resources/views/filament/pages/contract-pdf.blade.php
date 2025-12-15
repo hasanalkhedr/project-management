@@ -6,14 +6,14 @@
     <title>عقد اتفاق لتنفيذ أعمال البناء - {{ $record->id }}</title>
     <style>
         @font-face {
-            font-family: 'amiri';
+            font-family: 'almarai';
             font-style: normal;
-            font-weight: normal;
-            src: url('{{ storage_path('fonts/Amiri-Regular.ttf') }}') format('truetype');
+            font-weight: bold;
+            src: url('{{ storage_path('fonts/Almarai-ExtraBold.ttf') }}') format('truetype');
         }
 
         body {
-            font-family: 'amiri', sans-serif;
+            font-family: 'almarai';
             line-height: 1.5;
             word-spacing: 3px;
             direction: rtl;
@@ -47,16 +47,16 @@
         }
 
          .logo-cell {
-            width: 25%;
+            width: 50%;
             vertical-align: middle;
             rowspan: 3;
         }
 
         .logo {
-            max-height: 180px;
+            max-height: 250px;
             width: auto;
-            max-width: 240px;
-            height: 150px;
+            max-width: 300px;
+            height: 250px;
             object-fit: contain;
         }
 
@@ -79,11 +79,13 @@
 
         .contract-title {
             font-size: 28px;
+            font-weight: bold;
             margin: 0;
         }
 
         .contract-meta {
             font-size: 12px;
+            font-weight: bold;
             color: #666;
             margin: 0;
         }
@@ -235,15 +237,10 @@
                 {{-- <td class="content-cell" colspan="2">
                     <div class="company-title">شركة أبراج الريان للمقاولات</div>
                 </td> --}}
-                <td class="logo-cell" rowspan="4" colspan="2">
+                <td class="logo-cell" rowspan="3" colspan="2">
                     @if (file_exists(public_path('images/alrayan-logo2025.png')))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
-                </td>
-            </tr>
-            <tr>
-                <td class="content-cell">
-                    <!-- Empty space -->
                 </td>
             </tr>
             <tr>

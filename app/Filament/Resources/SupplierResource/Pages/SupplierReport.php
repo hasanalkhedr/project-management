@@ -257,14 +257,14 @@ class SupplierReport extends Page implements HasTable
                     storage_path('fonts'),
                 ],
                 'fontdata' => [
-                    'xbriyaz' => [
-                        'R' => 'XB Riyaz.ttf',
-                        'B' => 'XB RiyazBd.ttf',
+                    'almarai' => [
+                        'R' => 'Almarai-Regular.ttf',
+                        'B' => 'Almarai-ExtraBold.ttf',
                         'useOTL' => 0xFF,
                         'useKashida' => 75,
                     ]
                 ],
-                'default_font' => 'xbriyaz',
+                'default_font' => 'almarai',
                 'margin_top' => 5,
                 'margin_header' => 5,
                 'margin_bottom' => 15,

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>كشف حساب دفعات الإشراف</title>
@@ -47,16 +48,16 @@
         }
 
         .logo-cell {
-            width: 20%;
+            width: 25%;
             vertical-align: middle;
             rowspan: 3;
         }
 
         .logo {
-            max-height: 150px;
+            max-height: 180px;
             width: auto;
-            max-width: 200px;
-            height: 120px;
+            max-width: 240px;
+            height: 150px;
             object-fit: contain;
         }
 
@@ -230,37 +231,29 @@
             object-fit: contain;
             vertical-align: bottom;
         }
-
     </style>
 </head>
+
 <body>
     <div class="header">
         <table class="header-table">
             <tr>
-                <td class="content-cell" colspan="2">
-                    {{-- @if (file_exists($company_name))
-                        <img src="{{ $company_name }}" class="company-title" alt="شعار الشركة">
-                    @endif --}}
+                {{-- <td class="content-cell" colspan="2">
                     <div class="company-title">شركة أبراج الريان للمقاولات</div>
-                </td>
-                <td class="logo-cell" rowspan="6">
-                    @if (file_exists($logo))
-                        <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
+                </td> --}}
+                <td class="logo-cell" rowspan="4" colspan="2">
+                    @if (file_exists(public_path('images/alrayan-logo2025.png')))
+                        <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
             </tr>
             <tr>
-                <td class="content-cell"></td>
-            </tr>
-             <tr>
-                <td class="content-cell"></td>
+                <td class="content-cell">
+                    <!-- Empty space -->
+                </td>
             </tr>
             <tr>
-                <!-- Empty middle cell (title spans all rows) -->
                 <td class="content-cell">
-                    <!-- Empty space in middle row -->
-                </td>
-                <td class="title-cell" rowspan="2">
                     <div class="report-title">كشف حساب دفعات الإشراف
 
                         @if ($currency_filter === __('All Currencies'))
@@ -270,10 +263,6 @@
                         @endif
                     </div>
                 </td>
-
-            </tr>
-            <tr>
-                <td class="content-cell"></td>
             </tr>
             <tr>
                 <td class="content-cell">
@@ -283,14 +272,16 @@
                         </div>
                     @endif
                 </td>
+                </td>
             </tr>
         </table>
     </div>
-@if($project_filter !== __('All Projects'))
-    <div class="client-name">العميل: السيد/ة {{ $project_filter->client->name }}- العنوان: {{ $project_filter->client->address }} -
-        جوال: {{ $project_filter->client->phone }}</div>
-    <div class="project-name">المشروع: {{ $project_filter->name }}</div>
-@endif
+    @if ($project_filter !== __('All Projects'))
+        <div class="client-name">العميل: السيد/ة {{ $project_filter->client->name }}- العنوان:
+            {{ $project_filter->client->address }} -
+            جوال: {{ $project_filter->client->phone }}</div>
+        <div class="project-name">المشروع: {{ $project_filter->name }}</div>
+    @endif
 
     {{-- <!-- Summary Section -->
     <div class="summary-section">
@@ -322,57 +313,61 @@
         </table>
     </div> --}}
     <!-- Summary Section -->
-<div class="summary-section">
-    <h3 style="text-align: center; margin-bottom: 15px;">
-        الملخص
-    </h3>
+    <div class="summary-section">
+        <h3 style="text-align: center; margin-bottom: 15px;">
+            الملخص
+        </h3>
 
-    <!-- Currency Summary Table -->
-    <h4 style="text-align: right; margin: 15px 0 5px 0;">حسب العملة</h4>
-    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-        <thead>
-            <tr style="background-color: #f2f2f2;">
-                <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
-                <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المجموع</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($by_currency as $currencyCode => $amount)
-                <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $amount >= 0 ? '#10b981' : '#ef4444' }};">
-                        {{ number_format($amount, 2) }}
-                    </td>
+        <!-- Currency Summary Table -->
+        <h4 style="text-align: right; margin: 15px 0 5px 0;">حسب العملة</h4>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المجموع</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    <!-- Project Summary Table -->
-    <h4 style="text-align: right; margin: 15px 0 5px 0;">حسب المشروع</h4>
-    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-        <thead>
-            <tr style="background-color: #f2f2f2;">
-                <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المشروع</th>
-                <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
-                <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المجموع</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($by_project as $projectName => $projectData)
-                @foreach ($projectData as $currencyCode => $total)
+            </thead>
+            <tbody>
+                @foreach ($by_currency as $currencyCode => $amount)
                     <tr>
-                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $projectName }}</td>
                         <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}</td>
-                        <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $total >= 0 ? '#10b981' : '#ef4444' }};">
-                            {{ number_format($total, 2) }}
+                        <td
+                            style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $amount >= 0 ? '#10b981' : '#ef4444' }};">
+                            {{ number_format($amount, 2) }}
                         </td>
                     </tr>
                 @endforeach
-            @endforeach
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+
+        <!-- Project Summary Table -->
+        <h4 style="text-align: right; margin: 15px 0 5px 0;">حسب المشروع</h4>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المشروع</th>
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">العملة</th>
+                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">المجموع</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($by_project as $projectName => $projectData)
+                    @foreach ($projectData as $currencyCode => $total)
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $projectName }}
+                            </td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">{{ $currencyCode }}
+                            </td>
+                            <td
+                                style="padding: 8px; border: 1px solid #ddd; text-align: center; color: {{ $total >= 0 ? '#10b981' : '#ef4444' }};">
+                                {{ number_format($total, 2) }}
+                            </td>
+                        </tr>
+                    @endforeach
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     <!-- Transactions Table -->
     <table class="transactions-table">
@@ -426,4 +421,5 @@
         </table>
     </div>
 </body>
+
 </html>

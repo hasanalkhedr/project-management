@@ -46,16 +46,17 @@
             width: 100%;
         }
 
-        .logo-cell {
-            width: 20%;
+         .logo-cell {
+            width: 25%;
             vertical-align: middle;
+            rowspan: 3;
         }
 
         .logo {
-            max-height: 120px;
+            max-height: 180px;
             width: auto;
-            max-width: 200px;
-            height: 120px;
+            max-width: 240px;
+            height: 150px;
             object-fit: contain;
         }
 
@@ -235,7 +236,7 @@
                     <div class="company-title">شركة أبراج الريان للمقاولات</div>
                 </td> --}}
                 <td class="logo-cell" rowspan="4" colspan="2">
-                    @if (file_exists(public_path('images/new-logo.png')))
+                    @if (file_exists(public_path('images/alrayan-logo2025.png')))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
@@ -253,7 +254,7 @@
             <tr>
                 <td class="content-cell">
                     <div class="contract-meta">
-                        العقد رقم: CONTRACT-{{ $record->id }} | التاريخ: {{ $record->contract_date->format('d/m/Y') }}
+                        العقد رقم: CONTRACT-{{ $record->id }}     &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; التاريخ: {{ $record->contract_date->format('d/m/Y') }}
                     </div>
                 </td>
             </tr>

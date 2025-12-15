@@ -31,7 +31,7 @@ class ExportContractToPdfAction
         return new StreamedResponse(function () use ($record) {
             $data = [
                 'record' => $record,
-                'logo' => 'file://' . public_path('images/new-logo.png'),
+                'logo' => 'file://' . public_path('images/alrayan-logo2025.png'),
                 'stamp' => 'file://' . public_path('images/stamp.png'),
                 'company_name' => 'file://' . public_path('images/name.png'),
             ];

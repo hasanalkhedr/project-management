@@ -46,16 +46,16 @@
         }
 
         .logo-cell {
-            width: 20%;
+            width: 25%;
             vertical-align: middle;
             rowspan: 3;
         }
 
         .logo {
-            max-height: 150px;
+            max-height: 180px;
             width: auto;
-            max-width: 200px;
-            height: 120px;
+            max-width: 240px;
+            height: 150px;
             object-fit: contain;
         }
 
@@ -185,31 +185,22 @@
     <div class="header">
         <table class="header-table">
             <tr>
-                <td class="content-cell" colspan="2">
-                    {{-- @if (file_exists($company_name))
-                        <img src="{{ $company_name }}" class="company-title" alt="شعار الشركة">
-                    @endif --}}
+                {{-- <td class="content-cell" colspan="2">
                     <div class="company-title">شركة أبراج الريان للمقاولات</div>
-                </td>
-
-                <td class="logo-cell" rowspan="5">
-                    @if (file_exists($logo))
-                        <img src="{{ $logo }}" class="logo" alt="شعار الشركة">
+                </td> --}}
+                <td class="logo-cell" rowspan="4" colspan="2">
+                    @if (file_exists(public_path('images/alrayan-logo2025.png')))
+                        <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
             </tr>
             <tr>
-                <td class="content-cell"></td>
-            </tr>
-            <tr>
-                <td class="content-cell"></td>
-            </tr>
-            <tr>
-                <!-- Empty middle cell (title spans all rows) -->
                 <td class="content-cell">
-                    <!-- Empty space in middle row -->
+                    <!-- Empty space -->
                 </td>
-                <td class="title-cell" rowspan="2">
+            </tr>
+            <tr>
+                <td class="content-cell">
                     <div class="report-title">كشف حساب عام
                         @if ($report_type === 'payments')
                             الدفعات
@@ -227,16 +218,13 @@
                 </td>
             </tr>
             <tr>
-                <td class="content-cell"></td>
-
-            </tr>
-            <tr>
                 <td class="content-cell">
                     @if ($start_date && $end_date)
                         <div class="report-meta">
                             تاريخ: {{ $report_date }}
                         </div>
                     @endif
+                </td>
                 </td>
             </tr>
         </table>

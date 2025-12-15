@@ -255,7 +255,7 @@ class ProfitReport extends Page implements HasTable
                 'by_currency' => $summary['by_currency'],
                 'by_project' => $summary['by_project'], // Add project summary data
                 'profits' => $profits,
-                'logo' => 'file://' . public_path('images/new-logo.png'),
+                'logo' => 'file://' . public_path('images/alrayan-logo2025.png'),
                 'stamp' => 'file://' . public_path('images/stamp.png'),
                 'company_name' => 'file://' . public_path('images/name.png'),
                 'report_date' => now()->translatedFormat('j F Y'),

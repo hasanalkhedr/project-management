@@ -420,7 +420,7 @@ class GeneralReports extends Page
                 'start_date' => $this->data['start_date'] ?? null,
                 'end_date' => $this->data['end_date'] ?? null,
                 'report_type' => $this->data['report_type'] ?? 'both',
-                'logo' => 'file://' . public_path('images/new-logo.png'),
+                'logo' => 'file://' . public_path('images/alrayan-logo2025.png'),
                 'stamp' => 'file://' . public_path('images/stamp.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
                 'report_title' => 'تقرير عام لجميع المشاريع',

@@ -35,8 +35,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('')
             ->login()
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->brandLogo(asset('images/new-logo.png'))
-            ->brandLogoHeight('6rem')
+            ->brandLogo(asset('images/alrayan-logo2025.png'))
+            ->brandLogoHeight('10rem')
             ->darkMode(false)
             ->colors([
                 'primary' => '#1a6121',

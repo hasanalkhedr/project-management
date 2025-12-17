@@ -154,7 +154,7 @@ class GeneralReports extends Page
                     'type' => __('Expense'),
                     'project' => $project->name,
                     'description' => $expense->description,
-                    'supplier' => $expense->supplier,
+                    'supplier' => $expense->supplier->name ?? '',
                     'invoice_number' => $expense->invoice_number,
                     'amount' => $expense->amount,
                     'currency' => $expense->currency->code,

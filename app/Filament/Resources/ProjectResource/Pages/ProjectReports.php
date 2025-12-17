@@ -100,8 +100,10 @@ class ProjectReports extends Page implements HasTable
                 ($this->data['report_type'] ?? 'both') === 'payments',
                 fn($q) => $q->whereRaw('1 = 0') // Exclude expenses if only payments selected
             )
-            ->selectRaw("id, date, description, amount, currency_id, supplier, invoice_number, '" . __('Expense') . "' as type");
-
+            ->leftJoin('suppliers', 'expenses.supplier_id', '=', 'suppliers.id')
+            ->selectRaw("expenses.id, expenses.date, expenses.description, expenses.amount, expenses.currency_id,
+                 COALESCE(suppliers.name, expenses.supplier) as supplier,
+                 expenses.invoice_number, '" . __('Expense') . "' as type");
         $payments = Payment::query()
             ->where('project_id', $this->record->id)
             ->when($this->data['start_date'] ?? null, fn($q, $date) => $q->where('date', '>=', $date))

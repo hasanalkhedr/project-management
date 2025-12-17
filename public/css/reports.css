@@ -1,0 +1,391 @@
+/* Base styles for all reports */
+/* @font-face {
+    font-family: 'almarai';
+    font-style: normal;
+    font-weight: bold;
+    src: url('{{ storage_path('fonts/Almarai-ExtraBold.ttf') }}') format('truetype');
+} */
+
+body {
+    font-family: 'almarai';
+    line-height: 1.5;
+    word-spacing: 3px;
+    direction: rtl;
+    text-align: right;
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    width: 100%;
+    margin: 0 0;
+    page-break-inside: avoid;
+    direction: rtl;
+    unicode-bidi: embed;
+}
+
+th, td {
+    padding: 8px;
+    text-align: right;
+    page-break-inside: avoid;
+}
+
+/* Common Header Styles */
+.header {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.contract .header {
+    margin-bottom: 20px;
+}
+
+.header-table {
+    width: 100%;
+}
+
+.logo-cell {
+    width: 35%;
+    vertical-align: middle;
+}
+
+.logo {
+    max-height: 200px;
+    width: auto;
+    max-width: 180px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.title-cell {
+    width: 60%;
+    text-align: center;
+    vertical-align: top;
+}
+
+.content-cell {
+    vertical-align: bottom;
+    text-align: right;
+}
+
+.company-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.report-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.contract-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.report-meta {
+    font-size: 12px;
+    font-weight: bold;
+    color: #666;
+    margin: 0;
+}
+
+.contract-meta {
+    font-size: 12px;
+    font-weight: bold;
+    color: #666;
+    margin: 0;
+}
+
+.project-name {
+    font-size: 18px;
+    text-align: right;
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.client-name {
+    font-size: 18px;
+    text-align: right;
+    margin-right: 30px;
+    margin-top: 15px;
+}
+
+/* Common Transactions Table Styles */
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 14px;
+    direction: rtl;
+    page-break-inside: auto;
+}
+
+.transactions-table th,
+.transactions-table td {
+    padding: 6px;
+    text-align: right;
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+}
+
+.transactions-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Common Summary Section */
+.summary-section {
+    margin-bottom: 30px;
+}
+
+.currency-summaries-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px;
+    margin-bottom: 20px;
+    direction: rtl;
+}
+
+.currency-summary-cell {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    padding: 3px;
+    vertical-align: top;
+}
+
+.currency-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #ddd;
+}
+
+.currency-summary-row {
+    display: table;
+    width: 100%;
+}
+
+.summary-card {
+    display: table-cell;
+    width: 33%;
+    padding: 5px;
+    border-radius: 4px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.summary-title {
+    font-size: 10px;
+    margin-bottom: 3px;
+    color: #666;
+}
+
+.summary-value {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.positive {
+    color: #10b981;
+}
+
+.negative {
+    color: #ef4444;
+}
+
+/* Contract-specific styles */
+.contract .header {
+    margin-bottom: 20px;
+}
+
+.parties-section {
+    margin: 5px 0;
+    display: table;
+    width: 100%;
+}
+
+.party-row {
+    display: table-row;
+    margin-bottom: 8px;
+}
+
+.party-header {
+    display: table-cell;
+    padding: 4px 8px;
+    font-weight: bold;
+    color: #2c3e50;
+    width: 180px;
+    vertical-align: top;
+}
+
+.party-details {
+    display: table-cell;
+    padding: 4px 8px;
+    vertical-align: top;
+}
+
+.preamble {
+    background: #f8f9fa;
+    padding: 6px;
+    border-right: 3px solid #3498db;
+    margin: 5px 0;
+    text-align: justify;
+}
+
+.divider {
+    border-top: 2px solid #bdc3c7;
+    margin: 5px 0;
+}
+
+.clause {
+    margin-bottom: 15px;
+    page-break-inside: avoid;
+}
+
+.clause-title {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.clause-content {
+    text-align: justify;
+    padding: 0 5px;
+}
+
+.signature-section {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 2px solid #7f8c8d;
+    page-break-inside: avoid;
+}
+
+.signature-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+}
+
+.signature-cell {
+    width: 50%;
+    text-align: center;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.signature-line {
+    border-top: 1px solid #333;
+    margin-top: 40px;
+    padding-top: 3px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stamp-placeholder {
+    height: 120px;
+    border: 1px dashed #bdc3c7;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7f8c8d;
+    font-size: 11px;
+}
+
+ul {
+    padding-right: 20px;
+    margin: 5px 0;
+}
+
+li {
+    margin-bottom: 4px;
+    text-align: justify;
+}
+
+.highlight {
+    background-color: #fff3cd;
+    padding: 1px 3px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+
+.no-break {
+    page-break-inside: avoid;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.final-statement {
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+/* Common Footer Styles */
+.footer {
+    font-size: 10px;
+    text-align: center;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    color: #666;
+    width: 100%;
+}
+
+.footer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stamp-cell {
+    width: 30%;
+    vertical-align: bottom;
+    text-align: left;
+    margin-right: 40px;
+}
+
+.footer-content-cell {
+    vertical-align: bottom;
+    text-align: center;
+    width: 50%;
+    color: #666;
+}
+
+.spacer-cell {
+    width: 20%;
+}
+
+.stamp {
+    max-height: 160px;
+    width: auto;
+    max-width: 160px;
+    height: 160px;
+    object-fit: contain;
+    vertical-align: bottom;
+}
+
+/* Optional: Add report-specific classes if you need to override anything */
+.general-reports .header,
+.profit-report .header,
+.project-report .header,
+.supplier-report .header,
+.transaction-report .header {
+    border-bottom: 1px solid #ddd;
+}
+
+.contract .header {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}

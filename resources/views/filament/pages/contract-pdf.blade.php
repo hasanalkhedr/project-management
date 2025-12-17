@@ -4,6 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>عقد اتفاق لتنفيذ أعمال البناء - {{ $record->id }}</title>
+    <link rel="stylesheet" href="{{public_path('css/reports.css')}}">
     <style>
         @font-face {
             font-family: 'almarai';
@@ -11,225 +12,10 @@
             font-weight: bold;
             src: url('{{ storage_path('fonts/Almarai-ExtraBold.ttf') }}') format('truetype');
         }
-
-        body {
-            font-family: 'almarai';
-            line-height: 1.5;
-            word-spacing: 3px;
-            direction: rtl;
-            text-align: right;
-            margin: 0;
-            padding: 0;
-        }
-
-        table {
-            width: 100%;
-            margin: 0 0;
-            page-break-inside: avoid;
-            direction: rtl;
-            unicode-bidi: embed;
-        }
-
-        th,
-        td {
-            padding: 8px;
-            text-align: right;
-            page-break-inside: avoid;
-        }
-
-        .header {
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
-        }
-
-        .header-table {
-            width: 100%;
-        }
-
-         .logo-cell {
-            width: 50%;
-            vertical-align: middle;
-            rowspan: 3;
-        }
-
-        .logo {
-            max-height: 250px;
-            width: auto;
-            max-width: 300px;
-            height: 250px;
-            object-fit: contain;
-        }
-
-        .title-cell {
-            width: 60%;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        .content-cell {
-            vertical-align: bottom;
-            text-align: right;
-        }
-
-        .company-title {
-            font-size: 22px;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .contract-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .contract-meta {
-            font-size: 12px;
-            font-weight: bold;
-            color: #666;
-            margin: 0;
-        }
-
-        .parties-section {
-            margin: 5px 0;
-            display: table;
-            width: 100%;
-        }
-
-        .party-row {
-            display: table-row;
-            margin-bottom: 8px;
-        }
-
-        .party-header {
-            display: table-cell;
-            padding: 4px 8px;
-            font-weight: bold;
-            color: #2c3e50;
-            width: 180px;
-            vertical-align: top;
-        }
-
-        .party-details {
-            display: table-cell;
-            padding: 4px 8px;
-            vertical-align: top;
-        }
-
-        .preamble {
-            background: #f8f9fa;
-            padding: 6px;
-            border-right: 3px solid #3498db;
-            margin: 5px 0;
-            text-align: justify;
-        }
-
-        .divider {
-            border-top: 2px solid #bdc3c7;
-            margin: 5px 0;
-        }
-
-        .clause {
-            margin-bottom: 15px;
-            page-break-inside: avoid;
-        }
-
-        .clause-title {
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .clause-content {
-            text-align: justify;
-            padding: 0 5px;
-        }
-
-        .signature-section {
-            margin-top: 5px;
-            padding-top: 5px;
-            border-top: 2px solid #7f8c8d;
-            page-break-inside: avoid;
-        }
-
-        .signature-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 5px;
-        }
-
-        .signature-cell {
-            width: 50%;
-            text-align: center;
-            padding: 10px;
-            vertical-align: top;
-        }
-
-        .signature-line {
-            border-top: 1px solid #333;
-            margin-top: 40px;
-            padding-top: 3px;
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .stamp-placeholder {
-            height: 120px;
-            border: 1px dashed #bdc3c7;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #7f8c8d;
-            font-size: 11px;
-        }
-
-        ul {
-            padding-right: 20px;
-            margin: 5px 0;
-        }
-
-        li {
-            margin-bottom: 4px;
-            text-align: justify;
-        }
-
-        .highlight {
-            background-color: #fff3cd;
-            padding: 1px 3px;
-            border-radius: 2px;
-            font-weight: bold;
-        }
-
-        .footer {
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid #ddd;
-            text-align: center;
-            font-size: 10px;
-            color: #666;
-        }
-
-        .no-break {
-            page-break-inside: avoid;
-        }
-
-        .text-bold {
-            font-weight: bold;
-        }
-
-        .final-statement {
-            text-align: center;
-            color: #666;
-            font-size: 12px;
-            margin-top: 15px;
-        }
     </style>
 </head>
 
-<body>
+<body class="contract">
     <!-- Header Section -->
     <div class="header">
         <table class="header-table">
@@ -237,11 +23,12 @@
                 {{-- <td class="content-cell" colspan="2">
                     <div class="company-title">شركة أبراج الريان للمقاولات</div>
                 </td> --}}
-                <td class="logo-cell" rowspan="3" colspan="2">
+                <td class="logo-cell" rowspan="2" colspan="2">
                     @if (file_exists(public_path('images/alrayan-logo2025.png')))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
+                <td class="content-cell"></td>
             </tr>
             <tr>
                 <td class="content-cell">

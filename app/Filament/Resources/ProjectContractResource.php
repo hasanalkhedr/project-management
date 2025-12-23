@@ -30,8 +30,68 @@ class ProjectContractResource extends Resource
 
     //protected static ?string $navigationGroup = 'العقود';
 
+
+
+
     public static function form(Form $form): Form
     {
+
+        $defaultPreamble = 'حيث إن الطرف الأول يرغب في تنفيذ أعمال بناء وتشطيب لمشروعه الكائن في {{ $project_location }}، وحيث إن الطرف الثاني لديه الخبرة والإمكانيات اللازمة لتنفيذ هذه الأعمال، فقد اتفق الطرفان على ما يلي:';
+
+        $defaultSubject = 'يتعهد الطرف الثاني بتنفيذ جميع الأعمال الخاصة بـ الإنشاء والتشييد والتشطيب والإكساء لمبنى الطرف الأول، وتشمل على سبيل المثال لا الحصر:
+<ul>
+    <li>أعمال الحفر والأساسات والهيكل الخرساني.</li>
+    <li>أعمال البناء واللياسة والدهان.</li>
+    <li>أعمال الكهرباء والسباكة والتكييف.</li>
+    <li>أعمال الأرضيات، الجدران، الأسقف، الأبواب، النوافذ، الديكور والإكساء الكامل حسب المواصفات.</li>
+</ul>';
+
+        $defaultSpecifications = 'يتم تنفيذ الأعمال طبقاً للمخططات الهندسية والمواصفات الفنية المعتمدة من الطرف الأول أو من المهندس المشرف، ويُعد أي تعديل لاحق بموجب ملحق اتفاق خطي موقع من الطرفين.';
+
+        $defaultDuration = 'مدة تنفيذ المشروع هي ({{ $execution_period }} يوم) تبدأ من تاريخ تسليم الموقع، على أن يلتزم الطرف الثاني بالجدول الزمني المتفق عليه.
+وفي حال التأخير غير المبرر، يحق للطرف الأول فرض غرامة تأخير بنسبة ({{ $delay_penalty_percentage }}%) عن كل يوم تأخير بعد المدة المحددة، بحد أقصى ({{ $max_penalty_percentage }}%) من قيمة العقد.';
+
+        $defaultPayment = 'قيمة العقد الإجمالية هي مبلغ وقدره ({{ $total_contract_value_formatted }} {{ $currency_symbol }}) تُدفع على النحو التالي:
+<ul>
+    <li>دفعة أولى: عند توقيع العقد بنسبة ({{ $initial_payment_percentage }}%) من قيمة العقد.</li>
+    <li>دفعة ثانية: بعد إنجاز مرحلة الهيكل الخرساني بنسبة ({{ $concrete_stage_payment_percentage }}%).</li>
+    <li>دفعة ثالثة: بعد الانتهاء من أعمال التشطيب بنسبة ({{ $finishing_stage_payment_percentage }}%).</li>
+    <li>دفعة نهائية: بعد التسليم النهائي وخلو المشروع من الملاحظات بنسبة ({{ $final_payment_percentage }}%).</li>
+</ul>';
+
+        $defaultObligations = '<span class="text-bold">التزامات الطرف الثاني (المقاول):</span>
+<ul>
+    <li>تنفيذ جميع الأعمال حسب الأصول الفنية والمواصفات المعتمدة.</li>
+    <li>استخدام مواد مطابقة للمواصفات القياسية.</li>
+    <li>الالتزام بوسائل السلامة في موقع العمل.</li>
+    <li>إصلاح أي عيب أو خلل يظهر خلال فترة الضمان.</li>
+</ul>
+
+<span class="text-bold">التزامات الطرف الأول (المالك):</span>
+<ul>
+    <li>تسليم الموقع خالياً من العوائق.</li>
+    <li>تسديد الدفعات حسب الجدول الزمني.</li>
+    <li>اعتماد المخططات والاختيارات في الوقت المحدد دون تأخير.</li>
+</ul>';
+
+        $defaultWarranty = 'يتعهد الطرف الثاني بضمان الأعمال المنفذة لمدة (12 شهراً) من تاريخ التسليم النهائي، ضد أي عيب في التنفيذ أو المواد، ويتحمل نفقات الإصلاح خلال هذه المدة.';
+
+        $defaultTermination = 'يحق للطرف الأول فسخ العقد في الحالات التالية:
+<ul>
+    <li>تأخر الطرف الثاني عن تنفيذ الأعمال دون مبرر.</li>
+    <li>إخلاله بالشروط أو المواصفات المتفق عليها.</li>
+    <li>توقفه عن العمل دون سبب وجيه لأكثر من (15) يوماً.</li>
+</ul>
+وفي حال الفسخ، يُلزم الطرف الثاني بتسليم جميع المواد والأعمال المنفذة حتى تاريخه ودفع أي تعويض يترتب على ذلك.';
+
+        $defaultArbitration = 'في حال حدوث أي خلاف بين الطرفين، يتم حله وديًا، وإن تعذر ذلك يُحال النزاع إلى التحكيم وفق القوانين المعمول بها في ({{ $arbitration_location }}).';
+
+        $defaultGeneralTerms = '<ul>
+    <li>لا يجوز لأي طرف التنازل عن العقد أو جزء منه دون موافقة الطرف الآخر كتابةً.</li>
+    <li>هذا العقد يشكل الاتفاق الكامل بين الطرفين ويلغي ما قبله من تفاهمات شفوية أو كتابية.</li>
+    <li>يُعد كل من الطرفين مسؤولاً عن التزاماته المنصوص عليها في هذا العقد.</li>
+</ul>';
+
         return $form
             ->schema([
                 // تبويب معلومات الطرفين
@@ -244,6 +304,138 @@ class ProjectContractResource extends Resource
                                 //             ->label('ملاحظات إضافية')
                                 //             ->columnSpanFull(),
                                 //     ]),
+                            ]),
+
+                        Forms\Components\Tabs\Tab::make('محتوى العقد')
+                            ->schema([
+                                Forms\Components\Section::make('محتوى العقد')
+                                    ->description('يمكنك تعديل كل قسم من أقسام العقد. استخدم المتغيرات بين {} لتعويض البيانات تلقائياً.')
+                                    ->collapsible()
+                                    ->schema([
+                                        Forms\Components\RichEditor::make('preamble_content')
+                                            ->label('المقدمة')
+                                            ->default($defaultPreamble)
+                                            ->helperText('المتغيرات المتاحة: {project_location}')
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('subject_content')
+                                            ->label('موضوع العقد')
+                                            ->default($defaultSubject)
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('specifications_content')
+                                            ->label('المواصفات والمخططات')
+                                            ->default($defaultSpecifications)
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('duration_content')
+                                            ->label('مدة التنفيذ')
+                                            ->default($defaultDuration)
+                                            ->helperText('المتغيرات المتاحة: {execution_period}, {delay_penalty_percentage}, {max_penalty_percentage}')
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('payment_content')
+                                            ->label('القيمة وطريقة الدفع')
+                                            ->default($defaultPayment)
+                                            ->helperText('المتغيرات المتاحة: {total_contract_value_formatted}, {currency_symbol}, {initial_payment_percentage}, {concrete_stage_payment_percentage}, {finishing_stage_payment_percentage}, {final_payment_percentage}')
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('obligations_content')
+                                            ->label('الالتزامات')
+                                            ->default($defaultObligations)
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('warranty_content')
+                                            ->label('الضمان والصيانة')
+                                            ->default($defaultWarranty)
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('termination_content')
+                                            ->label('فسخ العقد')
+                                            ->default($defaultTermination)
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('arbitration_content')
+                                            ->label('التحكيم')
+                                            ->default($defaultArbitration)
+                                            ->helperText('المتغيرات المتاحة: {arbitration_location}')
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('general_terms_content')
+                                            ->label('أحكام عامة')
+                                            ->default($defaultGeneralTerms)
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\RichEditor::make('notes_content')
+                                            ->label('ملاحظات إضافية')
+                                            ->toolbarButtons([
+                                                'bold', 'italic', 'underline', 'strike',
+                                                'bulletList', 'orderedList',
+                                                'alignRight', 'alignJustify',
+                                                'undo', 'redo',
+                                            ])
+                                            ->columnSpanFull(),
+                                    ]),
                             ]),
 
                         Forms\Components\Tabs\Tab::make('حالة العقد')

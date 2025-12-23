@@ -37,6 +37,16 @@ class ProjectContract extends Model
         //'technical_specifications',
         //'general_terms',
         //'notes',
+        'preamble_content',
+        'subject_content',
+        'specifications_content',
+        'duration_content',
+        'payment_content',
+        'obligations_content',
+        'warranty_content',
+        'termination_content',
+        'arbitration_content',
+        'general_terms_content',
     ];
 
     protected $casts = [
@@ -60,4 +70,15 @@ class ProjectContract extends Model
         return $this->belongsTo(Currency::class);
     }
 
+    // Helper method to format monetary values
+    public function getFormattedTotalContractValueAttribute()
+    {
+        return number_format($this->total_contract_value, 2);
+    }
+
+    // Helper method to get contract number
+    public function getContractNumberAttribute()
+    {
+        return 'CONTRACT-' . $this->id;
+    }
 }

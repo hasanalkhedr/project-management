@@ -473,7 +473,10 @@ class ProjectContractResource extends Resource
                                             ->native(false),
                                     ])->columns(2),
                             ]),
-                    ])->columnSpanFull(),
+                    ])->columnSpanFull()
+                ->skippable()
+                ->persistStepInQueryString()
+                    ,
             ]);
     }
 

@@ -131,7 +131,7 @@
             @else
                 @php
                     $currencySymbol = $record->currency->symbol ?? 'ريال';
-                    $totalValue = number_format((float)($record->total_contract_value), 2);
+                    $totalValue = $record->total_contract_value;
                 @endphp
                 قيمة العقد الإجمالية هي مبلغ وقدره (<span class="highlight">{{ $totalValue }} {{ $currencySymbol }}</span>) تُدفع على النحو التالي:
                 <ul>

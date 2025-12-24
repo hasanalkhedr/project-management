@@ -129,7 +129,7 @@ $mpdf->SetHTMLFooter($footerContent);
 
             // Financial details
             'total_contract_value' => $record->total_contract_value,
-            'total_contract_value_formatted' => number_format((float)$record->total_contract_value, 2),
+            'total_contract_value_formatted' => $record->total_contract_value,
             'currency_symbol' => $currencySymbol,
             'currency_name' => $currencyName,
             'initial_payment_percentage' => $record->initial_payment_percentage,

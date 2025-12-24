@@ -95,9 +95,8 @@ class ProjectContractResource extends Resource
         return $form
             ->schema([
                 // تبويب معلومات الطرفين
-                Forms\Components\Tabs::make('العقد')
-                    ->tabs([
-                        Forms\Components\Tabs\Tab::make('الطرف الأول (المالك)')
+                Forms\Components\Wizard::make([
+                        Forms\Components\Wizard\Step::make('الطرف الأول (المالك)')
                             ->schema([
                                 Forms\Components\Section::make('معلومات المالك')
                                     ->description('معلومات الطرف الأول (صاحب المشروع)')
@@ -122,7 +121,7 @@ class ProjectContractResource extends Resource
                                     ])->columns(2),
                             ]),
 
-                        Forms\Components\Tabs\Tab::make('الطرف الثاني (المقاول)')
+                        Forms\Components\Wizard\Step::make('الطرف الثاني (المقاول)')
                             ->schema([
                                 Forms\Components\Section::make('معلومات المقاول')
                                     ->description('معلومات الطرف الثاني (الشركة المنفذة)')
@@ -147,7 +146,7 @@ class ProjectContractResource extends Resource
                                     ])->columns(2),
                             ]),
 
-                        Forms\Components\Tabs\Tab::make('معلومات المشروع')
+                        Forms\Components\Wizard\Step::make('معلومات المشروع')
                             ->schema([
                                 Forms\Components\Section::make('تفاصيل المشروع')
                                     ->schema([
@@ -155,29 +154,10 @@ class ProjectContractResource extends Resource
                                             ->label('موقع المشروع')
                                             ->required()
                                             ->columnSpanFull(),
-                                        // Forms\Components\Textarea::make('contract_subject')
-                                        //     ->label('موضوع العقد')
-                                        //     ->required()
-                                        //     ->columnSpanFull()
-                                        //     ->helperText('وصف تفصيلي لأعمال البناء والتشطيب المطلوبة'),
                                     ]),
-
-                                // Forms\Components\Section::make('المخططات والمواصفات')
-                                //     ->schema([
-                                //         Forms\Components\FileUpload::make('approved_drawings')
-                                //             ->label('المخططات المعتمدة')
-                                //             ->multiple()
-                                //             ->directory('contracts/drawings')
-                                //             ->preserveFilenames(),
-                                //         Forms\Components\FileUpload::make('technical_specifications')
-                                //             ->label('المواصفات الفنية')
-                                //             ->multiple()
-                                //             ->directory('contracts/specifications')
-                                //             ->preserveFilenames(),
-                                //     ]),
                             ]),
 
-                        Forms\Components\Tabs\Tab::make('المدة والجدول الزمني')
+                        Forms\Components\Wizard\Step::make('المدة والجدول الزمني')
                             ->schema([
                                 Forms\Components\Section::make('فترة التنفيذ')
                                     ->schema([
@@ -186,17 +166,6 @@ class ProjectContractResource extends Resource
                                             ->required()
                                             ->numeric()
                                             ->minValue(1),
-                                        // Forms\Components\DatePicker::make('start_date')
-                                        //     ->label('تاريخ البدء')
-                                        //     ->required()
-                                        //     ->native(false),
-                                        // Forms\Components\DatePicker::make('end_date')
-                                        //     ->label('تاريخ الانتهاء المتوقع')
-                                        //     ->required()
-                                        //     ->native(false),
-                                        // Forms\Components\DateTimePicker::make('site_delivery_date')
-                                        //     ->label('تاريخ تسليم الموقع')
-                                        //     ->native(false),
                                     ])->columns(2),
 
                                 Forms\Components\Section::make('غرامات التأخير')
@@ -218,7 +187,7 @@ class ProjectContractResource extends Resource
                                     ])->columns(2),
                             ]),
 
-                        Forms\Components\Tabs\Tab::make('القيمة والدفعات')
+                        Forms\Components\Wizard\Step::make('القيمة والدفعات')
                             ->schema([
                                 Forms\Components\Section::make('القيمة الإجمالية')
                                     ->schema([
@@ -274,19 +243,8 @@ class ProjectContractResource extends Resource
                                     ])->columns(2),
                             ]),
 
-                        Forms\Components\Tabs\Tab::make('الضمان والأحكام')
+                        Forms\Components\Wizard\Step::make('الضمان والأحكام')
                             ->schema([
-                                // Forms\Components\Section::make('الضمان')
-                                //     ->schema([
-                                //         Forms\Components\TextInput::make('warranty_period')
-                                //             ->label('فترة الضمان (بالأشهر)')
-                                //             ->required()
-                                //             ->numeric()
-                                //             ->minValue(1)
-                                //             ->default(12)
-                                //             ->suffix('شهر'),
-                                //     ]),
-
                                 Forms\Components\Section::make('التحكيم')
                                     ->schema([
                                         Forms\Components\TextInput::make('arbitration_location')
@@ -294,19 +252,9 @@ class ProjectContractResource extends Resource
                                             ->required()
                                             ->maxLength(255),
                                     ]),
-
-                                // Forms\Components\Section::make('الأحكام العامة')
-                                //     ->schema([
-                                //         Forms\Components\Textarea::make('general_terms')
-                                //             ->label('الأحكام العامة')
-                                //             ->columnSpanFull(),
-                                //         Forms\Components\Textarea::make('notes')
-                                //             ->label('ملاحظات إضافية')
-                                //             ->columnSpanFull(),
-                                //     ]),
                             ]),
 
-                        Forms\Components\Tabs\Tab::make('محتوى العقد')
+                        Forms\Components\Wizard\Step::make('محتوى العقد')
                             ->schema([
                                 Forms\Components\Section::make('محتوى العقد')
                                     ->description('يمكنك تعديل كل قسم من أقسام العقد. استخدم المتغيرات بين {} لتعويض البيانات تلقائياً.')
@@ -317,10 +265,16 @@ class ProjectContractResource extends Resource
                                             ->default($defaultPreamble)
                                             ->helperText('المتغيرات المتاحة: {project_location}')
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
@@ -328,10 +282,16 @@ class ProjectContractResource extends Resource
                                             ->label('موضوع العقد')
                                             ->default($defaultSubject)
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
@@ -339,10 +299,16 @@ class ProjectContractResource extends Resource
                                             ->label('المواصفات والمخططات')
                                             ->default($defaultSpecifications)
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
@@ -351,10 +317,16 @@ class ProjectContractResource extends Resource
                                             ->default($defaultDuration)
                                             ->helperText('المتغيرات المتاحة: {execution_period}, {delay_penalty_percentage}, {max_penalty_percentage}')
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
@@ -363,10 +335,16 @@ class ProjectContractResource extends Resource
                                             ->default($defaultPayment)
                                             ->helperText('المتغيرات المتاحة: {total_contract_value_formatted}, {currency_symbol}, {initial_payment_percentage}, {concrete_stage_payment_percentage}, {finishing_stage_payment_percentage}, {final_payment_percentage}')
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
@@ -374,10 +352,16 @@ class ProjectContractResource extends Resource
                                             ->label('الالتزامات')
                                             ->default($defaultObligations)
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
@@ -385,10 +369,16 @@ class ProjectContractResource extends Resource
                                             ->label('الضمان والصيانة')
                                             ->default($defaultWarranty)
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
@@ -396,10 +386,16 @@ class ProjectContractResource extends Resource
                                             ->label('فسخ العقد')
                                             ->default($defaultTermination)
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
@@ -408,10 +404,16 @@ class ProjectContractResource extends Resource
                                             ->default($defaultArbitration)
                                             ->helperText('المتغيرات المتاحة: {arbitration_location}')
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
@@ -419,26 +421,38 @@ class ProjectContractResource extends Resource
                                             ->label('أحكام عامة')
                                             ->default($defaultGeneralTerms)
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
 
                                         Forms\Components\RichEditor::make('notes_content')
                                             ->label('ملاحظات إضافية')
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'alignRight', 'alignJustify',
-                                                'undo', 'redo',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
                                             ])
                                             ->columnSpanFull(),
                                     ]),
                             ]),
 
-                        Forms\Components\Tabs\Tab::make('حالة العقد')
+                        Forms\Components\Wizard\Step::make('حالة العقد')
                             ->schema([
                                 Forms\Components\Section::make('حالة العقد')
                                     ->schema([

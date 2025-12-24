@@ -71,19 +71,26 @@ class ExportContractToPdfAction
                 ],
                 'default_font' => 'almarai',
                 'margin_top' => 10,
-                'margin_bottom' => 15,
-                'margin_left' => 8,
-                'margin_right' => 8,
+                'margin_bottom' => 40,
+                'margin_left' => 4,
+                'margin_right' => 4,
                 'tempDir' => storage_path('app/mpdf/tmp'),
                 'allow_output_buffering' => true,
             ]);
 
-            // تذييل الصفحة
-            $mpdf->SetHTMLFooter('
-                <div style="text-align: center; font-size: 10px; color: #666; border-top: 1px solid #ddd; padding-top: 5px;">
-                    الصفحة {PAGENO} من {nbpg} | ' . date('Y-m-d H:i') . '
-                </div>
-            ');
+            $footerContent = '
+    <div style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center;">
+        <img src="file://' . public_path('images/letterhead.png') . '" style="width: 100%; max-height: 338px; opacity: 1;" />
+    </div>
+';
+
+$mpdf->SetHTMLFooter($footerContent);
+            // // تذييل الصفحة
+            // $mpdf->SetHTMLFooter('
+            //     <div style="text-align: center; font-size: 10px; color: #666; border-top: 1px solid #ddd; padding-top: 5px;">
+            //         الصفحة {PAGENO} من {nbpg} | ' . date('Y-m-d H:i') . '
+            //     </div>
+            // ');
 
             $html = view('filament.pages.contract-pdf', $data)->render();
             $mpdf->WriteHTML($html);

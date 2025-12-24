@@ -7,7 +7,7 @@
 } */
 
 body {
-    font-family: 'almarai';
+    font-family: "almarai";
     line-height: 1.5;
     word-spacing: 3px;
     direction: rtl;
@@ -24,7 +24,8 @@ table {
     unicode-bidi: embed;
 }
 
-th, td {
+th,
+td {
     padding: 8px;
     text-align: right;
     page-break-inside: avoid;
@@ -45,7 +46,7 @@ th, td {
 }
 
 .logo-cell {
-    width: 35%;
+    width: 28%;
     vertical-align: middle;
 }
 
@@ -78,6 +79,15 @@ th, td {
     font-size: 28px;
     font-weight: bold;
     margin: 0;
+    padding-right: -20px;
+    text-align: right;
+}
+
+.report-manager {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
 }
 
 .contract-title {
@@ -330,7 +340,7 @@ li {
     text-align: center;
     color: #666;
     font-size: 12px;
-    margin-top: 15px;
+    margin-top: 60px;
 }
 
 /* Common Footer Styles */
@@ -388,4 +398,48 @@ li {
 .contract .header {
     border-bottom: 1px solid #ddd;
     margin-bottom: 20px;
+}
+
+body {
+    font-family: almarai, sans-serif;
+    padding-bottom: 60px !important; /* مساحة للصورة */
+}
+
+.page-break {
+    page-break-before: always;
+    padding-top: 40px;
+}
+
+.no-break {
+    page-break-inside: avoid;
+}
+
+/* مسافة إضافية قبل التوقيعات */
+.signature-section {
+    margin-top: 100px;
+    padding-bottom: 50px;
+}
+
+/* تحسين المسافات بين الأقسام */
+.divider {
+    margin: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* تنسيق الهيدر */
+.header {
+    margin-bottom: 30px;
+}
+
+/* تنسيق الفوتر الداخلي */
+.internal-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 10px;
+    font-size: 9px;
+    color: #888;
+    border-top: 1px solid #eee;
 }

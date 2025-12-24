@@ -20,23 +20,19 @@
     <div class="header">
         <table class="header-table">
             <tr>
-                {{-- <td class="content-cell" colspan="2">
-                    <div class="company-title">شركة أبراج الريان للمقاولات</div>
-                </td> --}}
-                <td class="logo-cell" rowspan="2" colspan="2">
+                <td class="logo-cell" rowspan="2">
                     @if (file_exists(public_path('images/alrayan-logo2025.png')))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
-                <td class="content-cell"></td>
             </tr>
             <tr>
-                <td class="content-cell">
+                <td class="content-cell" colspan="2">
                     <div class="contract-title">عقد اتفاق - {{ $record->title }}</div>
                 </td>
             </tr>
             <tr>
-                <td class="content-cell">
+                <td class="content-cell" colspan="2">
                     <div class="contract-meta">
                         العقد رقم: CONTRACT-{{ $record->id }} &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
                         التاريخ: {{ now()->format('d/m/Y') }}

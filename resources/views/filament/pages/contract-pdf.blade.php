@@ -25,13 +25,16 @@
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
-                <td class="content-cell">
-                    <div class="contract-title">عقد اتفاق لتنفيذ أعمال البناء</div>
+
+            </tr>
+            <tr>
+                <td class="content-cell" colspan="2">
+                    <div class="report-title">عقد اتفاق لتنفيذ أعمال البناء</div>
                 </td>
             </tr>
             <tr>
-                <td class="content-cell">
-                    <div class="contract-meta">
+                <td class="content-cell" colspan="2">
+                    <div class="report-meta">
                         العقد رقم: CONTRACT-{{ $record->id }} &nbsp;&nbsp;|&nbsp;&nbsp; التاريخ: {{ $record->contract_date->format('d/m/Y') }}
                     </div>
                 </td>
@@ -255,9 +258,9 @@
                     <div class="signature-line"></div>
                     <div>الاسم: {{ $record->owner_name }}</div>
                     <div>التاريخ: {{ $record->contract_date->format('Y-m-d') }}</div>
-                    <div class="stamp-placeholder">
+                    {{-- <div class="stamp-placeholder">
                         (ختم وتوقيع)
-                    </div>
+                    </div> --}}
                 </td>
 
                 <td class="signature-cell">
@@ -265,9 +268,9 @@
                     <div class="signature-line"></div>
                     <div>الاسم: {{ $record->contractor_name }}</div>
                     <div>التاريخ: {{ $record->contract_date->format('Y-m-d') }}</div>
-                    <div class="stamp-placeholder">
+                    {{-- <div class="stamp-placeholder">
                         (ختم وتوقيع)
-                    </div>
+                    </div> --}}
                 </td>
             </tr>
         </table>
@@ -276,12 +279,5 @@
     <div class="final-statement">
         حرر هذا العقد من نسختين أصليتين بيد كل طرف نسخة للعمل بموجبها
     </div>
-
-    <div class="footer">
-        <div>شركة أبراج الريان للمقاولات</div>
-        <div>https://alrayanrealestate.com/ - © {{ date('Y') }} جميع الحقوق محفوظة</div>
-    </div>
 </body>
-
-
 </html>

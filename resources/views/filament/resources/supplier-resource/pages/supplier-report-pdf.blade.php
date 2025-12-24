@@ -17,25 +17,21 @@
     <div class="header">
         <table class="header-table">
             <tr>
-                {{-- <td class="content-cell" colspan="2">
-                    <div class="company-title">شركة أبراج الريان للمقاولات</div>
-                </td> --}}
-                <td class="logo-cell" rowspan="2" colspan="2">
+                <td class="logo-cell" rowspan="2">
                     @if (file_exists(public_path('images/alrayan-logo2025.png')))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
-                <td class="content-cell"></td>
             </tr>
             <tr>
-                <td class="content-cell">
+                <td class="content-cell" colspan="2">
                      <div class="report-title">
                         {{$report_title}}
                     </div>
                 </td>
             </tr>
             <tr>
-                <td class="content-cell">
+                <td class="content-cell" colspan="2">
                     @if ($start_date && $end_date)
                         <div class="report-meta">
                             تاريخ: {{ $report_date }}
@@ -144,13 +140,27 @@
                     <!-- Empty cell for balance -->
                 </td>
                 <td class="footer-content-cell">
-                    <p>https://alrayanrealestate.com/</p>
-                    <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p>
+                    {{-- <p>https://alrayanrealestate.com/</p>
+                    <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}
                 </td>
                 <td class="stamp-cell">
                     @if (file_exists($stamp))
                         <img src="{{ $stamp }}" class="stamp" alt="شعار الشركة">
                     @endif
+                </td>
+            </tr>
+            <tr>
+                <td class="spacer-cell">
+                    <!-- Empty cell for balance -->
+                </td>
+                <td class="footer-content-cell">
+                    {{-- <p>https://alrayanrealestate.com/</p>
+                    <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}
+                </td>
+                <td class="stamp-cell">
+                    <div class="report-manager">
+                        مدير الشركة
+                    </div>
                 </td>
             </tr>
         </table>

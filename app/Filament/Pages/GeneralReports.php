@@ -260,18 +260,20 @@ class GeneralReports extends Page
                 ],
                 'default_font' => 'almarai',
                 'margin_top' => 5,
-                'margin_bottom' => 15,
-                'margin_left' => 10,
-                'margin_right' => 10,
+                'margin_bottom' => 40,
+                'margin_left' => 4,
+                'margin_right' => 4,
                 'tempDir' => storage_path('app/mpdf/tmp'),
                 'allow_output_buffering' => true,
             ]);
             // Set footer with page number on left
-            $mpdf->SetHTMLFooter('
-            <div style="text-align: left; font-size: 10px; width: 100%;">
-                الصفحة {PAGENO} من {nbpg}
-            </div>
-        ');
+            $footerContent = '
+    <div style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center;">
+        <img src="file://' . public_path('images/letterhead.png') . '" style="width: 100%; max-height: 338px; opacity: 1;" />
+    </div>
+';
+
+$mpdf->SetHTMLFooter($footerContent);
             $html = view('filament.pages.general-reports-pdf', $data)->render();
             $mpdf->WriteHTML($html);
             $mpdf->Output('', 'I');

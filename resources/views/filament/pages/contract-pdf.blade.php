@@ -28,9 +28,10 @@
 
             </tr>
             <tr>
-                <td class="content-cell" colspan="2">
+                <td class="title-cell">
                     <div class="report-title">عقد اتفاق لتنفيذ أعمال البناء</div>
                 </td>
+                <td class="right-cell" rowspan="1"></td>
             </tr>
             <tr>
                 <td class="content-cell" colspan="2">

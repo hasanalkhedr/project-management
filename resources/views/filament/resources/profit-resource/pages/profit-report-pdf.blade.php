@@ -24,11 +24,10 @@
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
-                <td class="content-cell"></td>
             </tr>
 
             <tr>
-                <td class="content-cell" colspan="2">
+                <td class="title-cell" >
                     <div class="report-title">كشف حساب دفعات الإشراف
 
                         @if ($currency_filter === __('All Currencies'))
@@ -38,6 +37,7 @@
                         @endif
                     </div>
                 </td>
+                <td class="right-cell" rowspan="1"></td>
             </tr>
             <tr>
                 <td class="content-cell" colspan="2">
@@ -187,12 +187,10 @@
                     <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}
                 </td>
                 <td class="stamp-cell">
-                    @if (file_exists($stamp))
-                        <img src="{{ $stamp }}" class="stamp" alt="شعار الشركة">
-                    @endif
+                    <div class="report-manager">مدير الشركة</div>
                 </td>
             </tr>
-             <tr>
+            <tr>
                 <td class="spacer-cell">
                     <!-- Empty cell for balance -->
                 </td>
@@ -201,7 +199,9 @@
                     <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}
                 </td>
                 <td class="stamp-cell">
-                    <div class="report-manager">مدير الشركة</div>
+                    @if (file_exists($stamp))
+                        <img src="{{ $stamp }}" class="stamp" alt="شعار الشركة">
+                    @endif
                 </td>
             </tr>
         </table>

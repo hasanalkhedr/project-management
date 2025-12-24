@@ -46,7 +46,12 @@ td {
 }
 
 .logo-cell {
-    width: 28%;
+    width: 25%;
+    vertical-align: middle;
+}
+
+.right-cell {
+    width: 15%;
     vertical-align: middle;
 }
 
@@ -58,15 +63,16 @@ td {
     object-fit: contain;
 }
 
-.title-cell {
-    width: 60%;
-    text-align: center;
-    vertical-align: top;
-}
 
 .content-cell {
-    vertical-align: bottom;
+    vertical-align: middle;
     text-align: right;
+}
+.title-cell {
+    vertical-align: middle;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 .company-title {
@@ -79,8 +85,8 @@ td {
     font-size: 28px;
     font-weight: bold;
     margin: 0;
-    padding-right: -20px;
-    text-align: right;
+    text-align: center;
+    align-content: center;
 }
 
 .report-manager {
@@ -362,7 +368,7 @@ li {
 .stamp-cell {
     width: 30%;
     vertical-align: bottom;
-    text-align: left;
+    text-align: center;
     margin-right: 40px;
 }
 

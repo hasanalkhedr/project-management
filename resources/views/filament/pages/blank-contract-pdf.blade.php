@@ -27,9 +27,11 @@
                 </td>
             </tr>
             <tr>
-                <td class="content-cell" colspan="2">
-                    <div class="contract-title">عقد اتفاق - {{ $record->title }}</div>
+                <td class="title-cell">
+                    <p class="contract-title">عقد اتفاق</p>
+                    <p class="contract-title">{{ $record->title }}</p>
                 </td>
+                <td class="right-cell" rowspan="1"></td>
             </tr>
             <tr>
                 <td class="content-cell" colspan="2">

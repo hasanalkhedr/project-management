@@ -17,14 +17,14 @@
     <div class="header">
         <table class="header-table">
             <tr>
-                <td class="logo-cell" rowspan="3">
+                <td class="logo-cell" rowspan="2">
                     @if (file_exists(public_path('images/alrayan-logo2025.png')))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>
             </tr>
             <tr>
-                <td class="content-cell" colspan="2">
+                <td class="title-cell">
                      <div class="report-title">كشف حساب
                         @if ($report_type === 'payments')
                             الدفعات الخاصة
@@ -40,6 +40,7 @@
                         @endif
                     </div>
                 </td>
+                <td class="right-cell" rowspan="1"></td>
             </tr>
             <tr>
                 <td class="content-cell" colspan="2">
@@ -146,12 +147,12 @@
                     <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}
                 </td>
                 <td class="stamp-cell">
-                    @if (file_exists($stamp))
-                        <img src="{{ $stamp }}" class="stamp" alt="شعار الشركة">
-                    @endif
+                    <div class="report-manager">
+                        مدير الشركة
+                    </div>
                 </td>
             </tr>
-             <tr>
+            <tr>
                 <td class="spacer-cell">
                     <!-- Empty cell for balance -->
                 </td>
@@ -160,9 +161,9 @@
                     <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}
                 </td>
                 <td class="stamp-cell">
-                    <div class="report-manager">
-                        مدير الشركة
-                    </div>
+                    @if (file_exists($stamp))
+                        <img src="{{ $stamp }}" class="stamp" alt="شعار الشركة">
+                    @endif
                 </td>
             </tr>
         </table>

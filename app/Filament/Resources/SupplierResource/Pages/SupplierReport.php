@@ -214,7 +214,7 @@ class SupplierReport extends Page implements HasTable
         $filename = "كشف حساب المورّد ".$this->record->name.' ';
         $filename .= ($selectedProject ? "للمشروع {$selectedProject->name} - " : " ");
         $filename .= ($selectedCurrency ? "بال{$selectedCurrency->name} - " : "بكل العملات ");
-        $report_title = $filename;
+        $report_title = "كشف حساب المورّد ".$this->record->name.' '.($selectedCurrency ? "بال{$selectedCurrency->name} " : "بكل العملات ");
         $filename .= '.pdf';
 
         return new StreamedResponse(function () use ($selectedCurrency, $selectedProject, $report_title) {

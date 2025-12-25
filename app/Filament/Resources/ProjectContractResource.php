@@ -51,13 +51,13 @@ class ProjectContractResource extends Resource
         $defaultDuration = 'مدة تنفيذ المشروع هي ({{ $execution_period }} يوم) تبدأ من تاريخ تسليم الموقع، على أن يلتزم الطرف الثاني بالجدول الزمني المتفق عليه.
 وفي حال التأخير غير المبرر، يحق للطرف الأول فرض غرامة تأخير بنسبة ({{ $delay_penalty_percentage }}%) عن كل يوم تأخير بعد المدة المحددة، بحد أقصى ({{ $max_penalty_percentage }}%) من قيمة العقد.';
 
-        $defaultPayment = 'قيمة العقد الإجمالية هي مبلغ وقدره ({{ $total_contract_value_formatted }} {{ $currency_symbol }}) تُدفع على النحو التالي:
-<ul>
-    <li>دفعة أولى: عند توقيع العقد بنسبة ({{ $initial_payment_percentage }}%) من قيمة العقد.</li>
-    <li>دفعة ثانية: بعد إنجاز مرحلة الهيكل الخرساني بنسبة ({{ $concrete_stage_payment_percentage }}%).</li>
-    <li>دفعة ثالثة: بعد الانتهاء من أعمال التشطيب بنسبة ({{ $finishing_stage_payment_percentage }}%).</li>
-    <li>دفعة نهائية: بعد التسليم النهائي وخلو المشروع من الملاحظات بنسبة ({{ $final_payment_percentage }}%).</li>
-</ul>';
+//         $defaultPayment = 'قيمة العقد الإجمالية هي مبلغ وقدره ({{ $total_contract_value_formatted }} {{ $currency_symbol }}) تُدفع على النحو التالي:
+// <ul>
+//     <li>دفعة أولى: عند توقيع العقد بنسبة ({{ $initial_payment_percentage }}%) من قيمة العقد.</li>
+//     <li>دفعة ثانية: بعد إنجاز مرحلة الهيكل الخرساني بنسبة ({{ $concrete_stage_payment_percentage }}%).</li>
+//     <li>دفعة ثالثة: بعد الانتهاء من أعمال التشطيب بنسبة ({{ $finishing_stage_payment_percentage }}%).</li>
+//     <li>دفعة نهائية: بعد التسليم النهائي وخلو المشروع من الملاحظات بنسبة ({{ $final_payment_percentage }}%).</li>
+// </ul>';
 
         $defaultObligations = '<span class="text-bold">التزامات الطرف الثاني (المقاول):</span>
 <ul>
@@ -330,23 +330,23 @@ class ProjectContractResource extends Resource
                                             ])
                                             ->columnSpanFull(),
 
-                                        Forms\Components\RichEditor::make('payment_content')
-                                            ->label('القيمة وطريقة الدفع')
-                                            ->default($defaultPayment)
-                                            ->helperText('المتغيرات المتاحة: {total_contract_value_formatted}, {currency_symbol}, {initial_payment_percentage}, {concrete_stage_payment_percentage}, {finishing_stage_payment_percentage}, {final_payment_percentage}')
-                                            ->toolbarButtons([
-                                                'bold',
-                                                'italic',
-                                                'underline',
-                                                'strike',
-                                                'bulletList',
-                                                'orderedList',
-                                                'alignRight',
-                                                'alignJustify',
-                                                'undo',
-                                                'redo',
-                                            ])
-                                            ->columnSpanFull(),
+                                        // Forms\Components\RichEditor::make('payment_content')
+                                        //     ->label('القيمة وطريقة الدفع')
+                                        //     ->default($defaultPayment)
+                                        //     ->helperText('المتغيرات المتاحة: {total_contract_value_formatted}, {currency_symbol}, {initial_payment_percentage}, {concrete_stage_payment_percentage}, {finishing_stage_payment_percentage}, {final_payment_percentage}')
+                                        //     ->toolbarButtons([
+                                        //         'bold',
+                                        //         'italic',
+                                        //         'underline',
+                                        //         'strike',
+                                        //         'bulletList',
+                                        //         'orderedList',
+                                        //         'alignRight',
+                                        //         'alignJustify',
+                                        //         'undo',
+                                        //         'redo',
+                                        //     ])
+                                        //     ->columnSpanFull(),
 
                                         Forms\Components\RichEditor::make('obligations_content')
                                             ->label('الالتزامات')

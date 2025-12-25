@@ -110,45 +110,6 @@ $mpdf->SetHTMLFooter($footerContent);
         $currencyName = $record->currency->name ?? 'ريال سعودي';
 
 
-        dd( [
-            // Basic information
-            'project_location' => $record->project_location,
-            'owner_name' => $record->owner_name,
-            'owner_id_number' => $record->owner_id_number,
-            'owner_address' => $record->owner_address,
-            'owner_phone' => $record->owner_phone,
-            'contractor_name' => $record->contractor_name,
-            'contractor_commercial_registration' => $record->contractor_commercial_registration,
-            'contractor_address' => $record->contractor_address,
-            'contractor_phone' => $record->contractor_phone,
-
-            // Project details
-            'execution_period' => $record->execution_period,
-            'delay_penalty_percentage' => $record->delay_penalty_percentage,
-            'max_penalty_percentage' => $record->max_penalty_percentage,
-            'arbitration_location' => $record->arbitration_location,
-
-            // Financial details
-            'total_contract_value' => $record->total_contract_value,
-            'total_contract_value_formatted' => number_format($record->total_contract_value, 2),
-            'currency_symbol' => $currencySymbol,
-            'currency_name' => $currencyName,
-            'initial_payment_percentage' => $record->initial_payment_percentage,
-            'concrete_stage_payment_percentage' => $record->concrete_stage_payment_percentage,
-            'finishing_stage_payment_percentage' => $record->finishing_stage_payment_percentage,
-            'final_payment_percentage' => $record->final_payment_percentage,
-
-            // Contract details
-            'contract_date' => $record->contract_date->format('d/m/Y'),
-            'contract_number' => 'CONTRACT-' . $record->id,
-
-            // Calculated values
-            'initial_payment_amount' => number_format(($record->total_contract_value * $record->initial_payment_percentage) / 100, 2),
-            'concrete_stage_payment_amount' => number_format(($record->total_contract_value * $record->concrete_stage_payment_percentage) / 100, 2),
-            'finishing_stage_payment_amount' => number_format(($record->total_contract_value * $record->finishing_stage_payment_percentage) / 100, 2),
-            'final_payment_amount' => number_format(($record->total_contract_value * $record->final_payment_percentage) / 100, 2),
-        ]);
-
         return [
             // Basic information
             'project_location' => $record->project_location,

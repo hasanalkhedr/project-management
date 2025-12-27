@@ -58,6 +58,13 @@ class ProjectContractResource extends Resource
 //     <li>دفعة ثالثة: بعد الانتهاء من أعمال التشطيب بنسبة ({{ $finishing_stage_payment_percentage }}%).</li>
 //     <li>دفعة نهائية: بعد التسليم النهائي وخلو المشروع من الملاحظات بنسبة ({{ $final_payment_percentage }}%).</li>
 // </ul>';
+        $defaultPayment = 'قيمة العقد الإجمالية هي مبلغ وقدره (10,000 دولار أمريكي) تُدفع على النحو التالي:
+<ul>
+    <li>دفعة أولى: عند توقيع العقد بنسبة (30%) من قيمة العقد.</li>
+    <li>دفعة ثانية: بعد إنجاز مرحلة الهيكل الخرساني بنسبة (30%).</li>
+    <li>دفعة ثالثة: بعد الانتهاء من أعمال التشطيب بنسبة (20%).</li>
+    <li>دفعة نهائية: بعد التسليم النهائي وخلو المشروع من الملاحظات بنسبة (20%).</li>
+</ul>';
 
         $defaultObligations = '<span class="text-bold">التزامات الطرف الثاني (المقاول):</span>
 <ul>
@@ -189,58 +196,79 @@ class ProjectContractResource extends Resource
 
                         Forms\Components\Wizard\Step::make('القيمة والدفعات')
                             ->schema([
-                                Forms\Components\Section::make('القيمة الإجمالية')
-                                    ->schema([
-                                        Forms\Components\Select::make('currency_id')
-                                            ->label('العملة')
-                                            ->required()
-                                            ->relationship('currency', 'name')
-                                            ->preload()
-                                            ->searchable(),
-                                        Forms\Components\TextInput::make('total_contract_value')
-                                            ->label('القيمة الإجمالية للعقد')
-                                            ->required()
-                                            ->numeric()
-                                            ->minValue(0)
-                                            ->prefix('$'),
-                                    ])->columns(2),
+                                // Forms\Components\Section::make('القيمة الإجمالية')
+                                //     ->schema([
+                                //         Forms\Components\Select::make('currency_id')
+                                //             ->label('العملة')
+                                //             ->required()
+                                //             ->relationship('currency', 'name')
+                                //             ->preload()
+                                //             ->searchable(),
+                                //         Forms\Components\TextInput::make('total_contract_value')
+                                //             ->label('القيمة الإجمالية للعقد')
+                                //             ->required()
+                                //             ->numeric()
+                                //             ->minValue(0)
+                                //             ->prefix('$'),
+                                //     ])->columns(2),
 
-                                Forms\Components\Section::make('جدول الدفعات')
-                                    ->description('نسب الدفعات المتفق عليها')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('initial_payment_percentage')
-                                            ->label('الدفعة الأولى عند التوقيع (%)')
-                                            ->required()
-                                            ->numeric()
-                                            ->minValue(0)
-                                            ->maxValue(100)
-                                            ->step(0.1)
-                                            ->suffix('%'),
-                                        Forms\Components\TextInput::make('concrete_stage_payment_percentage')
-                                            ->label('الدفعة بعد الهيكل الخرساني (%)')
-                                            ->required()
-                                            ->numeric()
-                                            ->minValue(0)
-                                            ->maxValue(100)
-                                            ->step(0.1)
-                                            ->suffix('%'),
-                                        Forms\Components\TextInput::make('finishing_stage_payment_percentage')
-                                            ->label('الدفعة بعد التشطيب (%)')
-                                            ->required()
-                                            ->numeric()
-                                            ->minValue(0)
-                                            ->maxValue(100)
-                                            ->step(0.1)
-                                            ->suffix('%'),
-                                        Forms\Components\TextInput::make('final_payment_percentage')
-                                            ->label('الدفعة النهائية (%)')
-                                            ->required()
-                                            ->numeric()
-                                            ->minValue(0)
-                                            ->maxValue(100)
-                                            ->step(0.1)
-                                            ->suffix('%'),
-                                    ])->columns(2),
+                                // Forms\Components\Section::make('جدول الدفعات')
+                                //     ->description('نسب الدفعات المتفق عليها')
+                                //     ->schema([
+                                //         Forms\Components\TextInput::make('initial_payment_percentage')
+                                //             ->label('الدفعة الأولى عند التوقيع (%)')
+                                //             ->required()
+                                //             ->numeric()
+                                //             ->minValue(0)
+                                //             ->maxValue(100)
+                                //             ->step(0.1)
+                                //             ->suffix('%'),
+                                //         Forms\Components\TextInput::make('concrete_stage_payment_percentage')
+                                //             ->label('الدفعة بعد الهيكل الخرساني (%)')
+                                //             ->required()
+                                //             ->numeric()
+                                //             ->minValue(0)
+                                //             ->maxValue(100)
+                                //             ->step(0.1)
+                                //             ->suffix('%'),
+                                //         Forms\Components\TextInput::make('finishing_stage_payment_percentage')
+                                //             ->label('الدفعة بعد التشطيب (%)')
+                                //             ->required()
+                                //             ->numeric()
+                                //             ->minValue(0)
+                                //             ->maxValue(100)
+                                //             ->step(0.1)
+                                //             ->suffix('%'),
+                                //         Forms\Components\TextInput::make('final_payment_percentage')
+                                //             ->label('الدفعة النهائية (%)')
+                                //             ->required()
+                                //             ->numeric()
+                                //             ->minValue(0)
+                                //             ->maxValue(100)
+                                //             ->step(0.1)
+                                //             ->suffix('%'),
+                                //     ])->columns(2),
+
+                                Forms\Components\Section::make('قيمة العقد وطريقة الدفع')
+                                        ->schema([
+                                            Forms\Components\RichEditor::make('payment_content')
+                                            ->label('القيمة وطريقة الدفع')
+                                            ->default($defaultPayment)
+                                            //->helperText('المتغيرات المتاحة: {total_contract_value_formatted}, {currency_symbol}, {initial_payment_percentage}, {concrete_stage_payment_percentage}, {finishing_stage_payment_percentage}, {final_payment_percentage}')
+                                            ->toolbarButtons([
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'bulletList',
+                                                'orderedList',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'undo',
+                                                'redo',
+                                            ])
+                                            ->columnSpanFull(),
+                                        ]),
                             ]),
 
                         Forms\Components\Wizard\Step::make('الضمان والأحكام')

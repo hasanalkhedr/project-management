@@ -498,6 +498,9 @@ class ProjectContractResource extends Resource
                                         Forms\Components\DatePicker::make('contract_date')
                                             ->label('تاريخ العقد')
                                             ->required()
+                                            ->displayFormat('d/m/Y')
+                                            ->firstDayOfWeek(7)
+                                            ->closeOnDateSelection()
                                             ->native(false),
                                     ])->columns(2),
                             ]),

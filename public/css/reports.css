@@ -1,11 +1,3 @@
-/* Base styles for all reports */
-/* @font-face {
-    font-family: 'almarai';
-    font-style: normal;
-    font-weight: bold;
-    src: url('{{ storage_path('fonts/Almarai-ExtraBold.ttf') }}') format('truetype');
-} */
-
 body {
     font-family: "almarai";
     line-height: 1.5;
@@ -14,6 +6,8 @@ body {
     text-align: right;
     margin: 0;
     padding: 0;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 table {
@@ -34,10 +28,6 @@ td {
 /* Common Header Styles */
 .header {
     border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
-}
-
-.contract .header {
     margin-bottom: 20px;
 }
 
@@ -214,11 +204,6 @@ td {
 
 .negative {
     color: #ef4444;
-}
-
-/* Contract-specific styles */
-.contract .header {
-    margin-bottom: 20px;
 }
 
 .parties-section {
@@ -401,16 +386,6 @@ li {
     border-bottom: 1px solid #ddd;
 }
 
-.contract .header {
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
-}
-
-body {
-    font-family: almarai, sans-serif;
-    padding-bottom: 60px !important; /* مساحة للصورة */
-}
-
 .page-break {
     page-break-before: always;
     padding-top: 40px;
@@ -444,8 +419,9 @@ body {
     left: 0;
     right: 0;
     text-align: center;
-    padding: 10px;
     font-size: 9px;
     color: #888;
     border-top: 1px solid #eee;
+    margin: 0;
+    padding: 0 !important;
 }

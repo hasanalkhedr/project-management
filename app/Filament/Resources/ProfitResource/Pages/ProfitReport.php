@@ -263,11 +263,9 @@ class ProfitReport extends Page implements HasTable
                 'allow_output_buffering' => true,
             ]);
             // Set footer with page number on left
-            $footerContent = '
-    <div style="position: fixed; bottom: 0; left: 0; right: 0; text-align: center;">
-        <img src="file://' . public_path('images/letterhead.png') . '" style="width: 100%; max-height: 338px; opacity: 1;" />
-    </div>
-';
+            $footerContent = '<div style="position: absolute; bottom: -1mm; left: 0; right: 0; width: 105%; margin: -3px; padding: 0;">
+                    <img src="file://' . public_path('images/letterhead.png') . '" style="width: 100%; height: auto; display: block; margin: 0; padding: 0;" />
+                </div>';
 
 $mpdf->SetHTMLFooter($footerContent);
             $html = view('filament.resources.profit-resource.pages.profit-report-pdf', $data)->render();

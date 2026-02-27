@@ -137,14 +137,14 @@
 
     <!-- Footer Section -->
     <div class="footer">
-        <table class="footer-table">
+        {{-- <table class="footer-table">
             <tr>
                 <td class="spacer-cell">
                     <!-- Empty cell for balance -->
                 </td>
                 <td class="footer-content-cell">
                     {{-- <p>https://alrayanrealestate.com/</p>
-                    <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}
+                    <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}{{--
                 </td>
                 <td class="stamp-cell">
                     <div class="report-manager">
@@ -158,7 +158,7 @@
                 </td>
                 <td class="footer-content-cell">
                     {{-- <p>https://alrayanrealestate.com/</p>
-                    <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}
+                    <p>&copy; {{ date('Y') }} Al-Rayan Real Estate. All rights reserved</p> --}}{{--
                 </td>
                 <td class="stamp-cell">
                     @if (file_exists($stamp))
@@ -166,7 +166,7 @@
                     @endif
                 </td>
             </tr>
-        </table>
+        </table> --}}
     </div>
 </body>
 </html>

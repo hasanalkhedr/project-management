@@ -137,27 +137,29 @@ class SupplierResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                    ->before(function (Tables\Actions\DeleteAction $action, Supplier $record) {
+                    ->action(function (Supplier $record) {
                         if ($record->expenses()->exists()) {
-                            $action->cancel();
-                            $action->notify(
-                                isWarning: true,
-                                title: __('لا يمكن الحذف'),
-                                body: __('لا يمكن حذف هذا المورد, يوجد سجلات مرتبطة به')
-                            );
+                            \Filament\Notifications\Notification::make()
+                                ->warning()
+                                ->title(__('لا يمكن الحذف'))
+                                ->body(__('لا يمكن حذف هذا المورد, يوجد سجلات مرتبطة به'))
+                                ->send();
+                            return;
                         }
+                        $record->delete();
                     }),
                 Tables\Actions\RestoreAction::make(),
                 Tables\Actions\ForceDeleteAction::make()
-                    ->before(function (Tables\Actions\ForceDeleteAction $action, Supplier $record) {
+                    ->action(function (Supplier $record) {
                         if ($record->expenses()->exists()) {
-                            $action->cancel();
-                            $action->notify(
-                                isWarning: true,
-                                title: __('لا يمكن الحذف'),
-                                body: __('لا يمكن حذف هذا المورد, يوجد سجلات مرتبطة به')
-                            );
+                            \Filament\Notifications\Notification::make()
+                                ->warning()
+                                ->title(__('لا يمكن الحذف'))
+                                ->body(__('لا يمكن حذف هذا المورد, يوجد سجلات مرتبطة به'))
+                                ->send();
+                            return;
                         }
+                        $record->forceDelete();
                     }),
                 Tables\Actions\Action::make('reports')  // Note: Tables\Actions\Action
                     ->translateLabel()

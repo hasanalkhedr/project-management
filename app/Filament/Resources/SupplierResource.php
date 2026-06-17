@@ -136,9 +136,29 @@ class SupplierResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
-                // Tables\Actions\RestoreAction::make(),
-                // Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function (Tables\Actions\DeleteAction $action, Supplier $record) {
+                        if ($record->expenses()->exists()) {
+                            $action->cancel();
+                            $action->notify(
+                                isWarning: true,
+                                title: __('لا يمكن الحذف'),
+                                body: __('لا يمكن حذف هذا المورد, يوجد سجلات مرتبطة به')
+                            );
+                        }
+                    }),
+                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->before(function (Tables\Actions\ForceDeleteAction $action, Supplier $record) {
+                        if ($record->expenses()->exists()) {
+                            $action->cancel();
+                            $action->notify(
+                                isWarning: true,
+                                title: __('لا يمكن الحذف'),
+                                body: __('لا يمكن حذف هذا المورد, يوجد سجلات مرتبطة به')
+                            );
+                        }
+                    }),
                 Tables\Actions\Action::make('reports')  // Note: Tables\Actions\Action
                     ->translateLabel()
                     ->color('success')

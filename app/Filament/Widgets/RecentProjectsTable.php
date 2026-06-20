@@ -3,12 +3,15 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Project;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 
 class RecentProjectsTable extends BaseWidget
 {
+    use HasWidgetShield;
+
     //protected static ?string $heading = 'Recent Projects';
     protected function getTableHeading(): string
     {

@@ -8,6 +8,7 @@ use App\Filament\Widgets\DashboardStats;
 use App\Filament\Widgets\FinancialTrendsChart;
 use App\Filament\Widgets\ProjectsByStatusChart;
 use App\Filament\Widgets\RecentProjectsTable;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -24,6 +25,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -82,6 +84,8 @@ class AdminPanelProvider extends PanelProvider
                 FinancialTrendsChart::class,
                 RecentProjectsTable::class,
             ])
+            ->plugin(FilamentUsersPlugin::make())
+            ->plugin(FilamentShieldPlugin::make())
             ->databaseTransactions()
             ->spa();
         ;

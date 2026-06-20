@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class GeneralReports extends Page
 {
+    use HasPageShield;
     protected static ?string $navigationIcon = 'heroicon-s-chart-bar';
     protected static string $view = 'filament.pages.general-reports';
     protected static ?int $navigationSort = 6;

@@ -6,12 +6,14 @@ use App\Models\Expense;
 use App\Models\Payment;
 use App\Models\Currency;
 use App\Models\Project;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\DB;
 
 class DashboardStats extends BaseWidget
 {
+    use HasWidgetShield;
     protected function getStats(): array
     {
         $stats = [];

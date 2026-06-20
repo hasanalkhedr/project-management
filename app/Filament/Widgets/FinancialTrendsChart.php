@@ -3,12 +3,15 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Currency;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
 class FinancialTrendsChart extends ChartWidget
 {
-    //protected static ?string $heading = __('Financial Trends (Last 30 Days)');
+    //protected static ?string $hea
+    use HasWidgetShield;
+    // ding = __('Financial Trends (Last 30 Days)');
 public function getHeading(): string
     {
         return __('Financial Trends (Last 30 Days)');

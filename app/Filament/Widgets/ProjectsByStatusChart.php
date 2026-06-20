@@ -3,10 +3,13 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Project;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 
 class ProjectsByStatusChart extends ChartWidget
 {
+    use HasWidgetShield;
+
     //protected static ?string $heading = 'Projects by Status';
     public function getHeading(): string
     {

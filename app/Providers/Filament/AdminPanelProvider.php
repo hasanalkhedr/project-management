@@ -36,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('')
             ->login()
+            ->passwordReset()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->brandLogo(asset('images/alrayan-logo2025.png'))
             ->brandName('شركة أبراج الريان للمقاولات')

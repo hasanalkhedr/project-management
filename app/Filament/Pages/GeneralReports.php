@@ -228,7 +228,7 @@ class GeneralReports extends Page
                 'start_date' => $this->data['start_date'] ?? null,
                 'end_date' => $this->data['end_date'] ?? null,
                 'report_type' => $this->data['report_type'] ?? 'both',
-                'logo' => 'file://' . public_path('images/alrayan-logo2025.png'),
+                'logo' => 'file://' . public_path('images/alrayan-logo2026.png'),
                 'stamp' => 'file://' . public_path('images/stamp.png'),
                 'report_date' => now()->translatedFormat('j F Y'),
                 'report_title' => 'تقرير عام لجميع المشاريع',
@@ -269,8 +269,8 @@ class GeneralReports extends Page
                 'allow_output_buffering' => true,
             ]);
             // Set footer with page number on left
-            $footerContent = '<div style="position: absolute; bottom: -1mm; left: 0; right: 0; width: 105%; margin: -3px; padding: 0;">
-                    <img src="file://' . public_path('images/letterhead.png') . '" style="width: 100%; height: auto; display: block; margin: 0; padding: 0;" />
+            $footerContent = '<div style="position: absolute; bottom: 0; left: 0; right: 0; width: 100%; margin: 0; padding: 0;">
+                    <img src="file://' . public_path('images/new-footer.png') . '" style="width: 100%; height: auto; display: block; margin: 0; padding: 0;" />
                 </div>';
 
 $mpdf->SetHTMLFooter($footerContent);

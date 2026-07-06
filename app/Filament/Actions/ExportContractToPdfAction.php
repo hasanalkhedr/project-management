@@ -39,7 +39,7 @@ class ExportContractToPdfAction
             $data = [
                 'record' => $record,
                 'contents' => $processedContents, // Pass processed contents to view
-                'logo' => 'file://' . public_path('images/alrayan-logo2025.png'),
+                'logo' => 'file://' . public_path('images/alrayan-logo2026.png'),
                 'stamp' => 'file://' . public_path('images/stamp.png'),
                 'company_name' => 'file://' . public_path('images/name.png'),
             ];
@@ -78,8 +78,8 @@ class ExportContractToPdfAction
                 'allow_output_buffering' => true,
             ]);
 
-            $footerContent = '<div style="position: absolute; bottom: -1mm; left: 0; right: 0; width: 105%; margin: -3px; padding: 0;">
-                    <img src="file://' . public_path('images/letterhead.png') . '" style="width: 100%; height: auto; display: block; margin: 0; padding: 0;" />
+            $footerContent = '<div style="position: absolute; bottom: 0; left: 0; right: 0; width: 100%; margin: 0; padding: 0;">
+                    <img src="file://' . public_path('images/new-footer.png') . '" style="width: 100%; height: auto; display: block; margin: 0; padding: 0;" />
                 </div>';
 
 $mpdf->SetHTMLFooter($footerContent);

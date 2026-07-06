@@ -18,7 +18,7 @@
         <table class="header-table">
             <tr>
                 <td class="logo-cell" rowspan="2">
-                    @if (file_exists(public_path('images/alrayan-logo2025.png')))
+                    @if (file_exists(public_path('images/alrayan-logo2026.png')))
                         <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
                     @endif
                 </td>

@@ -221,7 +221,7 @@ td {
     display: table-cell;
     padding: 4px 8px;
     font-weight: bold;
-    color: #2c3e50;
+    color: #003c36;
     width: 180px;
     vertical-align: top;
 }
@@ -252,7 +252,7 @@ td {
 
 .clause-title {
     font-weight: bold;
-    color: #2c3e50;
+    color: #003c36;
     font-size: 16px;
     margin-bottom: 5px;
 }
@@ -313,7 +313,7 @@ li {
 }
 
 .highlight {
-    background-color: #fff3cd;
+    background-color: #ffffff;
     padding: 1px 3px;
     border-radius: 2px;
     font-weight: bold;

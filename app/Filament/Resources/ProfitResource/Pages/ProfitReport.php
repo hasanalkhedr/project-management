@@ -257,8 +257,8 @@ class ProfitReport extends Page implements HasTable
                 'default_font' => 'almarai',
                 'margin_top' => 5,
                 'margin_bottom' => 40,
-                'margin_left' => 4,
-                'margin_right' => 4,
+                'margin_left' => 10,
+                'margin_right' => 10,
                 'tempDir' => storage_path('app/mpdf/tmp'),
                 'allow_output_buffering' => true,
             ]);

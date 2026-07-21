@@ -98,8 +98,8 @@ class ExportEmployeeContractToPdfAction
      */
     private static function prepareVariables(EmployeeContract $record): array
     {
-        $currencySymbol = $record->currency->symbol ?? 'ليرة';
-        $currencyName = $record->currency->name ?? 'ليرة سورية جديدة';
+        $currencySymbol =  'ليرة سورية جديدة';
+        $currencyName =  'ليرة سورية جديدة';
 
         return [
             // Employee information
@@ -127,6 +127,8 @@ class ExportEmployeeContractToPdfAction
             // Salary details
             'basic_salary' => (float) $record->basic_salary,
             'basic_salary_formatted' => number_format((float) $record->basic_salary, 2),
+            'salary_usd' => (float) $record->basic_salary_usd,
+            'salary_usd_formatted' => number_format((float) $record->basic_salary_usd, 2),
             // 'housing_allowance' => (float) $record->housing_allowance,
             // 'housing_allowance_formatted' => number_format((float) $record->housing_allowance, 2),
             // 'transportation_allowance' => (float) $record->transportation_allowance,

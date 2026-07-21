@@ -29,7 +29,8 @@ class EmployeeContract extends Model
         'company_address',
         'company_phone',
         'basic_salary',
-        'currency_id',
+        'basic_salary_usd',
+        // 'currency_id',
 
 
         'housing_allowance',
@@ -74,15 +75,16 @@ class EmployeeContract extends Model
         // 'end_date' => 'date',
         'contract_date' => 'date',
         'basic_salary' => 'decimal:2',
+        'basic_salary_usd' => 'decimal:2',
         // 'housing_allowance' => 'decimal:2',
         // 'transportation_allowance' => 'decimal:2',
         // 'other_allowances' => 'decimal:2',
     ];
 
-    public function currency()
-    {
-        return $this->belongsTo(Currency::class);
-    }
+    // public function currency()
+    // {
+    //     return $this->belongsTo(Currency::class);
+    // }
 
     // Helper method to calculate total salary
     public function getTotalSalaryAttribute()

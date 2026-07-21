@@ -164,10 +164,12 @@
                 {!! $contents['sal_con'] !!}
             @else
                 @php
-                    $currencySymbol = $record->currency->symbol ?? 'ليرة سورية جديدة';
+                    $currencySymbol =  'ليرة سورية جديدة';
                 @endphp
                 يلتزم الطرف الأول بأن يدفع للطرف الثاني أجراً شهرياً مقداره
                 <span class="highlight">{{ number_format((float) $record->basic_salary, 2) }} {{ $currencySymbol }}</span>
+                                بما يعادل مبلغاً قدره
+                <span class="highlight">{{ number_format((float) $record->basic_salary_usd, 2) }} دولار أمريكي</span>
                 في نهاية كل شهر وذلك مقابل التزاماته المحددة في هذا العقد والنظام واللوائح التي يصدرها الطرف الأول.
             @endif
         </div>

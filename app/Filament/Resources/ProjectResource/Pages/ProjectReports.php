@@ -141,6 +141,10 @@ class ProjectReports extends Page implements HasTable
                 ->label('Type')
                 ->formatStateUsing(fn(string $state) => ucfirst($state))
                 ->color(fn(string $state) => $state === __('Expense') ? 'danger' : 'success'),
+            Tables\Columns\TextColumn::make('supplier')
+                ->translateLabel()
+                ->label('المورد/الطريقة')
+                ->formatStateUsing(fn(string $state) => ucfirst($state)),
             Tables\Columns\TextColumn::make('amount')
                 ->numeric(decimalPlaces: 2)
                 ->translateLabel()

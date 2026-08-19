@@ -19,13 +19,15 @@ class EmployeeContractResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-document-duplicate';
 
-    protected static ?int $navigationSort = 3;
-
     protected static ?string $navigationLabel = 'عقود الموظفين';
 
     protected static ?string $modelLabel = 'عقد موظف';
 
     protected static ?string $pluralModelLabel = 'عقود الموظفين';
+
+    protected static ?string $navigationGroup = 'إدارة الموارد البشرية';
+
+    protected static ?int $navigationSort = 24;
 
     public static function form(Form $form): Form
     {
@@ -243,13 +245,22 @@ $defaultno_copies = 'تم تحرير هذا العقد بمدينة_____________
                         ->schema([
                             Forms\Components\Section::make('تفاصيل الوظيفة')
                                 ->schema([
-                                    Forms\Components\TextInput::make('job_title')
+                                    Forms\Components\Select::make('job_title')
                                         ->label('المسمى الوظيفي')
-                                        ->required()
-                                        ->maxLength(255),
-                                    Forms\Components\TextInput::make('department')
+                                        ->options(function () {
+                                            return \App\Models\JobTitle::pluck('name_ar', 'name_ar')->toArray();
+                                        })
+                                        ->searchable()
+                                        ->preload()
+                                        ->required(),
+                                    Forms\Components\Select::make('department')
                                         ->label('القسم')
-                                        ->maxLength(255),
+                                        ->options(function () {
+                                            return \App\Models\Department::pluck('name_ar', 'name_ar')->toArray();
+                                        })
+                                        ->searchable()
+                                        ->preload()
+                                        ->required(),
                                     Forms\Components\TextInput::make('job_description')
                                         ->label('موقع العمل')
                                         ->maxLength(255),

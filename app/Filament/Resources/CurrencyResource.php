@@ -18,7 +18,8 @@ class CurrencyResource extends Resource
     protected static ?string $model = Currency::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-currency-dollar';
-    protected static ?int $navigationSort = 7;
+    protected static ?int $navigationSort = 6;
+    protected static ?string $navigationGroup = 'إدارة المشاريع';
     public static function getModelLabel(): string
     {
         return __('Currency');

@@ -30,8 +30,9 @@ class PaymentResource extends Resource
     {
         return __('Payments');
     }
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 5;
     protected static ?string $navigationIcon = 'heroicon-s-arrow-trending-up';
+    protected static ?string $navigationGroup = 'إدارة المشاريع';
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

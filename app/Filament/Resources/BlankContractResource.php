@@ -24,6 +24,10 @@ class BlankContractResource extends Resource
 
     protected static ?string $pluralModelLabel = 'نماذج العقود';
 
+    protected static ?string $navigationGroup = 'إدارة عقود المشاريع';
+
+    protected static ?int $navigationSort = 11;
+
     public static function form(Form $form): Form
     {
         return $form

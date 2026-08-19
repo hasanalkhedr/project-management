@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateProjectContract extends CreateRecord
 {
     protected static string $resource = ProjectContractResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

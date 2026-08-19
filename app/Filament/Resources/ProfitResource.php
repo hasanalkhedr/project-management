@@ -30,8 +30,9 @@ class ProfitResource extends Resource
     {
         return __('Profit Payments');
     }
-    protected static ?int $navigationSort = 8;
+    protected static ?int $navigationSort = 7;
     protected static ?string $navigationIcon = 'heroicon-s-arrow-trending-up';
+    protected static ?string $navigationGroup = 'إدارة المشاريع';
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

@@ -21,14 +21,14 @@ class ProjectContractResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-document-text';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 10;
     protected static ?string $navigationLabel = 'عقود المشاريع';
 
     protected static ?string $modelLabel = 'عقد بناء';
 
     protected static ?string $pluralModelLabel = 'عقود المشاريع';
 
-    //protected static ?string $navigationGroup = 'العقود';
+    protected static ?string $navigationGroup = 'إدارة عقود المشاريع';
 
 
 

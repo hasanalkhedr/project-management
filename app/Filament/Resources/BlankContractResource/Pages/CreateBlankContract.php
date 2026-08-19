@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateBlankContract extends CreateRecord
 {
     protected static string $resource = BlankContractResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -2,7 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EmployeeContractResource;
+use App\Filament\Actions\ExportBlankContractToPdfAction;
+use App\Filament\Actions\ExportEmployeeAttendanceToPdfAction;
 use App\Filament\Resources\EmployeeContractNewResource;
 use App\Filament\Resources\EmployeeResource\Pages;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
@@ -387,22 +388,32 @@ class EmployeeResource extends Resource
                     ->query(fn (Builder $query): Builder => $query->whereBetween('contract_end_date', [now(), now()->addDays(30)])),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('create_contract')
-                    ->label('إنشاء عقد')
-                    ->icon('heroicon-o-document')
-                    ->color('success')
-                    ->url(fn ($record) => EmployeeContractNewResource::getUrl('create', ['employee_id' => $record->id]))
-                    ->openUrlInNewTab()
-                    ->hidden(fn ($record) => $record->contracts()->exists()),
-                Tables\Actions\Action::make('view_contracts')
-                    ->label('عرض العقود')
-                    ->icon('heroicon-o-folder-open')
-                    ->color('info')
-                    ->url(fn ($record) => EmployeeContractNewResource::getUrl('index'))
-                    ->openUrlInNewTab(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\Action::make('create_contract')
+                        ->label('إنشاء عقد')
+                        ->icon('heroicon-o-document')
+                        ->color('success')
+                        ->url(fn ($record) => EmployeeContractNewResource::getUrl('create', ['employee_id' => $record->id]))
+                        ->openUrlInNewTab()
+                        ->hidden(fn ($record) => $record->contracts()->exists()),
+                    Tables\Actions\Action::make('view_contracts')
+                        ->label('عرض العقود')
+                        ->icon('heroicon-o-folder-open')
+                        ->color('info')
+                        ->url(fn ($record) => EmployeeContractNewResource::getUrl('index'))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\Action::make('record_attendance')
+                        ->label('تسجيل حضور')
+                        ->icon('heroicon-o-clock')
+                        ->color('primary')
+                        ->url(fn ($record) => AttendanceResource::getUrl('bulk', ['employee_id' => $record->id])),
+                    ExportEmployeeAttendanceToPdfAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])->label('الإجراءات')
+                ->icon('heroicon-o-ellipsis-horizontal')
+                ->color('primary'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

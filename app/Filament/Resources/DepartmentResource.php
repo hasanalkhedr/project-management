@@ -2,9 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DepartmentResource\Pages;
-use App\Filament\Resources\DepartmentResource\RelationManagers;
+use App\Filament\Actions\ExportDepartmentAttendanceToPdfAction;
+use App\Filament\Resources\AttendanceResource;
 use App\Models\Department;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Actions\Action;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,7 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use App\Filament\Resources\DepartmentResource\Pages;
 class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
@@ -96,9 +100,19 @@ class DepartmentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\Action::make('record_attendance')
+                        ->label('تسجيل حضور القسم')
+                        ->icon('heroicon-o-clock')
+                        ->color('primary')
+                        ->url(fn ($record) => AttendanceResource::getUrl('bulk', ['department_id' => $record->id])),
+                    ExportDepartmentAttendanceToPdfAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])->label('الإجراءات')
+                ->icon('heroicon-o-ellipsis-horizontal')
+                ->color('primary'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -119,6 +133,7 @@ class DepartmentResource extends Resource
         return [
             'index' => Pages\ListDepartments::route('/'),
             'create' => Pages\CreateDepartment::route('/create'),
+            'view' => Pages\ViewDepartment::route('/{record}'),
             'edit' => Pages\EditDepartment::route('/{record}/edit'),
         ];
     }

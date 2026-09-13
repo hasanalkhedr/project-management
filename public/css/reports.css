@@ -38,6 +38,7 @@ td {
 .logo-cell {
     width: 25%;
     vertical-align: middle;
+    margin-bottom: 15px;
 }
 
 .right-cell {

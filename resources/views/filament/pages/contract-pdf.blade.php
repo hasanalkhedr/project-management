@@ -23,7 +23,7 @@
         /* ترويسة الصفحة */
         .header-container {
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         /* الشعار في أعلى اليسار */
@@ -109,7 +109,7 @@
     <div class="header-container">
         <!-- الشعار أعلى اليسار -->
         <div class="logo-cell">
-            @if (file_exists(public_path('images/alrayan-logo2026-ar.png')))
+            @if (file_exists(public_path('images/alr-logo.png')))
                 <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
             @endif
         </div>

@@ -80,7 +80,7 @@ class ExportEmployeeAttendanceToPdfAction
                 'attendances' => $attendances,
                 'leaves' => $leaves,
                 'dates' => $dates,
-                'logo' => 'file://' . public_path('images/alrayan-logo2026.png'),
+                'logo' => 'file://' . public_path('images/alr-logo.png'),
                 'stamp' => 'file://' . public_path('images/stamp.png'),
                 'company_name' => 'file://' . public_path('images/name.png'),
             ];

@@ -18,17 +18,44 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentView;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
+    public function register(): void
+    {
+        parent::register();
+
+        FilamentView::registerRenderHook(
+            'panels::styles.after',
+            fn(): string => new HtmlString('
+            <style>
+                /* 1. Fix the Sidebar Header container height */
+                .fi-sidebar-header {
+                    height: auto !important;
+                    padding-top: 1.5rem !important;
+                    padding-bottom: 1.5rem !important;
+                }
+
+                /* 2. Fix the Topbar Header height (if using top navigation) */
+                @media (min-width: 1024px) {
+                    .fi-topbar, .fi-topbar-nav {
+                        height: 14rem !important; /* Slightly larger than your 12rem logo */
+                    }
+                }
+            </style>
+        '),
+        );
+    }
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -40,7 +67,7 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->brandLogo(asset('images/alr-logo.png'))
             ->brandName('شركة أبراج الريان للمقاولات')
-            ->brandLogoHeight('6rem')
+            ->brandLogoHeight('12rem')
             ->font('Almarai')
             ->darkMode(false)
             ->colors([

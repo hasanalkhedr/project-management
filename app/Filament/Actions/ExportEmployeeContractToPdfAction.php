@@ -39,7 +39,7 @@ class ExportEmployeeContractToPdfAction
             $data = [
                 'record' => $record,
                 'contents' => $processedContents,
-                'logo' => 'file://' . public_path('images/alr-logo.png'),
+                'logo' => 'file://' . public_path('images/alr-logo-reports.png'),
                 'stamp' => 'file://' . public_path('images/stamp.png'),
                 'company_name' => 'file://' . public_path('images/name.png'),
             ];

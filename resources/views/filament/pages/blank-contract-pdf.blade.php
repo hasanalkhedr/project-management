@@ -109,9 +109,7 @@
     <div class="header-container">
         <!-- الشعار أعلى اليسار -->
         <div class="logo-cell">
-            @if (file_exists(public_path('images/alr-logo.png')))
-                <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
-            @endif
+            <img src="{{ $logo }}" class="logo" alt="شعار الشركة" />
         </div>
 
         <!-- العنوان الرئيسي -->

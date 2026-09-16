@@ -146,7 +146,12 @@
                     <td class="meta-divider">|</td>
                     <td class="meta-left">
                         <span class="label-text">اليوم:</span>
-                        <span class="value-text">{{ $record->start_date ? (is_string($record->start_date) ? \Carbon\Carbon::parse($record->start_date)->locale('ar')->dayName : $record->start_date->locale('ar')->dayName) : 'غير محدد' }}</span>
+                        <span class="value-text">
+    {{ $record->start_date 
+        ? \Carbon\Carbon::make($record->start_date)->locale('ar')->translatedFormat('l') 
+        : 'غير محدد' }}
+</span>
+                        {{-- <span class="value-text">{{ $record->start_date ? (is_string($record->start_date) ? \Carbon\Carbon::parse($record->start_date)->locale('ar')->dayName : $record->start_date->locale('ar')->dayName) : 'غير محدد' }}</span> --}}
                     </td>
                 </tr>
             </table>

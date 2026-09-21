@@ -55,7 +55,7 @@
 
         /* صندوق رقم العقد والتاريخ */
         .meta-box {
-            border: 1.5px solid #2b4c59;
+            border: 0px solid #2b4c59;
             border-radius: 8px;
             padding: 3px 3px;
             margin: 0 auto 10px auto;
@@ -85,7 +85,7 @@
         }
 
         .meta-left {
-            text-align: center;
+            text-align: right;
             width: 45%;
         }
 

@@ -36,8 +36,9 @@ td {
 }
 
 .logo-cell {
-    width: 25%;
+    width: 22%;
     vertical-align: middle;
+    margin-bottom: 15px;
 }
 
 .right-cell {
@@ -46,10 +47,10 @@ td {
 }
 
 .logo {
-    max-height: 200px;
+    max-height: 180px;
     width: auto;
     max-width: 180px;
-    height: 200px;
+    height: 180px;
     object-fit: contain;
 }
 

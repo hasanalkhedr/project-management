@@ -56,7 +56,7 @@
 
         /* صندوق رقم العقد والتاريخ */
         .meta-box {
-            border: 1.5px solid #2b4c59;
+            border: 0px solid #2b4c59;
             border-radius: 8px;
             padding: 3px 3px;
             margin: 0 auto 10px auto;
@@ -155,7 +155,7 @@
         <div class="header-line"></div>
     </div>
 
-   
+
 
     <!-- Parties Information -->
     <div class="parties-section no-break">

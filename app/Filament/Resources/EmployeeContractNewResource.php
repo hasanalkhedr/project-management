@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class EmployeeContractNewResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = EmployeeContractNew::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class LeaveResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = Leave::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class JobTitleResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = JobTitle::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';

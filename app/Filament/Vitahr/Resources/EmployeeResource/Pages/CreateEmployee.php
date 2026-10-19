@@ -63,7 +63,7 @@ class CreateEmployee extends CreateRecord
                     'password' => Hash::make($loginPassword),
                 ]);
 
-                $user->assignVitahrRole('Employee');
+                $user->assignRole('Employee');
 
                 $data['user_id'] = $user->id;
             } else {

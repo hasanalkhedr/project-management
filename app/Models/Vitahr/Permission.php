@@ -2,14 +2,13 @@
 
 namespace App\Models\Vitahr;
 
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Permission as SpatiePermission;
 
 /**
- * Read-side copy of spatie's `permissions` table on the vitahr connection.
+ * spatie's Permission model bound to the vitahr connection — permissions live
+ * on the shared vitahr database.
  */
-class Permission extends Model
+class Permission extends SpatiePermission
 {
     protected $connection = 'vitahr';
-
-    protected $fillable = ['name', 'guard_name'];
 }

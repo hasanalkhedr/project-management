@@ -40,13 +40,6 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
-        // VitaHR admin panel: authenticates against the users
-        // table on the shared vitahr database.
-        'vitahr' => [
-            'driver' => 'session',
-            'provider' => 'vitahr_users',
-        ],
     ],
 
     /*
@@ -70,11 +63,6 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
-        ],
-
-        'vitahr_users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Vitahr\User::class,
         ],
 
         // 'users' => [

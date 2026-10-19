@@ -100,7 +100,7 @@ class EmployeeAccountRequestReviewService
                 ]);
             }
 
-            $user->assignVitahrRole('Employee');
+            $user->assignRole('Employee');
 
             $employee->user_id = $user->id;
             $employee->save();

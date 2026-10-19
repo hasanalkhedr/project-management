@@ -2,25 +2,14 @@
 
 namespace App\Models\Vitahr;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Models\Role as SpatieRole;
 
 /**
- * Read-side copy of spatie's `roles` table on the vitahr connection.
+ * spatie's Role model bound to the vitahr connection — roles live on the
+ * shared vitahr database, so all of this app's permission lookups (including
+ * Filament Shield) read and write them there.
  */
-class Role extends Model
+class Role extends SpatieRole
 {
     protected $connection = 'vitahr';
-
-    protected $fillable = ['name', 'guard_name'];
-
-    public function permissions(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            Permission::class,
-            'role_has_permissions',
-            'role_id',
-            'permission_id',
-        );
-    }
 }

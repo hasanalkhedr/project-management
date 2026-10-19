@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\LeaveResource\Pages;
 
 use App\Filament\Resources\LeaveResource;
-use App\Models\Attendance;
+use App\Models\Vitahr\AttendanceRecord;
 use App\Models\Leave;
 use Filament\Actions;
 use Filament\Notifications\Notification;
@@ -35,13 +35,15 @@ class CreateLeave extends CreateRecord
         $data = $this->form->getState();
 
         // Check for attendance conflicts during leave period
-        $conflictingAttendances = Attendance::where('employee_id', $data['employee_id'])
-            ->whereBetween('date', [$data['start_date'], $data['end_date']])
-            ->where('is_absent', false)
+        $conflictingAttendances = AttendanceRecord::where('employee_id', $data['employee_id'])
+            ->whereBetween('check_in_at', [
+                $data['start_date'] . ' 00:00:00',
+                $data['end_date'] . ' 23:59:59',
+            ])
             ->get();
 
         if ($conflictingAttendances->count() > 0) {
-            $dates = $conflictingAttendances->pluck('date')->map(function ($date) {
+            $dates = $conflictingAttendances->pluck('check_in_at')->map(function ($date) {
                 return \Carbon\Carbon::parse($date)->format('d/m/Y');
             })->implode(', ');
 

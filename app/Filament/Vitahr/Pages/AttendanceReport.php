@@ -25,10 +25,7 @@ class AttendanceReport extends Page implements HasForms, HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;
-<<<<<<< HEAD
     protected static ?string $navigationGroup = 'نظام الحضور والتصراف';
-=======
->>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
     protected static ?string $navigationIcon =
         'heroicon-o-chart-bar';
@@ -43,11 +40,7 @@ class AttendanceReport extends Page implements HasForms, HasTable
         return __('vitahr.attendance_report');
     }
 
-<<<<<<< HEAD
     protected static ?int $navigationSort = 7;
-=======
-    protected static ?int $navigationSort = 6;
->>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
     protected static string $view =
         'filament.vitahr.pages.attendance-report';

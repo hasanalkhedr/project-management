@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'reports' => 'التقارير العامة',
+    'start_date' => 'من تاريخ',
+    'end_date' => 'إلى تاريخ',
+    'generate_report' => 'عرض التقرير',
+    'export_pdf' => 'تصدير إلى PDF',
+    'total_expenses_by_currency' => 'إجمالي النفقات حسب العملة',
+    'total_payments_by_currency' => 'إجمالي الدفعات حسب العملة',
+    'summary' => 'الملخص العام',
+    'total_expenses' => 'إجمالي النفقات',
+    'total_payments' => 'إجمالي الدفعات',
+    'net_profit' => 'صافي الربح',
+    'project_performance' => 'أداء المشاريع',
+    'project' => 'المشروع',
+    'expenses' => 'النفقات',
+    'payments' => 'الدفعات',
+    'profit' => 'الربح',
+    'currency' => 'العملة',
+    'amount' => 'المبلغ',
+    'total' => 'الإجمالي',
+    'report_date' => 'تاريخ التقرير',
+    'currency_summary' => 'ملخص العملات',
+    'from_date' => 'من تاريخ',
+    'to_date' => 'إلى تاريخ',
+];

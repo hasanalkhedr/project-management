@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'reports' => 'General Reports',
+    'start_date' => 'From Date',
+    'end_date' => 'To Date',
+    'generate_report' => 'Generate Report',
+    'export_pdf' => 'Export to PDF',
+    'total_expenses_by_currency' => 'Total Expenses by Currency',
+    'total_payments_by_currency' => 'Total Payments by Currency',
+    'summary' => 'Summary',
+    'total_expenses' => 'Total Expenses',
+    'total_payments' => 'Total Payments',
+    'net_profit' => 'Net Profit',
+    'project_performance' => 'Project Performance',
+    'project' => 'Project',
+    'expenses' => 'Expenses',
+    'payments' => 'Payments',
+    'profit' => 'Profit',
+    'currency' => 'Currency',
+    'amount' => 'Amount',
+    'total' => 'Total',
+    'report_date' => 'Report Date',
+    'currency_summary' => 'Currency Summary',
+    'from_date' => 'From Date',
+    'to_date' => 'To Date',
+];

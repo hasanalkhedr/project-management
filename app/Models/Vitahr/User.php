@@ -3,7 +3,10 @@
 namespace App\Models\Vitahr;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+=======
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,12 +24,19 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasRoles;
 
     protected $connection = 'vitahr';
+<<<<<<< HEAD
     protected $guard_name = 'web';
+=======
+
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
     protected $fillable = [
         'name',
         'email',
         'password',
+<<<<<<< HEAD
         'employee_id'
+=======
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
     ];
 
     protected $hidden = [
@@ -52,8 +62,14 @@ class User extends Authenticatable
         return 'App\\Models\\User';
     }
 
+<<<<<<< HEAD
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
+=======
+    public function employee(): HasOne
+    {
+        return $this->hasOne(Employee::class);
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
     }
 }

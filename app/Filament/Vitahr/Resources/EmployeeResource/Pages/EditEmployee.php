@@ -4,6 +4,7 @@ namespace App\Filament\Vitahr\Resources\EmployeeResource\Pages;
 
 use App\Filament\Vitahr\Resources\EmployeeResource;
 use App\Models\Vitahr\Employee;
+<<<<<<< HEAD
 use App\Models\Vitahr\User;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Actions;
@@ -12,6 +13,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+=======
+use Filament\Resources\Pages\EditRecord;
+use Filament\Actions;
+use Illuminate\Support\Facades\DB;
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
 class EditEmployee extends EditRecord
 {
@@ -23,6 +29,7 @@ class EditEmployee extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+<<<<<<< HEAD
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
@@ -32,10 +39,20 @@ class EditEmployee extends EditRecord
         $data['login_email'] = $user?->email;
         $data['login_password'] = null;
         $data['password_confirmation'] = null;
+=======
+    protected function mutateFormDataBeforeFill(
+        array $data
+    ): array {
+        $user = $this->record->user;
+
+        //$data['employee_name'] = $user?->name;
+        $data['login_email'] = $user?->email;
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
         return $data;
     }
 
+<<<<<<< HEAD
     protected function handleRecordUpdate($record, array $data): Employee
 {
     $loginEmail = filled($data['login_email'] ?? null) ? $data['login_email'] : null;
@@ -125,6 +142,44 @@ class EditEmployee extends EditRecord
         throw $e;
     }
 }
+=======
+    protected function mutateFormDataBeforeSave(
+        array $data
+    ): array {
+        /*
+         * employee_name is a form-only field.
+         *
+         * It must not be sent to Employee::update().
+         */
+        //unset($data['employee_name']);
+
+        return $data;
+    }
+
+    protected function handleRecordUpdate(
+        $record,
+        array $data
+    ): Employee {
+        return DB::connection('vitahr')->transaction(function () use ($record, $data) {
+            /*
+             * Update Employee name in users table.
+             */
+                $record->user()->update([
+                    'name' => $this->data['emp_name'],
+                ]);
+
+            /*
+             * Update Employee record.
+             */
+            $record->update($data);
+
+            return $record->fresh([
+                'user',
+                'workLocations',
+            ]);
+        });
+    }
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
     protected function getRedirectUrl(): string
     {

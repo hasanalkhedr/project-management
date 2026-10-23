@@ -13,12 +13,19 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EmployeeAccountRequestResource extends Resource
 {
+<<<<<<< HEAD
     protected static ?string $navigationGroup = 'نظام الحضور والتصراف';
+=======
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
     protected static ?string $model = EmployeeAccountRequest::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 
+<<<<<<< HEAD
     protected static ?int $navigationSort = 4;
+=======
+    protected static ?int $navigationSort = 3;
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
     public static function getNavigationLabel(): string
     {

@@ -17,9 +17,13 @@ class WorkLocationResource extends Resource
 {
     protected static ?string $model = WorkLocation::class;
 
+<<<<<<< HEAD
     protected static ?string $navigationGroup = 'نظام الحضور والتصراف';
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
     protected static ?int $navigationSort = 1;
+=======
+    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
     public static function getNavigationLabel(): string
     {

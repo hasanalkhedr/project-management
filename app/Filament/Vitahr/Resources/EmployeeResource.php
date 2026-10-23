@@ -17,7 +17,10 @@ class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
+<<<<<<< HEAD
     protected static ?string $navigationGroup = 'نظام الحضور والتصراف';
+=======
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?int $navigationSort = 2;
@@ -41,6 +44,20 @@ class EmployeeResource extends Resource
     {
         return $form
             ->schema([
+<<<<<<< HEAD
+=======
+                /*
+                 * Temporary form-only fields.
+                 *
+                 * These are used during employee creation
+                 * and are handled by CreateEmployee.
+                 */
+
+                Forms\Components\Hidden::make('login_email'),
+
+                Forms\Components\Hidden::make('login_password'),
+
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
                 Forms\Components\Section::make(
                     __('vitahr.employee_information')
                 )
@@ -55,9 +72,15 @@ class EmployeeResource extends Resource
                         )
                             ->label(__('vitahr.employee_number'))
                             ->content(
+<<<<<<< HEAD
                                 fn(?Employee $record): string =>
                                     $record?->employee_number
                                     ?? __('vitahr.automatically_generated')
+=======
+                                fn (?Employee $record): string =>
+                                    $record?->employee_number
+                                        ?? __('vitahr.automatically_generated')
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
                             ),
 
                         Forms\Components\Select::make('workLocations')
@@ -66,11 +89,19 @@ class EmployeeResource extends Resource
                             ->relationship(
                                 name: 'workLocations',
                                 titleAttribute: 'name',
+<<<<<<< HEAD
                                 modifyQueryUsing: fn(
                                 Builder $query
                             ) => $query
                                         ->where('is_active', true)
                                         ->orderBy('name')
+=======
+                                modifyQueryUsing: fn (
+                                    Builder $query
+                                ) => $query
+                                    ->where('is_active', true)
+                                    ->orderBy('name')
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
                             )
                             ->searchable()
                             ->preload()
@@ -89,6 +120,7 @@ class EmployeeResource extends Resource
                         __('vitahr.login_account_description')
                     )
                     ->schema([
+<<<<<<< HEAD
                         Forms\Components\Toggle::make('has_login_account')
                             ->label(__('vitahr.has_login_account'))
                             ->helperText(
@@ -193,6 +225,139 @@ class EmployeeResource extends Resource
                                 fn(Get $get): bool =>
                                     (bool) $get('has_login_account')
                             ),
+=======
+                        Forms\Components\Placeholder::make(
+                            'login_account_status'
+                        )
+                            ->label(__('vitahr.account'))
+                            ->content(function (Get $get): string {
+                                $email = $get('login_email');
+
+                                if ($email) {
+                                    return $email;
+                                }
+
+                                return __('vitahr.no_login_account_configured');
+                            }),
+
+                        Forms\Components\Actions::make([
+                            Forms\Components\Actions\Action::make(
+                                'configureLoginAccount'
+                            )
+                                ->label(
+                                    fn (?Employee $record): string =>
+                                        $record?->user
+                                            ? __('vitahr.edit_login_account')
+                                            : __('vitahr.create_login_account')
+                                )
+                                ->icon('heroicon-o-key')
+                                ->color('primary')
+                                ->modalHeading(
+                                    fn (?Employee $record): string =>
+                                        $record?->user
+                                            ? __('vitahr.edit_employee_login_account')
+                                            : __('vitahr.create_employee_login_account')
+                                )
+                                ->modalDescription(
+                                    fn (?Employee $record): string =>
+                                        $record?->user
+                                            ? __('vitahr.update_login_account_description')
+                                            : __('vitahr.create_login_account_description')
+                                )
+                                ->modalSubmitActionLabel(
+                                    __('vitahr.save_login_account')
+                                )
+                                ->form([
+                                    Forms\Components\TextInput::make('email')
+                                        ->label(__('vitahr.email'))
+                                        ->email()
+                                        ->required()
+                                        ->maxLength(255)
+                                        ->rule(
+                                            fn (?Employee $record) =>
+                                                \Illuminate\Validation\Rule::unique(
+                                                    'users',
+                                                    'email'
+                                                )->ignore(
+                                                    $record?->user?->id
+                                                )
+                                        ),
+
+                                    Forms\Components\TextInput::make('password')
+                                        ->label(__('vitahr.new_password'))
+                                        ->password()
+                                        ->revealable()
+                                        ->minLength(8)
+                                        ->nullable(),
+
+                                    Forms\Components\TextInput::make(
+                                        'password_confirmation'
+                                    )
+                                        ->label(
+                                            __('vitahr.confirm_new_password')
+                                        )
+                                        ->password()
+                                        ->revealable()
+                                        ->same('password')
+                                        ->requiredWith('password'),
+                                ])
+                                ->fillForm(
+                                    fn (?Employee $record): array => [
+                                        'email' => $record?->user?->email,
+                                    ]
+                                )
+                                ->action(
+                                    function (
+                                        ?Employee $record,
+                                        array $data,
+                                        Set $set
+                                    ): void {
+                                        /*
+                                         * Existing employee:
+                                         * update the existing User account.
+                                         */
+                                        if ($record?->user) {
+                                            $user = $record->user;
+
+                                            $user->email = $data['email'];
+
+                                            if (!empty($data['password'])) {
+                                                $user->password =
+                                                    \Illuminate\Support\Facades\Hash::make(
+                                                        $data['password']
+                                                    );
+                                            }
+
+                                            $user->save();
+
+                                            $set(
+                                                'login_email',
+                                                $user->email
+                                            );
+
+                                            return;
+                                        }
+
+                                        /*
+                                         * New employee:
+                                         * keep login data in the main form state.
+                                         *
+                                         * CreateEmployee will create the User
+                                         * when the employee is finally saved.
+                                         */
+                                        $set(
+                                            'login_email',
+                                            $data['email']
+                                        );
+
+                                        $set(
+                                            'login_password',
+                                            $data['password']
+                                        );
+                                    }
+                                ),
+                        ]),
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
                     ])
                     ->columns(1),
             ]);
@@ -266,6 +431,89 @@ class EmployeeResource extends Resource
                     ->preload(),
             ])
             ->actions([
+<<<<<<< HEAD
+=======
+                Tables\Actions\Action::make('editLoginAccount')
+                    ->label(__('vitahr.login_account'))
+                    ->icon('heroicon-o-key')
+                    ->color('warning')
+                    ->modalHeading(
+                        __('vitahr.edit_login_account')
+                    )
+                    ->modalDescription(
+                        __('vitahr.update_login_account_description')
+                    )
+                    ->modalSubmitActionLabel(
+                        __('vitahr.save_login_account')
+                    )
+                    ->form([
+                        Forms\Components\TextInput::make('email')
+                            ->label(__('vitahr.email'))
+                            ->email()
+                            ->required()
+                            ->maxLength(255)
+                            ->rule(
+                                fn (?Employee $record) =>
+                                    \Illuminate\Validation\Rule::unique(
+                                        'users',
+                                        'email'
+                                    )->ignore(
+                                        $record?->user?->id
+                                    )
+                            ),
+
+                        Forms\Components\TextInput::make('password')
+                            ->label(__('vitahr.new_password'))
+                            ->password()
+                            ->revealable()
+                            ->minLength(8)
+                            ->nullable(),
+
+                        Forms\Components\TextInput::make(
+                            'password_confirmation'
+                        )
+                            ->label(
+                                __('vitahr.confirm_new_password')
+                            )
+                            ->password()
+                            ->revealable()
+                            ->same('password')
+                            ->requiredWith('password'),
+                    ])
+                    ->fillForm(
+                        fn (Employee $record): array => [
+                            'email' => $record->user?->email,
+                        ]
+                    )
+                    ->action(
+                        function (
+                            Employee $record,
+                            array $data
+                        ): void {
+                            $user = $record->user;
+
+                            if (!$user) {
+                                throw new \RuntimeException(
+                                    __(
+                                        'vitahr.no_login_account_error'
+                                    )
+                                );
+                            }
+
+                            $user->email = $data['email'];
+
+                            if (!empty($data['password'])) {
+                                $user->password =
+                                    \Illuminate\Support\Facades\Hash::make(
+                                        $data['password']
+                                    );
+                            }
+
+                            $user->save();
+                        }
+                    ),
+
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
                 Tables\Actions\EditAction::make(),
 
                 Tables\Actions\DeleteAction::make(),

@@ -1,0 +1,230 @@
+<?php
+
+return [
+
+    // Navigation
+    'employees' => 'الموظفون',
+
+    // Employee information
+    'employee_information' => 'معلومات الموظف',
+    'employee_name' => 'اسم الموظف',
+    'employee_number' => 'رقم الموظف',
+    'automatically_generated' => 'يتم إنشاؤه تلقائياً',
+    'active' => 'نشط',
+
+    // Login account
+    'login_account' => 'حساب تسجيل الدخول',
+    'login_account_description' => 'سيستخدم الموظف هذا الحساب للوصول إلى تطبيق الهاتف المحمول.',
+    'account' => 'الحساب',
+    'no_login_account_configured' => 'لم يتم إعداد حساب تسجيل دخول.',
+    'edit_login_account' => 'تعديل حساب الدخول',
+    'create_login_account' => 'إنشاء حساب الدخول',
+    'edit_employee_login_account' => 'تعديل حساب دخول الموظف',
+    'create_employee_login_account' => 'إنشاء حساب دخول الموظف',
+    'update_login_account_description' => 'قم بتحديث البريد الإلكتروني أو كلمة المرور التي يستخدمها الموظف للوصول إلى تطبيق الهاتف المحمول.',
+    'create_login_account_description' => 'أدخل البريد الإلكتروني وكلمة المرور التي سيستخدمها الموظف لتسجيل الدخول إلى تطبيق الهاتف المحمول.',
+    'save_login_account' => 'حفظ حساب الدخول',
+
+    // Login fields
+    'email' => 'البريد الإلكتروني',
+    'new_password' => 'كلمة المرور الجديدة',
+    'confirm_new_password' => 'تأكيد كلمة المرور الجديدة',
+
+    // Table
+    'name' => 'الاسم',
+    'devices' => 'الأجهزة',
+    'created' => 'تاريخ الإنشاء',
+    'updated' => 'آخر تحديث',
+
+    // Filters
+    'status' => 'الحالة',
+    'all' => 'الكل',
+    'inactive' => 'غير نشط',
+
+    // Errors
+    'no_login_account_error' => 'هذا الموظف لا يملك حساب تسجيل دخول.',
+
+    // Work Locations
+    'work_locations' => 'مواقع العمل',
+    'work_location' => 'موقع العمل',
+    'location_information' => 'معلومات الموقع',
+    'location_on_map' => 'الموقع على الخريطة',
+    'radius_meters' => 'نطاق الموقع (بالمتر)',
+    'timezone' => 'المنطقة الزمنية',
+    'work_start_time' => 'وقت بدء العمل',
+    'work_end_time' => 'وقت انتهاء العمل',
+
+    // Work Location Table
+    'latitude' => 'خط العرض',
+    'longitude' => 'خط الطول',
+    'radius' => 'النطاق',
+    'start' => 'البداية',
+    'end' => 'النهاية',
+
+    // Employee Devices
+    'employee_devices' => 'أجهزة الموظفين',
+    'employee_device' => 'جهاز الموظف',
+    'device_identifier' => 'معرّف الجهاز',
+    'device_identifier_copied' => 'تم نسخ معرّف الجهاز',
+    'employee' => 'الموظف',
+    'device' => 'الجهاز',
+    'device_name' => 'اسم الجهاز',
+    'platform' => 'المنصة',
+    'android' => 'Android',
+    'ios' => 'iOS',
+    'registered' => 'تاريخ التسجيل',
+    'registered_at' => 'تاريخ التسجيل',
+    'last_used' => 'آخر استخدام',
+    'last_used_at' => 'آخر استخدام',
+    'never' => 'أبداً',
+    'view' => 'عرض',
+    'device_details' => 'تفاصيل الجهاز',
+    'close' => 'إغلاق',
+
+
+    'attendance_records' => 'سجلات الحضور',
+    'attendance_record' => 'سجل الحضور',
+    'check_in' => 'تسجيل الدخول',
+    'check_out' => 'تسجيل الخروج',
+    'not_checked_out' => 'لم يتم تسجيل الخروج',
+    'completed' => 'مكتمل',
+    'open' => 'مفتوح',
+    'check_in_device' => 'جهاز تسجيل الدخول',
+    'check_out_device' => 'جهاز تسجيل الخروج',
+    'check_in_date' => 'تاريخ تسجيل الدخول',
+    'from' => 'من',
+    'until' => 'إلى',
+    'check_in_at' => 'وقت تسجيل الدخول',
+    'check_out_at' => 'وقت تسجيل الخروج',
+    'check_in_location' => 'موقع تسجيل الدخول',
+    'check_out_location' => 'موقع تسجيل الخروج',
+    'check_in_work_location' => 'موقع عمل تسجيل الدخول',
+    'check_out_work_location' => 'موقع عمل تسجيل الخروج',
+    'check_in_accuracy' => 'دقة تسجيل الدخول',
+    'check_out_accuracy' => 'دقة تسجيل الخروج',
+    'duration' => 'المدة',
+
+    'attendance_attempts' => 'محاولات الحضور',
+    'attendance_attempt' => 'محاولة حضور',
+    'action' => 'الإجراء',
+    'result' => 'النتيجة',
+    'failure_reason' => 'سبب الفشل',
+    'accuracy' => 'الدقة',
+    'attempted_at' => 'وقت المحاولة',
+    'success' => 'ناجحة',
+    'failed' => 'فاشلة',
+    'none' => 'لا يوجد',
+    'location' => 'الموقع',
+    'gps_accuracy' => 'دقة GPS',
+
+    'attendance_report' => 'تقرير الحضور',
+    'all_employees' => 'جميع الموظفين',
+    'reset_filters' => 'إعادة تعيين الفلاتر',
+
+    'attendance_report_employees' => 'الموظفون',
+    'attendance_report_records' => 'السجلات',
+    'attendance_report_completed' => 'مكتمل',
+    'attendance_report_open' => 'مفتوح',
+    'report_filters' => 'فلاتر التقرير',
+    'export_excel' => 'تصدير Excel',
+    'export_pdf' => 'تصدير PDF',
+
+    'attendance_export_employee_number' => 'الرقم الوظيفي',
+    'attendance_export_employee' => 'الموظف',
+    'attendance_export_date' => 'التاريخ',
+    'attendance_export_work_location' => 'مكان العمل',
+    'attendance_export_check_in' => 'تسجيل الدخول',
+    'attendance_export_check_out' => 'تسجيل الخروج',
+    'attendance_export_duration' => 'المدة',
+    'attendance_export_status' => 'الحالة',
+    'attendance_export_check_in_latitude' => 'خط عرض تسجيل الدخول',
+    'attendance_export_check_in_longitude' => 'خط طول تسجيل الدخول',
+    'attendance_export_check_in_accuracy' => 'دقة تسجيل الدخول',
+    'attendance_export_check_out_latitude' => 'خط عرض تسجيل الخروج',
+    'attendance_export_check_out_longitude' => 'خط طول تسجيل الخروج',
+    'attendance_export_check_out_accuracy' => 'دقة تسجيل الخروج',
+
+    'attendance_records_summary' => 'سجلات الحضور',
+    'date' => 'التاريخ',
+    'no_attendance_records' => 'لم يتم العثور على سجلات حضور.',
+    'generated_on' => 'تم الإنشاء في',
+    'employee_no' => 'الرقم الوظيفي',
+
+    //API MESSAGES
+    'User is not associated with an employee.' => 'المستخدم غير مرتبط بموظف.',
+    'Employee account is inactive.' => 'حساب الموظف غير نشط.',
+    'This device is already registered to another employee.' => 'هذا الجهاز مسجل مسبقاً لموظف آخر.',
+    'Device registered successfully.' => 'تم تسجيل الجهاز بنجاح.',
+    'No active device is registered.' => 'لا يوجد جهاز نشط مسجل.',
+    'Check-in successful.' => 'تم تسجيل الدخول بنجاح.',
+    'Check-out successful.' => 'تم تسجيل الخروج بنجاح.',
+    'Invalid credentials.' => 'البيانات المدخلة غير صحيحة.',
+    'Login successful.' => 'تم تسجيل الدخول بنجاح.',
+    'Logout successful.' => 'تم تسجيل الخروج بنجاح.',
+    'Employee does not have a work location assigned.' => 'الموظف لا يملك موقع عمل محدد.',
+    'Work location is inactive.' => 'موقع العمل غير نشط.',
+    'Device is not registered or is inactive.' => 'الجهاز غير مسجل أو غير نشط.',
+    'Invalid attendance action.' => 'إجراء الحضور غير صالح.',
+    'Employee is already checked in.' => 'الموظف مسجل دخوله مسبقاً.',
+    'There is no active check-in.' => 'لا يوجد تسجيل دخول نشط.',
+    'GPS accuracy is not acceptable.' => 'دقة GPS غير مقبولة.',
+    'Employee is outside the allowed work location radius.' => 'الموظف خارج نطاق موقع العمل المسموح.',
+    'Attendance is outside working hours.' => 'الحضور خارج ساعات العمل.',
+
+    'source' => 'المصدر',
+    'online' => 'متصل',
+    'offline' => 'بدون إنترنت',
+
+    'client_event_id' => 'معرّف حدث العميل',
+    'client_event_id_copied' => 'تم نسخ معرّف حدث العميل',
+    'captured_at' => 'وقت تسجيل الحدث',
+    'sync_status' => 'حالة المزامنة',
+
+    'accepted' => 'مقبولة',
+    'rejected' => 'مرفوضة',
+
+    'delete_account_succes' => 'تم حذف حسابك بنجاح.',
+    'delete_account_failed' => 'حدث خطأ أثناء حذف حسابك. يرجى المحاولة مرة أخرى.',
+
+    // Employee Registration Requests
+    'employee_registration_requests' => 'طلبات تسجيل الموظفين',
+    'employee_registration_request' => 'طلب تسجيل موظف',
+    'request_id' => 'رقم الطلب',
+    'requested_email' => 'البريد الإلكتروني المطلوب',
+    'submitted_at' => 'تاريخ التقديم',
+    'reviewed_by' => 'تمت المراجعة بواسطة',
+    'reviewed_at' => 'تاريخ المراجعة',
+    'pending' => 'قيد الانتظار',
+    'approved' => 'معتمد',
+    'approve' => 'موافقة',
+    'reject' => 'رفض',
+    'approve_employee_registration' => 'الموافقة على تسجيل الموظف',
+    'approve_employee_registration_description' => 'سيتم إنشاء حساب المستخدم وربطه بالموظف.',
+    'reject_employee_registration' => 'رفض تسجيل الموظف',
+    'rejection_reason' => 'سبب الرفض',
+
+    // Map
+    'location_map_help' => 'انقر على الخريطة أو اسحب المؤشر لتحديد موقع العمل.',
+    'map_standard' => 'قياسي',
+    'map_terrain' => 'تضاريس',
+    'map_satellite' => 'قمر صناعي',
+    'map_place_names' => 'أسماء الأماكن',
+
+    // Notifications
+    'Registration approved' => 'تمت الموافقة على التسجيل',
+    'Registration rejected' => 'تم رفض التسجيل',
+    'Your employee account registration has been approved.' => 'تمت الموافقة على تسجيل حساب الموظف الخاص بك.',
+    'Your employee account registration has been rejected.' => 'تم رفض تسجيل حساب الموظف الخاص بك.',
+    'Account registration update' => 'تحديث تسجيل الحساب',
+    'Your registration status has changed.' => 'تغيّرت حالة تسجيلك.',
+
+    //API MESSAGES
+    'Employee not found.' => 'الموظف غير موجود.',
+    'Employee already has a user account.' => 'لدى الموظف حساب مستخدم بالفعل.',
+    'Employee already has a pending registration request.' => 'لدى الموظف طلب تسجيل معلق بالفعل.',
+    'This registration request has already been reviewed.' => 'تمت مراجعة طلب التسجيل هذا مسبقاً.',
+    'The email reservation is invalid.' => 'حجز البريد الإلكتروني غير صالح.',
+    'Attendance events synchronized successfully.' => 'تمت مزامنة أحداث الحضور بنجاح.',
+    'FCM token updated successfully.' => 'تم تحديث رمز FCM بنجاح.',
+    'Account deleted successfully.' => 'تم حذف حسابك بنجاح.',
+];

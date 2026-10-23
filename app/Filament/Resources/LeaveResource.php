@@ -36,7 +36,7 @@ class LeaveResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('employee_id')
                             ->label('الموظف')
-                            ->relationship('employee', 'name_ar')
+                            ->relationship('employee', 'emp_name')
                             ->searchable()
                             ->preload()
                             ->required()
@@ -119,11 +119,11 @@ class LeaveResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.name_ar')
+                Tables\Columns\TextColumn::make('employee.emp_name')
                     ->label('الموظف')
                     ->searchable()
                     ->sortable()
-                    ->description(fn (Leave $record): string => $record->employee->name_en ?? ''),
+                    ->description(fn (Leave $record): string => $record->employee->emp_name ?? ''),
 
                 Tables\Columns\TextColumn::make('leave_type')
                     ->label('نوع الإجازة')
@@ -175,7 +175,7 @@ class LeaveResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('employee')
                     ->label('الموظف')
-                    ->relationship('employee', 'name_ar')
+                    ->relationship('employee', 'emp_name')
                     ->searchable()
                     ->preload(),
 

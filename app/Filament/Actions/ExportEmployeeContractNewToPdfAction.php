@@ -104,17 +104,18 @@ class ExportEmployeeContractNewToPdfAction
         $currencyName = 'ليرة سورية جديدة';
 
         $variables = [
-            // Employee information (from related employee)
-            'employee_name' => $employee ? $employee->name_ar : 'غير محدد',
-            'employee_id_number' => $employee ? $employee->national_id : 'غير محدد',
-            'employee_address' => $employee ? $employee->current_address : 'غير محدد',
-            'employee_phone' => $employee ? $employee->phone : 'غير محدد',
-            'employee_email' => $employee ? $employee->email : 'غير محدد',
-            'employee_nationality' => $employee ? $employee->nationality : 'غير محدد',
+            // Employee information (from the vitahr employee record; the old
+            // local profile fields — national_id, address, phone, job title —
+            // no longer exist on it)
+            'employee_name' => $employee ? $employee->emp_name : 'غير محدد',
+            'employee_id_number' => 'غير محدد',
+            'employee_address' => 'غير محدد',
+            'employee_phone' => 'غير محدد',
+            'employee_email' => 'غير محدد',
+            'employee_nationality' => 'غير محدد',
 
-            // Job information (from related employee)
-            'job_title' => $employee && $employee->jobTitle ? $employee->jobTitle->name_ar : 'غير محدد',
-            'department' => $employee && $employee->department ? $employee->department->name_ar : 'غير محدد',
+            'job_title' => 'غير محدد',
+            'department' => 'غير محدد',
             'job_description' => 'غير محدد',
 
             // Company information (from contract)

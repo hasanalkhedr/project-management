@@ -59,6 +59,30 @@ return [
             ]) : [],
         ],
 
+        /*
+         * The VitaHR backend owns this schema: its migrations run from the
+         * vitahr repository only, never from this application.
+         */
+        'vitahr' => [
+            'driver' => 'mysql',
+            'url' => env('DB_VITAHR_URL'),
+            'host' => env('DB_VITAHR_HOST', '127.0.0.1'),
+            'port' => env('DB_VITAHR_PORT', '3306'),
+            'database' => env('DB_VITAHR_DATABASE', 'vitahr'),
+            'username' => env('DB_VITAHR_USERNAME', 'root'),
+            'password' => env('DB_VITAHR_PASSWORD', ''),
+            'unix_socket' => env('DB_VITAHR_SOCKET', ''),
+            'charset' => env('DB_VITAHR_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_VITAHR_COLLATION', 'utf8mb4_0900_ai_ci'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),

@@ -15,10 +15,6 @@ class Department extends Model
         'manager_id',
     ];
 
-    public function employees(): HasMany
-    {
-        return $this->hasMany(Employee::class);
-    }
 
     public function jobTitles(): HasMany
     {

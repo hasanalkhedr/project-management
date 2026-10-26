@@ -13,7 +13,10 @@ class EmployeeDeviceResource extends Resource
 {
     protected static ?string $model = EmployeeDevice::class;
 
+<<<<<<< HEAD
     protected static ?string $navigationGroup = 'نظام الحضور والتصراف';
+=======
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
     protected static ?string $navigationIcon = 'heroicon-o-device-phone-mobile';
 
     protected static ?int $navigationSort = 3;

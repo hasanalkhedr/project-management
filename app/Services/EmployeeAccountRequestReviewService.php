@@ -32,7 +32,11 @@ class EmployeeAccountRequestReviewService
                 ->lockForUpdate()
                 ->firstOrFail();
 
+<<<<<<< HEAD
+                if (!$employee->is_active) {
+=======
             if (!$employee->is_active) {
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
                 throw ValidationException::withMessages([
                     'request' => [
                         __('vitahr.Employee account is inactive.'),
@@ -40,7 +44,11 @@ class EmployeeAccountRequestReviewService
                 ]);
             }
 
+<<<<<<< HEAD
             if ($employee->user) {
+=======
+            if ($employee->user_id !== null) {
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
                 throw ValidationException::withMessages([
                     'request' => [
                         __('vitahr.Employee already has a user account.'),
@@ -102,8 +110,13 @@ class EmployeeAccountRequestReviewService
 
             $user->assignRole('Employee');
 
+<<<<<<< HEAD
             $user->employee_id = $employee->id;
             $user->save();
+=======
+            $employee->user_id = $user->id;
+            $employee->save();
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
             $accountRequest->status =
                 EmployeeAccountRequest::STATUS_APPROVED;

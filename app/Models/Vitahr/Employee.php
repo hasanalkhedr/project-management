@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\HasOne;
+=======
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
 class Employee extends Model
 {
@@ -16,6 +19,10 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
+<<<<<<< HEAD
+=======
+        'user_id',
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
         'emp_name',
         'employee_number',
         'is_active',
@@ -28,9 +35,15 @@ class Employee extends Model
     /**
      * Authentication user associated with this employee.
      */
+<<<<<<< HEAD
     public function user(): HasOne
     {
         return $this->hasOne(User::class);
+=======
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+>>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
     }
 
     /**

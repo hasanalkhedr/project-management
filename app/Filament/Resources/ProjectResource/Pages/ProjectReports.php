@@ -42,6 +42,8 @@ class ProjectReports extends Page implements HasTable
         $this->form->fill([
             'start_date' => now()->subYears(5),
             'end_date' => now()->addYears(5),
+            'currency_id' => 'all',
+            'report_type' => 'both',
         ]);
     }
     public function form(Form $form): Form

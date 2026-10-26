@@ -78,6 +78,12 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
+            ->navigationItems([
+                NavigationItem::make('نظام الحضور والانصراف')
+                    ->url('https://app.alrayanrealestate.com/vitahr/admin')
+                    ->icon('heroicon-o-clock')
+                    ->openUrlInNewTab(),
+            ])
             //->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             // ->navigationGroups([
             //     'إدارة المشاريع',

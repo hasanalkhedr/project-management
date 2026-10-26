@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Vitahr\Employee;
+use App\Models\Employee;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EmployeePolicy

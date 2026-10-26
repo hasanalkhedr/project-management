@@ -14,10 +14,8 @@
         "filament/tables": "^3.3",
         "filament/widgets": "^3.3",
         "flowframe/laravel-trend": "^0.4.0",
-        "kreait/laravel-firebase": "^6.2",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
-        "maatwebsite/excel": "^3.1",
         "mpdf/mpdf": "^8.2",
         "tomatophp/filament-users": "^2.0"
     },

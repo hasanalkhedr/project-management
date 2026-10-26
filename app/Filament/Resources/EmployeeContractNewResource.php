@@ -91,7 +91,7 @@ class EmployeeContractNewResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('employee_id')
                             ->label('الموظف')
-                            ->relationship('employee', 'emp_name')
+                            ->relationship('employee', 'name_ar')
                             ->searchable()
                             ->preload()
                             ->required()
@@ -240,7 +240,7 @@ class EmployeeContractNewResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.emp_name')
+                Tables\Columns\TextColumn::make('employee.name_ar')
                     ->label('الموظف')
                     ->searchable()
                     ->sortable(),

@@ -12,20 +12,13 @@ use App\Models\Vitahr\AttendanceEvent;
 
 class AttendanceRecordResource extends Resource
 {
-<<<<<<< HEAD
     protected static ?string $navigationGroup = 'نظام الحضور والتصراف';
-=======
->>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
     protected static ?string $model = AttendanceRecord::class;
 
     protected static ?string $navigationIcon =
         'heroicon-o-calendar-days';
 
-<<<<<<< HEAD
     protected static ?int $navigationSort = 5;
-=======
-    protected static ?int $navigationSort = 4;
->>>>>>> 86eefc5d13472f7be23f475d108a730aa12de8b0
 
     public static function getNavigationLabel(): string
     {
